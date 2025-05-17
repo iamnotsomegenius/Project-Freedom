@@ -10,7 +10,8 @@ from models import (
     DealStatus,
     Deal,
     TimelineEvent,
-    BusinessStatus
+    BusinessStatus,
+    BusinessListing
 )
 from auth import get_current_user
 from database import get_database, create_document, list_documents, get_document, update_document
