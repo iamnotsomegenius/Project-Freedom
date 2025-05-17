@@ -2,16 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base styles */
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  @apply bg-background text-foreground;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+/* Custom component classes */
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-secondary text-background hover:bg-secondary/90;
+  }
+
+  .btn-outline {
+    @apply border border-secondary text-secondary hover:bg-secondary/10;
+  }
+
+  .btn-ghost {
+    @apply text-foreground hover:bg-gray-800;
+  }
+
+  .nav-link {
+    @apply text-foreground hover:text-secondary transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-primary rounded-lg overflow-hidden border border-gray-800 hover:border-secondary transition shadow-card;
+  }
+
+  .input {
+    @apply w-full bg-background text-foreground border border-gray-800 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50;
+  }
+
+  .label {
+    @apply block text-sm font-medium mb-2;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success/20 text-success;
+  }
+
+  .badge-warning {
+    @apply bg-warning/20 text-warning;
+  }
+
+  .badge-danger {
+    @apply bg-danger/20 text-danger;
+  }
 }
