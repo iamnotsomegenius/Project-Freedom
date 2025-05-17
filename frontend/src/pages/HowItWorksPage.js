@@ -8,9 +8,9 @@ import {
   CheckCircleIcon,
   MagnifyingGlassIcon,
   DocumentIcon,
-  ClipboardCheckIcon,
-  HandshakeIcon,
-  LightbulbIcon,
+  ClipboardDocumentCheckIcon,
+  UserPlusIcon,
+  SparklesIcon,
   ChartBarIcon,
   CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
@@ -100,13 +100,13 @@ const HowItWorksPage = () => {
                 number="3"
                 title="Complete Due Diligence"
                 description="Access comprehensive information and conduct thorough research. Our secure deal room facilitates document sharing and collaboration between all parties."
-                icon={<ClipboardCheckIcon className="h-6 w-6" />}
+                icon={<ClipboardDocumentCheckIcon className="h-6 w-6" />}
               />
               <StepCard
                 number="4"
                 title="Finalize Acquisition"
                 description="Complete the transaction with assistance from our platform. Track every step of the closing process with our deal management tools."
-                icon={<HandshakeIcon className="h-6 w-6" />}
+                icon={<UserPlusIcon className="h-6 w-6" />}
               />
             </div>
             
@@ -127,7 +127,7 @@ const HowItWorksPage = () => {
                 number="1"
                 title="Discover Opportunities"
                 description="Find businesses open to fractional investment through Regulation CF. Browse opportunities based on industry, return potential, and funding targets."
-                icon={<LightbulbIcon className="h-6 w-6" />}
+                icon={<SparklesIcon className="h-6 w-6" />}
               />
               <StepCard
                 number="2"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StoreIcon, ShoppingCartIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
+import { ShoppingBagIcon, ShoppingCartIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
 
 const UserTypeOption = ({ title, description, icon, onClick }) => {
@@ -30,7 +30,7 @@ const UserTypeSelection = ({ onSelect }) => {
         <UserTypeOption
           title="I'm a Seller"
           description="List your business for sale, receive offers, and connect with potential buyers and investors."
-          icon={<StoreIcon className="h-6 w-6 text-secondary" />}
+          icon={<ShoppingBagIcon className="h-6 w-6 text-secondary" />}
           onClick={() => onSelect('SELLER')}
         />
         
