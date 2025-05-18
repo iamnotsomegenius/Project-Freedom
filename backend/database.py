@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Union
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from bson import ObjectId
 import os
@@ -37,11 +37,32 @@ async def close_mongo_connection():
         client.close()
 
 
+# Helper to handle ObjectId conversion
+def convert_id(id_value: Union[str, ObjectId]) -> Union[str, ObjectId]:
+    """Convert string ID to ObjectId for MongoDB queries or vice versa"""
+    if isinstance(id_value, str):
+        try:
+            return ObjectId(id_value)
+        except:
+            return id_value
+    elif isinstance(id_value, ObjectId):
+        return str(id_value)
+    return id_value
+
+
 # MongoDB Collection helpers
 async def create_document(collection: str, document: Dict[str, Any]) -> str:
     """
     Create a document in MongoDB and return its ID
     """
+    # Convert string IDs to ObjectId for related fields
+    for key, value in document.items():
+        if key.endswith('_id') and isinstance(value, str) and value:
+            try:
+                document[key] = ObjectId(value)
+            except:
+                pass
+    
     result = await db[collection].insert_one(document)
     return str(result.inserted_id)
 
@@ -50,9 +71,18 @@ async def get_document(collection: str, document_id: str) -> Optional[Dict[str, 
     """
     Get a document by ID
     """
-    document = await db[collection].find_one({"_id": document_id})
+    try:
+        obj_id = ObjectId(document_id)
+    except:
+        obj_id = document_id
+        
+    document = await db[collection].find_one({"_id": obj_id})
     if document:
+        # Convert all ObjectIds to strings for JSON serialization
         document["id"] = str(document["_id"])
+        for key, value in document.items():
+            if isinstance(value, ObjectId):
+                document[key] = str(value)
     return document
 
 
@@ -62,8 +92,21 @@ async def update_document(
     """
     Update a document by ID
     """
+    # Convert string IDs to ObjectId for related fields
+    for key, value in update_data.items():
+        if key.endswith('_id') and isinstance(value, str) and value:
+            try:
+                update_data[key] = ObjectId(value)
+            except:
+                pass
+    
+    try:
+        obj_id = ObjectId(document_id)
+    except:
+        obj_id = document_id
+    
     result = await db[collection].update_one(
-        {"_id": document_id}, {"$set": update_data}
+        {"_id": obj_id}, {"$set": update_data}
     )
     return result.modified_count > 0
 
@@ -72,7 +115,12 @@ async def delete_document(collection: str, document_id: str) -> bool:
     """
     Delete a document by ID
     """
-    result = await db[collection].delete_one({"_id": document_id})
+    try:
+        obj_id = ObjectId(document_id)
+    except:
+        obj_id = document_id
+        
+    result = await db[collection].delete_one({"_id": obj_id})
     return result.deleted_count > 0
 
 
@@ -86,6 +134,23 @@ async def list_documents(
     """
     List documents with optional filtering, pagination, and sorting
     """
+    # Process filter_query to convert string IDs to ObjectId
+    if filter_query:
+        for key, value in filter_query.items():
+            if key.endswith('_id') and isinstance(value, str) and value:
+                try:
+                    filter_query[key] = ObjectId(value)
+                except:
+                    pass
+            # Handle $in operator with list of IDs
+            elif isinstance(value, dict) and '$in' in value and key.endswith('_id'):
+                id_list = value['$in']
+                if isinstance(id_list, list):
+                    try:
+                        filter_query[key]['$in'] = [ObjectId(id) if isinstance(id, str) else id for id in id_list]
+                    except:
+                        pass
+    
     cursor = db[collection].find(filter_query or {})
     
     if sort_by:
@@ -98,5 +163,9 @@ async def list_documents(
     # Convert _id to string id for each document
     for document in documents:
         document["id"] = str(document["_id"])
+        # Convert all ObjectIds to strings for JSON serialization
+        for key, value in document.items():
+            if isinstance(value, ObjectId):
+                document[key] = str(value)
     
     return documents
