@@ -1,5 +1,5 @@
-from typing import List, Optional, Union
-from pydantic import BaseModel, Field, EmailStr
+from typing import List, Optional, Union, Any
+from pydantic import BaseModel, Field, EmailStr, model_validator
 from datetime import datetime
 import uuid
 from enum import Enum
@@ -67,6 +67,7 @@ class UserProfile(BaseId, TimestampModel):
 
     class Config:
         populate_by_name = True
+        from_attributes = True
 
 
 class UserProfileUpdate(BaseModel):
@@ -118,6 +119,7 @@ class BusinessListing(BusinessListingBase, BaseId, TimestampModel):
 
     class Config:
         populate_by_name = True
+        from_attributes = True
 
 
 # Investment models
@@ -134,6 +136,7 @@ class Investment(BaseId, TimestampModel):
 
     class Config:
         populate_by_name = True
+        from_attributes = True
 
 
 # Offer models
@@ -166,6 +169,7 @@ class Offer(BaseId, TimestampModel):
 
     class Config:
         populate_by_name = True
+        from_attributes = True
 
 
 # Deal models
@@ -188,6 +192,7 @@ class Deal(BaseId, TimestampModel):
 
     class Config:
         populate_by_name = True
+        from_attributes = True
 
 
 # Document models
@@ -201,3 +206,4 @@ class Document(BaseId, TimestampModel):
 
     class Config:
         populate_by_name = True
+        from_attributes = True
