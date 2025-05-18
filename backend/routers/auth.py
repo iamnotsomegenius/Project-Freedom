@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import Dict
+from bson import ObjectId
 
 from models import UserCreate, UserLogin, UserProfile, Token, UserType
 from auth import (
@@ -10,12 +11,12 @@ from auth import (
     create_access_token,
     get_current_user,
 )
-from database import get_database, create_document
+from database import get_database, create_document, get_document
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
 
-@router.post("/register", response_model=UserProfile)
+@router.post("/register", response_model=UserProfile, status_code=status.HTTP_201_CREATED)
 async def register_user(user_data: UserCreate, db=Depends(get_database)):
     """
     Register a new user
@@ -42,6 +43,10 @@ async def register_user(user_data: UserCreate, db=Depends(get_database)):
     # Insert the user in the database
     user_dict = user_profile.model_dump()
     user_dict["hashed_password"] = hashed_password
+    
+    # Remove id field as MongoDB will generate it
+    if 'id' in user_dict:
+        del user_dict['id']
     
     # Insert document and get ID
     user_id = await create_document("profiles", user_dict)

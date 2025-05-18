@@ -7,6 +7,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 import os
+from bson import ObjectId
 
 from models import UserProfile, Token, UserType
 
@@ -76,8 +77,25 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db=None):
     except JWTError:
         raise credentials_exception
         
-    # In a real implementation, you would look up the user from the database here
-    # For now, we'll just construct a UserProfile from the token data
+    # Look up the user from the database if db is provided
+    if db:
+        try:
+            user_doc = await db.profiles.find_one({"_id": ObjectId(token_data.user_id)})
+            if user_doc:
+                return UserProfile(
+                    id=str(user_doc["_id"]),
+                    email=user_doc["email"],
+                    user_type=UserType(user_doc["user_type"]),
+                    display_name=user_doc.get("display_name", None),
+                    avatar_url=user_doc.get("avatar_url", None),
+                    completed_onboarding=user_doc.get("completed_onboarding", False),
+                    created_at=user_doc.get("created_at", datetime.utcnow()),
+                    updated_at=user_doc.get("updated_at", datetime.utcnow())
+                )
+        except:
+            pass
+    
+    # If db lookup failed or wasn't attempted, construct user from token
     user = UserProfile(
         id=token_data.user_id,
         email=token_data.email,
@@ -86,7 +104,4 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db=None):
         updated_at=datetime.utcnow()
     )
     
-    if user is None:
-        raise credentials_exception
-        
     return user
