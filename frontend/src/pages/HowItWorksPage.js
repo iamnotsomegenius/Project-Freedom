@@ -13,6 +13,8 @@ import {
   SparklesIcon,
   ChartBarIcon,
   CurrencyDollarIcon,
+  ShieldCheckIcon,
+  ScaleIcon,
 } from '@heroicons/react/24/outline';
 
 const StepCard = ({ number, title, description, icon }) => {
@@ -48,7 +50,7 @@ const HowItWorksPage = () => {
               <StepCard
                 number="1"
                 title="List Your Business"
-                description="Create a comprehensive listing with financials, history, and your asking price. Our guided process makes it easy to showcase your business to potential buyers and investors."
+                description="Create a comprehensive listing with financials, history, and your asking price. Our guided process makes it easy to showcase your business to potential buyers and investors. A $1,000 upfront listing fee applies to cover initial vetting and platform costs."
                 icon={<ClipboardIcon className="h-6 w-6" />}
               />
               <StepCard
@@ -66,7 +68,7 @@ const HowItWorksPage = () => {
               <StepCard
                 number="4"
                 title="Close the Deal"
-                description="Complete due diligence and finalize the transaction with our streamlined process. Our platform provides a secure environment for document sharing and communication."
+                description="Complete due diligence and finalize the transaction with our streamlined process. Our platform provides a secure environment for document sharing and communication. A $10,000 advisory fee is charged for successful deals, covering due diligence support and deal structuring."
                 icon={<CheckCircleIcon className="h-6 w-6" />}
               />
             </div>
@@ -105,7 +107,7 @@ const HowItWorksPage = () => {
               <StepCard
                 number="4"
                 title="Finalize Acquisition"
-                description="Complete the transaction with assistance from our platform. Track every step of the closing process with our deal management tools."
+                description="Complete the transaction with assistance from our platform. Track every step of the closing process with our deal management tools. A 3% transaction fee of the total deal value applies upon successful closing."
                 icon={<UserPlusIcon className="h-6 w-6" />}
               />
             </div>
@@ -126,19 +128,19 @@ const HowItWorksPage = () => {
               <StepCard
                 number="1"
                 title="Discover Opportunities"
-                description="Find businesses open to fractional investment through Regulation CF. Browse opportunities based on industry, return potential, and funding targets."
+                description="Find businesses open to fractional investment through Regulation Crowdfunding. Browse opportunities based on industry, return potential, and funding targets."
                 icon={<SparklesIcon className="h-6 w-6" />}
               />
               <StepCard
                 number="2"
                 title="Invest Any Amount"
-                description="Start with as little as $100 to own a piece of a small business. Diversify your portfolio across multiple businesses to spread risk and maximize potential returns."
+                description="Start with as little as $100 to own a piece of a small business. Diversify your portfolio across multiple businesses to spread risk and maximize potential returns. A 1% transaction fee (capped at $50) applies to each investment."
                 icon={<CurrencyDollarIcon className="h-6 w-6" />}
               />
               <StepCard
                 number="3"
                 title="Track Your Portfolio"
-                description="Monitor business performance and receive updates from owners. Our dashboard provides real-time insights into your investments and projected returns."
+                description="Monitor business performance and receive updates from owners. Our dashboard provides real-time insights into your investments and projected returns. A 0.5% annual fee applies to managed equity stakes."
                 icon={<ChartBarIcon className="h-6 w-6" />}
               />
               <StepCard
@@ -158,14 +160,59 @@ const HowItWorksPage = () => {
               </Button>
             </div>
           </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold mb-6 text-secondary">Understanding Regulation Crowdfunding</h2>
+            <div className="bg-primary p-6 rounded-lg mb-8">
+              <div className="flex items-start mb-4">
+                <ShieldCheckIcon className="h-6 w-6 text-secondary mr-3 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-medium mb-2">What is Regulation Crowdfunding?</h3>
+                  <p className="text-gray-400">
+                    Regulation Crowdfunding (Reg CF) was enacted under Title III of the JOBS Act in 2016. It allows eligible businesses to 
+                    raise up to $5 million annually from both accredited and non-accredited investors through SEC-registered online platforms.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start mb-4">
+                <ScaleIcon className="h-6 w-6 text-secondary mr-3 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Investment Limits for Non-Accredited Investors</h3>
+                  <p className="text-gray-400">
+                    If your annual income or net worth is less than $124,000, you can invest the greater of $2,500 or 5% of the lesser of your annual income or net worth.
+                    If both annual income and net worth are $124,000+, you can invest up to 10% of the lesser amount, with a maximum cap of $124,000.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <DocumentIcon className="h-6 w-6 text-secondary mr-3 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Disclosure and Protection</h3>
+                  <p className="text-gray-400">
+                    Companies must file a Form C with the SEC before raising funds, disclosing business plans, financials, and ownership information.
+                    All investments are processed through a secure third-party escrow account, not held directly by SeedSMB, to ensure regulatory compliance and investor protection.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-warning/10 border border-warning/20 p-4 rounded-lg">
+              <h3 className="text-lg font-medium mb-2 text-warning">Investment Risk Disclosure</h3>
+              <p className="text-gray-300">
+                Investing in small businesses involves substantial risk, including loss of principal. These investments are highly illiquid and should only represent a small portion of your overall investment portfolio. SeedSMB is not a broker-dealer or investment advisor. Always consider consulting with a financial professional before making investment decisions.
+              </p>
+            </div>
+          </section>
           
           <section>
             <h2 className="text-2xl font-semibold mb-6 text-secondary">Frequently Asked Questions</h2>
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-medium mb-2">What is Regulation CF?</h3>
+                <h3 className="text-lg font-medium mb-2">What is Regulation Crowdfunding?</h3>
                 <p className="text-gray-400">
-                  Regulation Crowdfunding (Reg CF) allows eligible companies to offer and sell securities through crowdfunding. It enables small businesses to raise up to $5 million from both accredited and non-accredited investors.
+                  Regulation Crowdfunding (Reg CF) allows eligible companies to offer and sell securities through crowdfunding. It enables small businesses to raise up to $5 million from both accredited and non-accredited investors through SEC-registered platforms.
                 </p>
               </div>
               
@@ -179,7 +226,7 @@ const HowItWorksPage = () => {
               <div>
                 <h3 className="text-lg font-medium mb-2">What fees does SeedSMB charge?</h3>
                 <p className="text-gray-400">
-                  SeedSMB charges a 5% success fee to sellers upon successful acquisition or funding. For investors, there's a 2% processing fee on investments. There are no listing fees or monthly charges.
+                  Our fee structure includes: a $1,000 upfront listing fee for sellers, a $10,000 advisory fee for successful deals, a 3% transaction fee for buyers upon successful funding, and a 1% fee (capped at $50) for each investment. We also charge a 0.5% annual fee on managed equity stakes.
                 </p>
               </div>
               
@@ -187,6 +234,13 @@ const HowItWorksPage = () => {
                 <h3 className="text-lg font-medium mb-2">How long does the typical acquisition process take?</h3>
                 <p className="text-gray-400">
                   The acquisition timeline varies based on business complexity, but typically ranges from 60-90 days from accepted offer to closing. This includes due diligence, documentation, and final transfer of ownership.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-medium mb-2">How are investor funds handled?</h3>
+                <p className="text-gray-400">
+                  All investment funds are held in a secure third-party escrow account, not by SeedSMB directly. Funds are only released to the business once funding targets are met and all compliance requirements are satisfied.
                 </p>
               </div>
             </div>
