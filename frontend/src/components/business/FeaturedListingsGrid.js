@@ -8,9 +8,9 @@ const LoadingSkeleton = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="bg-primary rounded-lg overflow-hidden border border-gray-800 animate-pulse">
+        <div key={i} className="bg-primary rounded-lg overflow-hidden border border-gray-800 animate-pulse h-full flex flex-col">
           <div className="h-40 w-full bg-gray-800" />
-          <div className="p-4">
+          <div className="p-4 flex-grow">
             <div className="h-6 bg-gray-800 rounded w-3/4 mb-2" />
             <div className="h-4 bg-gray-800 rounded w-1/2 mb-4" />
             <div className="grid grid-cols-2 gap-2">
@@ -22,8 +22,13 @@ const LoadingSkeleton = () => {
               ))}
             </div>
           </div>
-          <div className="border-t border-gray-800 p-4">
-            <div className="h-10 bg-gray-800 rounded" />
+          <div className="mt-auto">
+            <div className="border-t border-gray-800 p-4">
+              <div className="h-10 bg-gray-800 rounded" />
+            </div>
+            <div className="px-4 pb-4 h-[3.75rem]">
+              <div className="h-2 w-full bg-gray-700 rounded-full mt-2" />
+            </div>
           </div>
         </div>
       ))}
