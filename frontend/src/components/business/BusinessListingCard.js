@@ -84,6 +84,7 @@ const BusinessListingCard = ({ listing }) => {
         </div>
       </div>
       
+      {/* View Details Button - Always at the same position */}
       <div className="mt-auto">
         <div className="border-t border-gray-800 p-4">
           <Button 
@@ -94,25 +95,27 @@ const BusinessListingCard = ({ listing }) => {
           </Button>
         </div>
         
-        {/* Funding Progress Bar - Moved below button */}
-        {listing.funding_target > 0 && (
-          <div className="px-4 pb-4">
-            <div className="flex justify-between text-xs mb-1">
-              <span>Funding Progress</span>
-              <span>{Math.round(progress)}%</span>
-            </div>
-            <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-secondary" 
-                style={{ width: `${Math.min(progress, 100)}%` }}
-              />
-            </div>
-            <div className="flex justify-between text-xs mt-1">
-              <span>{formatCurrency(listing.funding_raised)}</span>
-              <span>{formatCurrency(listing.funding_target)}</span>
-            </div>
-          </div>
-        )}
+        {/* Funding Progress Bar or Empty Space */}
+        <div className="px-4 pb-4 h-[3.75rem]">
+          {listing.funding_target > 0 ? (
+            <>
+              <div className="flex justify-between text-xs mb-1">
+                <span>Funding Progress</span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+              <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-secondary" 
+                  style={{ width: `${Math.min(progress, 100)}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-xs mt-1">
+                <span>{formatCurrency(listing.funding_raised)}</span>
+                <span>{formatCurrency(listing.funding_target)}</span>
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
     </div>
   );
