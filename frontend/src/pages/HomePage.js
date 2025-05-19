@@ -18,7 +18,7 @@ const HeroSection = () => {
               The Marketplace for SMB <span className="text-secondary">Acquisitions</span> and <span className="text-secondary">Investments</span>
             </h1>
             <p className="text-gray-400 text-lg mb-8">
-              Connect with small business sellers, make offers, and invest in businesses with as little as $100 through Regulation CF crowdfunding.
+              Connect with small business sellers, make offers, and invest in businesses with as little as $100 through Regulation Crowdfunding.
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button
@@ -33,7 +33,7 @@ const HeroSection = () => {
                   variant="outline"
                   className="text-center"
                 >
-                  Create Account
+                  List Your Business
                 </Button>
               )}
             </div>
@@ -103,7 +103,7 @@ const HowItWorksSection = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">For Investors</h3>
             <p className="text-gray-400 mb-4">
-              Invest in small businesses with as little as $100 through Regulation CF crowdfunding.
+              Invest in small businesses with as little as $100 through Regulation Crowdfunding.
             </p>
             <Link to="/how-it-works" className="text-secondary hover:underline">
               Learn more →

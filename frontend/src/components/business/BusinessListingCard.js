@@ -32,7 +32,7 @@ const BusinessListingCard = ({ listing }) => {
   const progress = (listing.funding_raised / listing.funding_target) * 100 || 0;
   
   return (
-    <div className="bg-primary rounded-lg overflow-hidden border border-gray-800 hover:border-secondary transition">
+    <div className="bg-primary rounded-lg overflow-hidden border border-gray-800 hover:border-secondary transition h-full flex flex-col">
       {/* Cover Image */}
       <div className="h-40 w-full relative">
         <img
@@ -47,11 +47,14 @@ const BusinessListingCard = ({ listing }) => {
         )}
       </div>
       
-      <div className="p-4">
+      <div className="p-4 flex-grow">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold text-foreground truncate">
             {listing.title}
           </h3>
+          {listing.under_loi && (
+            <span className="inline-flex ml-2 h-4 w-4 rounded-full bg-warning"></span>
+          )}
         </div>
         
         <div className="mt-2 flex items-center text-sm text-gray-400">
@@ -79,10 +82,21 @@ const BusinessListingCard = ({ listing }) => {
             value={calculateMultiple(listing.asking_price, listing.annual_profit)} 
           />
         </div>
+      </div>
+      
+      <div className="mt-auto">
+        <div className="border-t border-gray-800 p-4">
+          <Button 
+            onClick={() => handleInteraction('view', false)} 
+            className="w-full bg-secondary hover:bg-secondary/90 text-background"
+          >
+            View Details
+          </Button>
+        </div>
         
-        {/* Funding Progress Bar */}
+        {/* Funding Progress Bar - Moved below button */}
         {listing.funding_target > 0 && (
-          <div className="mt-4">
+          <div className="px-4 pb-4">
             <div className="flex justify-between text-xs mb-1">
               <span>Funding Progress</span>
               <span>{Math.round(progress)}%</span>
@@ -99,15 +113,6 @@ const BusinessListingCard = ({ listing }) => {
             </div>
           </div>
         )}
-      </div>
-      
-      <div className="border-t border-gray-800 p-4">
-        <Button 
-          onClick={() => handleInteraction('view', false)} 
-          className="w-full bg-secondary hover:bg-secondary/90 text-background"
-        >
-          View Details
-        </Button>
       </div>
     </div>
   );
