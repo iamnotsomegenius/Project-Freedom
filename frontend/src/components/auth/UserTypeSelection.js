@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShoppingBagIcon, ShoppingCartIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
+import InvestorComplianceDisclaimer from './InvestorComplianceDisclaimer';
 
 const UserTypeOption = ({ title, description, icon, onClick }) => {
   return (
@@ -20,6 +21,34 @@ const UserTypeOption = ({ title, description, icon, onClick }) => {
 };
 
 const UserTypeSelection = ({ onSelect }) => {
+  const [showInvestorDisclaimer, setShowInvestorDisclaimer] = useState(false);
+  
+  const handleTypeSelection = (type) => {
+    if (type === 'INVESTOR') {
+      setShowInvestorDisclaimer(true);
+    } else {
+      onSelect(type);
+    }
+  };
+  
+  const handleDisclaimerAccept = () => {
+    setShowInvestorDisclaimer(false);
+    onSelect('INVESTOR');
+  };
+  
+  const handleDisclaimerClose = () => {
+    setShowInvestorDisclaimer(false);
+  };
+  
+  if (showInvestorDisclaimer) {
+    return (
+      <InvestorComplianceDisclaimer 
+        onAccept={handleDisclaimerAccept}
+        onClose={handleDisclaimerClose}
+      />
+    );
+  }
+  
   return (
     <div>
       <p className="text-gray-400 mb-6">
@@ -31,21 +60,21 @@ const UserTypeSelection = ({ onSelect }) => {
           title="I'm a Seller"
           description="List your business for sale, receive offers, and connect with potential buyers and investors."
           icon={<ShoppingBagIcon className="h-6 w-6 text-secondary" />}
-          onClick={() => onSelect('SELLER')}
+          onClick={() => handleTypeSelection('SELLER')}
         />
         
         <UserTypeOption
           title="I'm a Buyer"
           description="Browse business listings, make offers, and complete the acquisition process."
           icon={<ShoppingCartIcon className="h-6 w-6 text-secondary" />}
-          onClick={() => onSelect('BUYER')}
+          onClick={() => handleTypeSelection('BUYER')}
         />
         
         <UserTypeOption
           title="I'm an Investor"
           description="Discover opportunities to invest in small businesses and build your portfolio."
           icon={<CurrencyDollarIcon className="h-6 w-6 text-secondary" />}
-          onClick={() => onSelect('INVESTOR')}
+          onClick={() => handleTypeSelection('INVESTOR')}
         />
       </div>
     </div>
