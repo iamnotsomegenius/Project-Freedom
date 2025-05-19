@@ -24,7 +24,7 @@ const AboutPage = () => {
             businesses should be accessible to everyone, not just those with extensive networks or deep pockets.
           </p>
           <p className="text-gray-300 mb-4">
-            By leveraging Regulation CF crowdfunding and creating a transparent marketplace, we're opening doors 
+            By leveraging Regulation Crowdfunding and creating a transparent marketplace, we're opening doors 
             for entrepreneurs to find the right buyers, for buyers to discover ideal acquisition targets, and for 
             everyday investors to participate in the growth of small businesses with as little as $100.
           </p>
@@ -33,16 +33,16 @@ const AboutPage = () => {
         <div className="mb-16">
           <h2 className="text-2xl font-semibold mb-4 text-secondary">Our Story</h2>
           <p className="text-gray-300 mb-4">
-            SeedSMB began in 2023 when our founders, a team of entrepreneurs and technologists, recognized a 
+            SeedSMB began in 2023 when our founder, Costakis Loizou, recognized a 
             significant gap in the market. While large businesses had access to sophisticated M&A processes and 
             public markets, small business owners often struggled to find buyers, secure fair valuations, or 
             access alternative funding options.
           </p>
           <p className="text-gray-300 mb-4">
-            Having personally experienced the challenges of buying and selling small businesses, our team set out 
-            to build a platform that would solve these problems. We combined our expertise in finance, technology, 
-            and business operations to create a marketplace that brings transparency, efficiency, and accessibility 
-            to SMB acquisitions and investments.
+            Having personally experienced the challenges of buying and selling small businesses, Costakis set out 
+            to build a platform that would solve these problems. By combining his expertise in finance, investment, 
+            and business operations with his entrepreneurial background, SeedSMB was created as a marketplace that brings 
+            transparency, efficiency, and accessibility to SMB acquisitions and investments.
           </p>
           <p className="text-gray-300">
             Since our launch, we've helped hundreds of business owners find new paths forward, whether through 
@@ -85,34 +85,43 @@ const AboutPage = () => {
         </div>
         
         <div className="mb-16">
-          <h2 className="text-2xl font-semibold mb-4 text-secondary">Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
+          <h2 className="text-2xl font-semibold mb-4 text-secondary">Our Leadership</h2>
+          <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+            <div className="md:w-1/3 text-center">
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-                alt="James Wilson"
-                className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
+                alt="Costakis Loizou"
+                className="w-40 h-40 rounded-full mx-auto mb-4 object-cover"
               />
-              <h3 className="font-medium text-lg">James Wilson</h3>
-              <p className="text-gray-400">CEO & Co-Founder</p>
+              <h3 className="font-medium text-lg">Costakis Loizou</h3>
+              <p className="text-gray-400">Founder & CEO</p>
             </div>
-            <div className="text-center">
-              <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-                alt="Sarah Chen"
-                className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-              />
-              <h3 className="font-medium text-lg">Sarah Chen</h3>
-              <p className="text-gray-400">CTO & Co-Founder</p>
-            </div>
-            <div className="text-center">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-                alt="Michael Rodriguez"
-                className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-              />
-              <h3 className="font-medium text-lg">Michael Rodriguez</h3>
-              <p className="text-gray-400">COO & Co-Founder</p>
+            <div className="md:w-2/3">
+              <div className="bg-primary p-6 rounded-lg">
+                <h3 className="text-lg font-medium mb-3">Professional Background</h3>
+                <p className="text-gray-300 mb-4">
+                  Costakis currently serves as an investment professional specializing in private credit, 
+                  working as an Analyst at Tree Line Capital Partners, a direct lending firm focused on the lower middle market.
+                </p>
+                <p className="text-gray-300 mb-4">
+                  Prior to joining Tree Line, Costakis was an Analyst at Fidus Investment Corporation (NASDAQ: FDUS),
+                  focusing on mezzanine and senior debt investments. He began his career at New Century Capital Partners
+                  where he worked on early-stage cybersecurity investments.
+                </p>
+                <h3 className="text-lg font-medium mb-3 mt-6">Entrepreneurial Experience</h3>
+                <p className="text-gray-300 mb-2">
+                  Beyond his investment career, Costakis has launched several successful ventures:
+                </p>
+                <ul className="list-disc pl-5 text-gray-300 space-y-2">
+                  <li><span className="font-medium">ATX Lighting & Lawn:</span> A dual-service business providing residential landscaping and holiday light installations.</li>
+                  <li><span className="font-medium">Get My Boxes:</span> A logistics service for cardboard recycling with over 350 monthly subscribers.</li>
+                  <li><span className="font-medium">Git Prompt:</span> An AI platform for natural language software development.</li>
+                  <li><span className="font-medium">Food Filter:</span> A mobile app integrating food delivery platforms with dietary preference filtering.</li>
+                </ul>
+                <p className="text-gray-300 mt-4">
+                  Costakis holds a BBA from Southern Methodist University.
+                </p>
+              </div>
             </div>
           </div>
         </div>
