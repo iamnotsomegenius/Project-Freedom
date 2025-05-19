@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Body
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import Dict
@@ -11,7 +11,7 @@ from auth import (
     create_access_token,
     get_current_user,
 )
-from database import get_database, create_document, get_document
+from database import get_database
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
@@ -32,29 +32,29 @@ async def register_user(user_data: UserCreate, db=Depends(get_database)):
     # Create user in database
     hashed_password = get_password_hash(user_data.password)
     
-    # Create user profile
-    user_profile = UserProfile(
+    # Create user profile document
+    user_dict = {
+        "email": user_data.email,
+        "user_type": user_data.user_type.value if user_data.user_type else UserType.BUYER.value,
+        "display_name": user_data.email.split("@")[0],  # Default display name from email
+        "hashed_password": hashed_password,
+        "completed_onboarding": False,
+        "created_at": user_data.model_dump().get("created_at"),
+        "updated_at": user_data.model_dump().get("updated_at")
+    }
+    
+    # Insert document
+    result = await db.profiles.insert_one(user_dict)
+    user_id = str(result.inserted_id)
+    
+    # Return user profile object
+    return UserProfile(
+        id=user_id,
         email=user_data.email,
-        user_type=user_data.user_type or UserType.BUYER,  # Default to BUYER if not specified
-        display_name=user_data.email.split("@")[0],  # Default display name from email
+        user_type=user_data.user_type or UserType.BUYER,
+        display_name=user_dict["display_name"],
         completed_onboarding=False
     )
-    
-    # Insert the user in the database
-    user_dict = user_profile.model_dump()
-    user_dict["hashed_password"] = hashed_password
-    
-    # Remove id field as MongoDB will generate it
-    if 'id' in user_dict:
-        del user_dict['id']
-    
-    # Insert document and get ID
-    user_id = await create_document("profiles", user_dict)
-    
-    # Update the profile with the ID
-    user_profile.id = user_id
-    
-    return user_profile
 
 
 @router.post("/token", response_model=Token)
@@ -119,7 +119,7 @@ async def get_user_profile(current_user: UserProfile = Depends(get_current_user)
 
 
 @router.post("/check-email", response_model=Dict[str, bool])
-async def check_email_exists(email: str, db=Depends(get_database)):
+async def check_email_exists(email: str = Body(..., embed=True), db=Depends(get_database)):
     """
     Check if an email address is already registered
     """

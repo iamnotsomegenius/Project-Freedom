@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Depends
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 import os
@@ -13,7 +13,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from routers import auth, listings, investments, offers, deals, profiles
 
 # Import database functions
-from database import connect_to_mongo, close_mongo_connection
+from database import connect_to_mongo, close_mongo_connection, get_database
+from auth import get_current_user
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -23,6 +24,10 @@ app = FastAPI(title="SeedSMB API", description="API for the SeedSMB marketplace"
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
+
+# Custom dependency to get current user with database connection
+async def get_current_user_with_db(db=Depends(get_database)):
+    return lambda token: get_current_user(token, db)
 
 # Include routers
 api_router.include_router(auth.router)
@@ -43,8 +48,8 @@ app.include_router(api_router)
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

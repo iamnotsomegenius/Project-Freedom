@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Optional, Callable
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -10,6 +10,7 @@ import os
 from bson import ObjectId
 
 from models import UserProfile, Token, UserType
+from database import get_database
 
 # Setup password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -50,7 +51,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db=None):
+async def get_current_user(token: str = Depends(oauth2_scheme), db=Depends(get_database)):
     """
     Get the current user from the JWT token
     """
@@ -76,24 +77,25 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db=None):
         )
     except JWTError:
         raise credentials_exception
-        
+    
     # Look up the user from the database if db is provided
     if db:
         try:
             user_doc = await db.profiles.find_one({"_id": ObjectId(token_data.user_id)})
             if user_doc:
-                return UserProfile(
+                user = UserProfile(
                     id=str(user_doc["_id"]),
                     email=user_doc["email"],
                     user_type=UserType(user_doc["user_type"]),
-                    display_name=user_doc.get("display_name", None),
-                    avatar_url=user_doc.get("avatar_url", None),
+                    display_name=user_doc.get("display_name"),
+                    avatar_url=user_doc.get("avatar_url"),
                     completed_onboarding=user_doc.get("completed_onboarding", False),
                     created_at=user_doc.get("created_at", datetime.utcnow()),
                     updated_at=user_doc.get("updated_at", datetime.utcnow())
                 )
-        except:
-            pass
+                return user
+        except Exception as e:
+            print(f"Error fetching user from database: {e}")
     
     # If db lookup failed or wasn't attempted, construct user from token
     user = UserProfile(
