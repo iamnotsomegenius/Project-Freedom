@@ -19,12 +19,29 @@ import MarketplacePage from './pages/MarketplacePage';
 import BusinessDetailPage from './pages/BusinessDetailPage';
 import InvestmentPage from './pages/InvestmentPage';
 import MakeOfferPage from './pages/MakeOfferPage';
+
+// How It Works Pages
 import HowItWorksPage from './pages/HowItWorksPage';
+import BuyersPage from './pages/how-it-works/BuyersPage';
+import SellersPage from './pages/how-it-works/SellersPage';
+import InvestorsPage from './pages/how-it-works/InvestorsPage';
+import RegulatoryPage from './pages/how-it-works/RegulatoryPage';
+import PricingPage from './pages/how-it-works/PricingPage';
+
+// About Pages
 import AboutPage from './pages/AboutPage';
+import FounderPage from './pages/about/FounderPage';
+import MissionPage from './pages/about/MissionPage';
+
+// Additional Pages
+import SuccessStoriesPage from './pages/SuccessStoriesPage';
+import ResourceCenterPage from './pages/ResourceCenterPage';
+import FAQPage from './pages/FAQPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 // Dashboard Pages
 import SellerDashboardPage from './pages/dashboard/SellerDashboardPage';
+import InvestmentPortfolioPage from './pages/dashboard/InvestmentPortfolioPage';
 
 // Initialize Query Client
 const queryClient = new QueryClient({
@@ -49,17 +66,36 @@ function App() {
                 <Routes>
                   {/* Public Pages */}
                   <Route path="/" element={<HomePage />} />
+                  
+                  {/* Marketplace */}
                   <Route path="/marketplace" element={<MarketplacePage />} />
                   <Route path="/marketplace/:id" element={<BusinessDetailPage />} />
                   <Route path="/marketplace/:id/invest" element={<InvestmentPage />} />
                   <Route path="/marketplace/:id/make-offer" element={<MakeOfferPage />} />
+                  
+                  {/* How It Works */}
                   <Route path="/how-it-works" element={<HowItWorksPage />} />
+                  <Route path="/how-it-works/buyers" element={<BuyersPage />} />
+                  <Route path="/how-it-works/sellers" element={<SellersPage />} />
+                  <Route path="/how-it-works/investors" element={<InvestorsPage />} />
+                  <Route path="/how-it-works/regulatory" element={<RegulatoryPage />} />
+                  <Route path="/how-it-works/pricing" element={<PricingPage />} />
+                  
+                  {/* About */}
                   <Route path="/about" element={<AboutPage />} />
+                  <Route path="/about/founder" element={<FounderPage />} />
+                  <Route path="/about/mission" element={<MissionPage />} />
+                  
+                  {/* Additional Pages */}
+                  <Route path="/success-stories" element={<SuccessStoriesPage />} />
+                  <Route path="/resources" element={<ResourceCenterPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
                   
                   {/* Dashboard Routes */}
                   <Route path="/dashboard" element={<DashboardLayout />}>
                     <Route index element={<SellerDashboardPage />} />
                     <Route path="seller" element={<SellerDashboardPage />} />
+                    <Route path="investments" element={<InvestmentPortfolioPage />} />
                     {/* Add more dashboard routes as needed */}
                   </Route>
                   
