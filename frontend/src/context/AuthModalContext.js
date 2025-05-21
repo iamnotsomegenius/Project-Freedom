@@ -7,7 +7,7 @@ export function AuthModalProvider({ children }) {
   const [mode, setMode] = useState('signin'); // 'signin' or 'signup'
   const [returnUrl, setReturnUrl] = useState(null);
 
-  const openAuthModal = ({ mode: modalMode = 'signin', returnUrl: url = null } = {}) => {
+  const openAuthModal = ({ mode: modalMode = 'signup', returnUrl: url = null } = {}) => {
     setMode(modalMode);
     setReturnUrl(url);
     setIsOpen(true);
