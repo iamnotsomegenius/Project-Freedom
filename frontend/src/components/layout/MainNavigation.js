@@ -10,20 +10,39 @@ import Logo from './Logo';
 // Dropdown component for navigation menus
 const NavDropdown = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
+  
+  const handleMouseEnter = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
+    }
+    setIsOpen(true);
+  };
+  
+  const handleMouseLeave = () => {
+    const id = setTimeout(() => {
+      setIsOpen(false);
+    }, 300); // 300ms delay before closing
+    setTimeoutId(id);
+  };
   
   return (
-    <div className="relative" onMouseLeave={() => setIsOpen(false)}>
+    <div 
+      className="relative" 
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <button
-        className="flex items-center gap-1 text-foreground hover:text-secondary"
-        onMouseEnter={() => setIsOpen(true)}
+        className="flex items-center gap-1 text-foreground hover:text-secondary py-2"
         onClick={() => setIsOpen(!isOpen)}
       >
         {title}
-        <ChevronDownIcon className="h-4 w-4" />
+        <ChevronDownIcon className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-48 bg-primary border border-gray-800 rounded-md shadow-lg py-2 z-50">
+        <div className="absolute top-full left-0 mt-0 w-48 bg-primary border border-gray-800 rounded-md shadow-lg py-2 z-50">
           {children}
         </div>
       )}
