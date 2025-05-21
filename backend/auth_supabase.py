@@ -94,6 +94,31 @@ async def get_supabase_user_by_email(email: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+async def get_supabase_user_by_phone(phone_number: str) -> Optional[Dict[str, Any]]:
+    """
+    Get user from Supabase by phone number
+    """
+    try:
+        supabase = get_supabase()
+        response = supabase.table("profiles").select("*").eq("phone_number", phone_number).execute()
+        
+        if response.data and len(response.data) > 0:
+            return response.data[0]
+    except Exception as e:
+        print(f"Error getting user by phone from Supabase: {e}")
+        
+        # Fallback to mock data for demo purposes
+        # Import here to avoid circular imports
+        from routers.auth_supabase import MOCK_USERS
+        
+        # Find user in mock data by phone number
+        for email, user in MOCK_USERS.items():
+            if user.get("phone_number") == phone_number:
+                return user
+    
+    return None
+
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     """
     Get the current user from the JWT token
@@ -110,7 +135,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         email: str = payload.get("email")
         user_type: str = payload.get("user_type")
         
-        if user_id is None or email is None:
+        if user_id is None:
             raise credentials_exception
             
         token_data = TokenData(
@@ -132,6 +157,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
                 display_name=user_data.get("display_name"),
                 avatar_url=user_data.get("avatar_url"),
                 completed_onboarding=user_data.get("completed_onboarding", False),
+                verification_level=user_data.get("verification_level", 1),
                 created_at=user_data.get("created_at", datetime.utcnow()),
                 updated_at=user_data.get("updated_at", datetime.utcnow())
             )
@@ -144,6 +170,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         id=token_data.user_id,
         email=token_data.email,
         user_type=token_data.user_type,
+        verification_level=1,  # Default level
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )

@@ -58,12 +58,27 @@ class UserLogin(BaseModel):
     password: str
 
 
+class PhoneSendCodeRequest(BaseModel):
+    phone_number: str
+
+
+class PhoneVerifyRequest(BaseModel):
+    phone_number: str
+    code: str
+
+
+class SocialLoginRequest(BaseModel):
+    token: Optional[str] = None
+    code: Optional[str] = None
+
+
 class UserProfile(BaseId, TimestampModel):
     user_type: UserType
     display_name: Optional[str] = None
     email: EmailStr
     avatar_url: Optional[str] = None
     completed_onboarding: bool = False
+    verification_level: int = 0  # 0-4 based on verification tiers
 
     class Config:
         populate_by_name = True
@@ -74,6 +89,7 @@ class UserProfileUpdate(BaseModel):
     display_name: Optional[str] = None
     avatar_url: Optional[str] = None
     user_type: Optional[UserType] = None
+    verification_level: Optional[int] = None
 
 
 class Token(BaseModel):
