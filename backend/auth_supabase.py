@@ -49,11 +49,23 @@ async def get_supabase_user(user_id: str) -> Optional[Dict[str, Any]]:
     """
     Get user from Supabase by ID
     """
-    supabase = get_supabase()
-    response = supabase.table("profiles").select("*").eq("id", user_id).execute()
-    
-    if response.data and len(response.data) > 0:
-        return response.data[0]
+    try:
+        supabase = get_supabase()
+        response = supabase.table("profiles").select("*").eq("id", user_id).execute()
+        
+        if response.data and len(response.data) > 0:
+            return response.data[0]
+    except Exception as e:
+        print(f"Error getting user from Supabase: {e}")
+        
+        # Fallback to mock data for demo purposes
+        # Import here to avoid circular imports
+        from routers.auth_supabase import MOCK_USERS
+        
+        # Find user in mock data by ID
+        for email, user in MOCK_USERS.items():
+            if user["id"] == user_id:
+                return user
     
     return None
 
@@ -62,11 +74,22 @@ async def get_supabase_user_by_email(email: str) -> Optional[Dict[str, Any]]:
     """
     Get user from Supabase by email
     """
-    supabase = get_supabase()
-    response = supabase.table("profiles").select("*").eq("email", email).execute()
-    
-    if response.data and len(response.data) > 0:
-        return response.data[0]
+    try:
+        supabase = get_supabase()
+        response = supabase.table("profiles").select("*").eq("email", email).execute()
+        
+        if response.data and len(response.data) > 0:
+            return response.data[0]
+    except Exception as e:
+        print(f"Error getting user by email from Supabase: {e}")
+        
+        # Fallback to mock data for demo purposes
+        # Import here to avoid circular imports
+        from routers.auth_supabase import MOCK_USERS
+        
+        # Find user in mock data by email
+        if email in MOCK_USERS:
+            return MOCK_USERS[email]
     
     return None
 
