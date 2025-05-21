@@ -1,16 +1,49 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
 import { useAuth } from '../../context/AuthContext';
 import { useAuthModal } from '../../context/AuthModalContext';
 import UserMenu from './UserMenu';
 import Logo from './Logo';
 
+// Dropdown component for navigation menus
+const NavDropdown = ({ title, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="relative" onMouseLeave={() => setIsOpen(false)}>
+      <button
+        className="flex items-center gap-1 text-foreground hover:text-secondary"
+        onMouseEnter={() => setIsOpen(true)}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {title}
+        <ChevronDownIcon className="h-4 w-4" />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-48 bg-primary border border-gray-800 rounded-md shadow-lg py-2 z-50">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const NavLink = ({ href, children, className = '' }) => (
   <Link
     to={href}
     className={`nav-link ${className}`}
+  >
+    {children}
+  </Link>
+);
+
+const DropdownLink = ({ href, children }) => (
+  <Link 
+    to={href} 
+    className="block px-4 py-2 text-sm text-foreground hover:bg-gray-800"
   >
     {children}
   </Link>
@@ -40,9 +73,33 @@ const MobileMenu = ({ isOpen, onClose }) => {
         
         <div className="p-4">
           <nav className="flex flex-col space-y-4">
-            <NavLink href="/marketplace" className="text-lg">Marketplace</NavLink>
-            <NavLink href="/how-it-works" className="text-lg">How It Works</NavLink>
-            <NavLink href="/about" className="text-lg">About</NavLink>
+            <div className="border-b border-gray-800 pb-2">
+              <div className="text-lg font-medium mb-2">How It Works</div>
+              <div className="pl-4 space-y-2">
+                <Link to="/how-it-works/buyers" className="block text-gray-400 hover:text-secondary">For Buyers</Link>
+                <Link to="/how-it-works/sellers" className="block text-gray-400 hover:text-secondary">For Sellers</Link>
+                <Link to="/how-it-works/investors" className="block text-gray-400 hover:text-secondary">For Investors</Link>
+                <Link to="/how-it-works/regulatory" className="block text-gray-400 hover:text-secondary">Regulatory Framework</Link>
+                <Link to="/how-it-works/pricing" className="block text-gray-400 hover:text-secondary">Pricing</Link>
+              </div>
+            </div>
+            
+            <div className="border-b border-gray-800 pb-2">
+              <div className="text-lg font-medium mb-2">About Us</div>
+              <div className="pl-4 space-y-2">
+                <Link to="/about/founder" className="block text-gray-400 hover:text-secondary">Founder</Link>
+                <Link to="/about/mission" className="block text-gray-400 hover:text-secondary">Mission</Link>
+              </div>
+            </div>
+            
+            <div className="border-b border-gray-800 pb-2">
+              <div className="text-lg font-medium mb-2">Marketplace</div>
+              <div className="pl-4 space-y-2">
+                <Link to="/marketplace" className="block text-gray-400 hover:text-secondary">Browse Deals</Link>
+                <Link to="/dashboard/investments" className="block text-gray-400 hover:text-secondary">Investment Portfolio</Link>
+                <Link to="/resources" className="block text-gray-400 hover:text-secondary">Resources</Link>
+              </div>
+            </div>
           </nav>
           
           <div className="mt-8 space-y-4">
@@ -118,9 +175,27 @@ const MainNavigation = () => {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <NavLink href="/marketplace">Marketplace</NavLink>
-            <NavLink href="/how-it-works">How It Works</NavLink>
-            <NavLink href="/about">About</NavLink>
+            {/* How It Works Dropdown */}
+            <NavDropdown title="How It Works">
+              <DropdownLink href="/how-it-works/buyers">For Buyers</DropdownLink>
+              <DropdownLink href="/how-it-works/sellers">For Sellers</DropdownLink>
+              <DropdownLink href="/how-it-works/investors">For Investors</DropdownLink>
+              <DropdownLink href="/how-it-works/regulatory">Regulatory Framework</DropdownLink>
+              <DropdownLink href="/how-it-works/pricing">Pricing</DropdownLink>
+            </NavDropdown>
+            
+            {/* About Us Dropdown */}
+            <NavDropdown title="About Us">
+              <DropdownLink href="/about/founder">Founder</DropdownLink>
+              <DropdownLink href="/about/mission">Mission</DropdownLink>
+            </NavDropdown>
+            
+            {/* Marketplace Dropdown */}
+            <NavDropdown title="Marketplace">
+              <DropdownLink href="/marketplace">Browse Deals</DropdownLink>
+              <DropdownLink href="/dashboard/investments">Investment Portfolio</DropdownLink>
+              <DropdownLink href="/resources">Resources</DropdownLink>
+            </NavDropdown>
           </nav>
           
           <div className="flex items-center space-x-4">
