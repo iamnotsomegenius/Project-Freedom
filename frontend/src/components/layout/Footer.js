@@ -8,33 +8,78 @@ const Footer = () => {
   return (
     <footer className="bg-primary border-t border-gray-800 mt-auto">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <div className="md:col-span-2">
             <Link to="/" className="flex items-center">
               <Logo className="h-8 w-auto" />
               <span className="ml-2 font-bold text-xl text-foreground">SeedSMB</span>
             </Link>
             <p className="mt-4 text-gray-400 text-sm">
-              Connecting SMB sellers, buyers, and investors through a seamless marketplace.
+              Democratizing small business acquisitions and investments. 
+              SeedSMB connects qualified buyers with retail investors to fund SMB acquisitions quickly and efficiently.
             </p>
+            <div className="mt-4">
+              <p className="text-sm text-gray-400">
+                <span className="text-secondary">FINRA</span> registered funding portal
+              </p>
+              <p className="text-sm text-gray-400">
+                Operating under <span className="text-secondary">SEC Regulation Crowdfunding</span>
+              </p>
+            </div>
           </div>
           
           <div>
-            <h3 className="text-foreground font-medium mb-4">Marketplace</h3>
+            <h3 className="text-foreground font-medium mb-4">How It Works</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/marketplace" className="text-gray-400 hover:text-secondary text-sm">
-                  Browse Businesses
+                <Link to="/how-it-works/buyers" className="text-gray-400 hover:text-secondary text-sm">
+                  For Buyers
                 </Link>
               </li>
               <li>
-                <Link to="/marketplace/featured" className="text-gray-400 hover:text-secondary text-sm">
-                  Featured Opportunities
+                <Link to="/how-it-works/sellers" className="text-gray-400 hover:text-secondary text-sm">
+                  For Sellers
                 </Link>
               </li>
               <li>
-                <Link to="/list-business" className="text-gray-400 hover:text-secondary text-sm">
-                  List Your Business
+                <Link to="/how-it-works/investors" className="text-gray-400 hover:text-secondary text-sm">
+                  For Investors
+                </Link>
+              </li>
+              <li>
+                <Link to="/how-it-works/regulatory" className="text-gray-400 hover:text-secondary text-sm">
+                  Regulatory Framework
+                </Link>
+              </li>
+              <li>
+                <Link to="/how-it-works/pricing" className="text-gray-400 hover:text-secondary text-sm">
+                  Pricing
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-foreground font-medium mb-4">About Us</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/about/founder" className="text-gray-400 hover:text-secondary text-sm">
+                  Founder
+                </Link>
+              </li>
+              <li>
+                <Link to="/about/mission" className="text-gray-400 hover:text-secondary text-sm">
+                  Mission
+                </Link>
+              </li>
+              <li>
+                <Link to="/success-stories" className="text-gray-400 hover:text-secondary text-sm">
+                  Success Stories
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-secondary text-sm">
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -44,8 +89,8 @@ const Footer = () => {
             <h3 className="text-foreground font-medium mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/how-it-works" className="text-gray-400 hover:text-secondary text-sm">
-                  How It Works
+                <Link to="/resources" className="text-gray-400 hover:text-secondary text-sm">
+                  Resource Center
                 </Link>
               </li>
               <li>
@@ -56,22 +101,6 @@ const Footer = () => {
               <li>
                 <Link to="/blog" className="text-gray-400 hover:text-secondary text-sm">
                   Blog
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-foreground font-medium mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/about" className="text-gray-400 hover:text-secondary text-sm">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-400 hover:text-secondary text-sm">
-                  Contact
                 </Link>
               </li>
               <li>
