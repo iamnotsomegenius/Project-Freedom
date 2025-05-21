@@ -4,15 +4,26 @@ import sys
 from datetime import datetime
 import json
 import uuid
+import os
 
 class SeedSMBAPITester:
-    def __init__(self, base_url="https://b06f5b6f-bf00-48b0-b278-980c7e0d5556.preview.emergentagent.com"):
+    def __init__(self, base_url=None):
+        # Use the environment variable from frontend/.env
+        if not base_url:
+            with open('/app/frontend/.env', 'r') as f:
+                for line in f:
+                    if line.startswith('REACT_APP_BACKEND_URL='):
+                        base_url = line.strip().split('=')[1]
+                        break
+        
         self.base_url = base_url
         self.token = None
         self.tests_run = 0
         self.tests_passed = 0
         self.user_id = None
         self.listing_id = None
+        
+        print(f"Using backend URL: {self.base_url}")
 
     def run_test(self, name, method, endpoint, expected_status, data=None, params=None):
         """Run a single API test"""
@@ -23,6 +34,7 @@ class SeedSMBAPITester:
 
         self.tests_run += 1
         print(f"\n🔍 Testing {name}...")
+        print(f"URL: {url}")
         
         try:
             if method == 'GET':
@@ -44,6 +56,8 @@ class SeedSMBAPITester:
             if success:
                 self.tests_passed += 1
                 print(f"✅ Passed - Status: {response.status_code}")
+                if response_data:
+                    print(f"Response preview: {str(response_data)[:200]}...")
             else:
                 print(f"❌ Failed - Expected {expected_status}, got {response.status_code}")
                 print(f"Response: {response_data}")
@@ -78,8 +92,19 @@ class SeedSMBAPITester:
             }
         )
 
-    def test_login(self, email="test@example.com", password="password123"):
+    def test_login(self, email=None, password=None):
         """Test login and get token"""
+        # If no credentials provided, try to register a new user first
+        if not email or not password:
+            success, response = self.test_register_user()
+            if success and 'email' in response:
+                email = response['email']
+                password = "TestPass123!"
+            else:
+                # Fallback to test credentials
+                email = "test@example.com"
+                password = "password123"
+        
         success, response = self.run_test(
             "User Login",
             "POST",
@@ -89,8 +114,23 @@ class SeedSMBAPITester:
         )
         if success and 'access_token' in response:
             self.token = response['access_token']
+            if 'user_id' in response:
+                self.user_id = response['user_id']
             return True
         return False
+
+    def test_get_profile(self):
+        """Test getting user profile"""
+        if not self.user_id:
+            print("❌ No user ID available for testing")
+            return False
+            
+        return self.run_test(
+            "Get User Profile",
+            "GET",
+            f"/api/profiles/{self.user_id}",
+            200
+        )
 
     def test_get_listings(self):
         """Test getting business listings"""
@@ -133,26 +173,32 @@ class SeedSMBAPITester:
         )
         if success and 'id' in response:
             self.listing_id = response['id']
-        return success
+        return success, response
 
-    def test_get_listing_detail(self):
+    def test_get_listing_detail(self, listing_id=None):
         """Test getting a specific business listing"""
-        if not self.listing_id:
-            print("❌ No listing ID available for testing")
-            return False
+        if not listing_id and not self.listing_id:
+            # Try to get a listing ID from the listings endpoint
+            success, response = self.test_get_listings()
+            if success and response and 'listings' in response and len(response['listings']) > 0:
+                listing_id = response['listings'][0]['id']
+            else:
+                print("❌ No listing ID available for testing")
+                return False, {}
         
+        listing_id = listing_id or self.listing_id
         return self.run_test(
             "Get Listing Detail",
             "GET",
-            f"/api/listings/{self.listing_id}",
+            f"/api/listings/{listing_id}",
             200
-        )[0]
+        )
 
     def test_create_investment(self):
         """Test creating an investment"""
         if not self.listing_id:
             print("❌ No listing ID available for testing")
-            return False
+            return False, {}
             
         return self.run_test(
             "Create Investment",
@@ -163,13 +209,13 @@ class SeedSMBAPITester:
                 "business_id": self.listing_id,
                 "amount": 50000
             }
-        )[0]
+        )
 
     def test_create_offer(self):
         """Test creating an offer"""
         if not self.listing_id:
             print("❌ No listing ID available for testing")
-            return False
+            return False, {}
             
         return self.run_test(
             "Create Offer",
@@ -185,40 +231,102 @@ class SeedSMBAPITester:
                 "closing_timeline": 90,
                 "additional_notes": "Test offer"
             }
-        )[0]
+        )
+        
+    def test_get_deals(self):
+        """Test getting deals"""
+        return self.run_test(
+            "Get Deals",
+            "GET",
+            "/api/deals",
+            200
+        )
+        
+    def test_get_investments(self):
+        """Test getting investments"""
+        return self.run_test(
+            "Get Investments",
+            "GET",
+            "/api/investments",
+            200
+        )
+        
+    def test_get_offers(self):
+        """Test getting offers"""
+        return self.run_test(
+            "Get Offers",
+            "GET",
+            "/api/offers",
+            200
+        )
 
 def main():
     # Setup
     tester = SeedSMBAPITester()
     
     # Run tests
-    health_check_success, _ = tester.test_health_check()
+    print("\n===== TESTING SEEDSMB API (SUPABASE MIGRATION) =====\n")
+    
+    # Test API health
+    health_check_success, health_data = tester.test_health_check()
     
     if not health_check_success:
         print("❌ API health check failed, stopping tests")
         return 1
     
+    # Test public endpoints
+    print("\n===== TESTING PUBLIC ENDPOINTS =====\n")
+    
+    listings_success, listings_data = tester.test_get_listings()
+    featured_success, featured_data = tester.test_get_featured_listings()
+    
+    # Try to get a specific listing if available
+    if listings_success and 'listings' in listings_data and len(listings_data['listings']) > 0:
+        listing_id = listings_data['listings'][0]['id']
+        tester.test_get_listing_detail(listing_id)
+    
+    # Test authentication
+    print("\n===== TESTING AUTHENTICATION =====\n")
+    
     # Try to register a new user
-    tester.test_register_user()
+    register_success, register_data = tester.test_register_user()
     
-    # Try to login (this might fail if we don't have valid credentials)
-    login_success = tester.test_login()
+    # Try to login
+    if register_success and 'email' in register_data:
+        login_success = tester.test_login(register_data['email'], "TestPass123!")
+    else:
+        login_success = tester.test_login()
     
-    # These tests should work without authentication
-    tester.test_get_listings()
-    tester.test_get_featured_listings()
-    
-    # These tests require authentication
+    # Test authenticated endpoints
     if login_success:
-        tester.test_create_listing()
-        tester.test_get_listing_detail()
-        tester.test_create_investment()
-        tester.test_create_offer()
+        print("\n===== TESTING AUTHENTICATED ENDPOINTS =====\n")
+        
+        # Test profile
+        if tester.user_id:
+            tester.test_get_profile()
+        
+        # Test creating a listing
+        create_success, create_data = tester.test_create_listing()
+        
+        if create_success:
+            # Test getting the created listing
+            tester.test_get_listing_detail()
+            
+            # Test investments and offers
+            tester.test_create_investment()
+            tester.test_create_offer()
+        
+        # Test other endpoints
+        tester.test_get_deals()
+        tester.test_get_investments()
+        tester.test_get_offers()
     else:
         print("⚠️ Skipping authenticated tests due to login failure")
     
     # Print results
-    print(f"\n📊 Tests passed: {tester.tests_passed}/{tester.tests_run}")
+    print(f"\n===== TEST RESULTS =====")
+    print(f"📊 Tests passed: {tester.tests_passed}/{tester.tests_run} ({tester.tests_passed/tester.tests_run*100:.1f}%)")
+    
     return 0 if tester.tests_passed > 0 else 1
 
 if __name__ == "__main__":
