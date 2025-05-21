@@ -81,6 +81,12 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
+class TokenData(BaseModel):
+    user_id: str
+    email: EmailStr
+    user_type: UserType
+
+
 # Business Listing models
 class BusinessListingBase(BaseModel):
     title: str
