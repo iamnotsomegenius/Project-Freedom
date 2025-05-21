@@ -26,6 +26,49 @@ export const register = async (userData) => {
   }
 };
 
+export const socialLogin = async (provider) => {
+  try {
+    // For now, we'll simulate social login
+    // In a real implementation, this would redirect to OAuth provider
+    // or use a pop-up window for authentication
+    console.log(`Social login with ${provider}`);
+    
+    // Simulate successful login for demo purposes
+    // In production, this would make an API call to a social login endpoint
+    const response = await api.post(`/api/auth/social-login/${provider}`);
+    return response.data;
+  } catch (error) {
+    console.error(`${provider} login error:`, error);
+    const errorMessage = error.response?.data?.detail || `${provider} authentication failed`;
+    throw new Error(errorMessage);
+  }
+};
+
+export const sendPhoneVerificationCode = async (phoneNumber) => {
+  try {
+    const response = await api.post('/api/auth/phone/send-code', { phone_number: phoneNumber });
+    return response.data;
+  } catch (error) {
+    console.error('Send phone verification code error:', error);
+    const errorMessage = error.response?.data?.detail || 'Failed to send verification code';
+    throw new Error(errorMessage);
+  }
+};
+
+export const verifyPhoneCode = async (phoneNumber, code) => {
+  try {
+    const response = await api.post('/api/auth/phone/verify-code', { 
+      phone_number: phoneNumber, 
+      code
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Verify phone code error:', error);
+    const errorMessage = error.response?.data?.detail || 'Invalid verification code';
+    throw new Error(errorMessage);
+  }
+};
+
 export const logout = () => {
   // Remove token from localStorage
   localStorage.removeItem('token');
