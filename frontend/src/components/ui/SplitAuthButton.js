@@ -19,7 +19,7 @@ const SplitAuthButton = ({ className = '', mobileView = false }) => {
       <button
         type="button"
         onClick={() => openAuthModal({ mode: 'signin' })}
-        className="px-4 py-2 border border-gray-700 text-foreground hover:bg-gray-800"
+        className="px-4 py-2 border border-secondary text-secondary hover:bg-secondary/10"
       >
         Log In
       </button>
