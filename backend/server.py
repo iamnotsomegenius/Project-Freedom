@@ -10,11 +10,12 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import routers
-from routers import auth, listings, investments, offers, deals, profiles
+from routers import auth_supabase as auth, listings, investments, offers, deals, profiles, payments, files
 
 # Import database functions
-from database import connect_to_mongo, close_mongo_connection, get_database
-from auth import get_current_user
+from database import connect_to_mongo, close_mongo_connection
+from database_supabase import connect_to_supabase, close_supabase_connection
+from auth_supabase import get_current_user
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -25,10 +26,6 @@ app = FastAPI(title="SeedSMB API", description="API for the SeedSMB marketplace"
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-# Custom dependency to get current user with database connection
-async def get_current_user_with_db(db=Depends(get_database)):
-    return lambda token: get_current_user(token, db)
-
 # Include routers
 api_router.include_router(auth.router)
 api_router.include_router(profiles.router)
@@ -36,6 +33,8 @@ api_router.include_router(listings.router)
 api_router.include_router(investments.router)
 api_router.include_router(offers.router)
 api_router.include_router(deals.router)
+api_router.include_router(payments.router)
+api_router.include_router(files.router)
 
 # Add a root endpoint for API health check
 @api_router.get("/")
@@ -63,10 +62,14 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_db_client():
+    # Connect to both MongoDB (for backward compatibility) and Supabase
     await connect_to_mongo()
-    logger.info("Connected to MongoDB")
+    await connect_to_supabase()
+    logger.info("Connected to MongoDB and Supabase")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
+    # Close both connections
     await close_mongo_connection()
-    logger.info("Disconnected from MongoDB")
+    await close_supabase_connection()
+    logger.info("Disconnected from MongoDB and Supabase")
