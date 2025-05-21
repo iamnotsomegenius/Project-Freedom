@@ -539,7 +539,7 @@ async def publish_listing(
         
         # Update the listing
         update_data = {
-            "status": BusinessStatus.ACTIVE.value,
+            "status": "active",
             "updated_at": datetime.utcnow().isoformat()
         }
         
