@@ -6,7 +6,7 @@ import json
 import uuid
 
 class SeedSMBAPITester:
-    def __init__(self, base_url="https://59e71722-c679-4d2f-b4ae-db9617541e34.preview.emergentagent.com"):
+    def __init__(self, base_url="https://b06f5b6f-bf00-48b0-b278-980c7e0d5556.preview.emergentagent.com"):
         self.base_url = base_url
         self.token = None
         self.tests_run = 0
