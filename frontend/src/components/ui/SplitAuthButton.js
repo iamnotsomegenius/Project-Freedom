@@ -35,5 +35,3 @@ const SplitAuthButton = ({ className = '', mobileView = false }) => {
 };
 
 export default SplitAuthButton;
-
-export default SplitAuthButton;
