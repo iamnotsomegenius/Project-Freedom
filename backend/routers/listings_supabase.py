@@ -129,7 +129,7 @@ MOCK_LISTINGS = [
         "funding_target": 750000,
         "funding_raised": 450000,
         "seller_id": "1",
-        "status": "ACTIVE",
+        "status": "active",
         "under_loi": False,
         "cover_image_url": "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
         "created_at": "2023-08-01T00:00:00Z",
