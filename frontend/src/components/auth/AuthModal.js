@@ -87,6 +87,21 @@ const AuthModal = () => {
     }
   };
   
+  // Determine the title text based on step and mode
+  const getTitleText = () => {
+    if (step === 1) {
+      if (mode === 'signin') {
+        return 'Welcome Back';
+      } else {
+        return 'Join SeedSMB';
+      }
+    } else if (step === 2) {
+      return 'Select Your Role';
+    } else {
+      return 'Complete Your Profile';
+    }
+  };
+  
   return (
     <Modal isOpen={isOpen} onClose={closeAuthModal}>
       <div className="relative">
@@ -98,8 +113,7 @@ const AuthModal = () => {
         </button>
         
         <h2 className="text-xl font-semibold mb-6 text-foreground">
-          {step === 1 ? (mode === 'signin' ? 'Sign In' : 'Create Account') :
-           step === 2 ? 'Select Your Role' : 'Complete Your Profile'}
+          {getTitleText()}
         </h2>
         
         {renderContent()}
