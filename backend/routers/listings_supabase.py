@@ -575,7 +575,7 @@ async def publish_listing(
         
         # Update the mock listing
         mock_listing = MOCK_LISTINGS[mock_index].copy()
-        mock_listing["status"] = "ACTIVE"
+        mock_listing["status"] = "active"
         mock_listing["updated_at"] = datetime.utcnow().isoformat()
         
         return BusinessListing(**mock_listing)
