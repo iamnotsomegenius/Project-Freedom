@@ -138,6 +138,9 @@ async def list_documents(
     """
     List documents with optional filtering, pagination, and sorting
     """
+    supabase = get_supabase()
+    
+    # Basic query
     query = supabase.table(table).select("*")
     
     # Apply filtering
@@ -162,13 +165,6 @@ async def list_documents(
             else:
                 # Simple equality filter
                 query = query.eq(key, value)
-    
-    # Apply sorting
-    if sort_by:
-        for key, direction in sort_by.items():
-            # Convert MongoDB sort direction (1, -1) to Supabase (asc, desc)
-            asc = direction == 1
-            query = query.order(key, asc=asc)
     
     # Apply pagination
     if skip > 0:
