@@ -3,10 +3,17 @@ from typing import Optional, List, Dict, Any, Union
 import uuid
 from datetime import datetime
 from supabase import create_client, Client
+from dotenv import load_dotenv
 
-# Initialize Supabase connection
+# Load .env file
+load_dotenv()
+
+# Initialize Supabase connection variables
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
+
+print(f"Supabase URL: {supabase_url}")  # For debugging
+print(f"Supabase Key Length: {len(supabase_key) if supabase_key else 0}")  # For debugging
 
 supabase: Optional[Client] = None
 
