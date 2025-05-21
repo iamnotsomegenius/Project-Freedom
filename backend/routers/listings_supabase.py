@@ -315,7 +315,7 @@ async def get_featured_listings(
         print(f"Error getting featured listings from Supabase: {e}")
         
         # Filter to active listings and sort by funding_raised
-        active_listings = [l for l in MOCK_LISTINGS if l["status"] == "ACTIVE"]
+        active_listings = [l for l in MOCK_LISTINGS if l["status"] == "active"]
         sorted_listings = sorted(active_listings, key=lambda x: x["funding_raised"], reverse=True)
         
         # Limit results
