@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAuthModal } from '../../context/AuthModalContext';
 import UserMenu from './UserMenu';
 import Logo from './Logo';
+import SplitAuthButton from '../ui/SplitAuthButton';
 
 // Dropdown component for navigation menus
 const NavDropdown = ({ title, children }) => {
@@ -70,7 +71,6 @@ const DropdownLink = ({ href, children }) => (
 
 const MobileMenu = ({ isOpen, onClose }) => {
   const { user } = useAuth();
-  const { openAuthModal } = useAuthModal();
   
   return (
     <div
@@ -150,27 +150,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
                 </button>
               </>
             ) : (
-              <>
-                <Button 
-                  onClick={() => {
-                    onClose();
-                    openAuthModal({ mode: 'signin' });
-                  }}
-                  variant="ghost"
-                  className="w-full"
-                >
-                  Sign In
-                </Button>
-                <Button 
-                  onClick={() => {
-                    onClose();
-                    openAuthModal({ mode: 'signup' });
-                  }}
-                  className="w-full"
-                >
-                  Get Started
-                </Button>
-              </>
+              <SplitAuthButton mobileView={true} />
             )}
           </div>
         </div>
@@ -181,7 +161,6 @@ const MobileMenu = ({ isOpen, onClose }) => {
 
 const MainNavigation = () => {
   const { user } = useAuth();
-  const { openAuthModal } = useAuthModal();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   return (
@@ -232,21 +211,9 @@ const MainNavigation = () => {
                 <UserMenu />
               </>
             ) : (
-              <>
-                <Button 
-                  onClick={() => openAuthModal({ mode: 'signin' })}
-                  variant="ghost"
-                  className="hidden md:block text-foreground hover:bg-gray-800"
-                >
-                  Sign In
-                </Button>
-                <Button 
-                  onClick={() => openAuthModal({ mode: 'signup' })}
-                  className="hidden md:block bg-secondary hover:bg-secondary/90 text-background"
-                >
-                  Get Started
-                </Button>
-              </>
+              <div className="hidden md:block">
+                <SplitAuthButton />
+              </div>
             )}
             
             {/* Mobile Menu Button */}
@@ -269,5 +236,7 @@ const MainNavigation = () => {
     </header>
   );
 };
+
+export default MainNavigation;
 
 export default MainNavigation;
