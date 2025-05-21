@@ -31,7 +31,15 @@ async def connect_to_supabase():
     """
     global supabase
     if supabase is None:
-        supabase = create_client(supabase_url, supabase_key)
+        if not supabase_url or not supabase_key:
+            raise ValueError("Supabase URL and Key must be set in environment variables")
+        
+        try:
+            supabase = create_client(supabase_url, supabase_key)
+            print("Successfully connected to Supabase")
+        except Exception as e:
+            print(f"Error connecting to Supabase: {str(e)}")
+            raise
 
 
 async def close_supabase_connection():
