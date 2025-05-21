@@ -167,8 +167,8 @@ async def list_documents(
     if sort_by:
         for key, direction in sort_by.items():
             # Convert MongoDB sort direction (1, -1) to Supabase (asc, desc)
-            ascending = direction == 1
-            query = query.order(key, ascending=ascending)
+            asc = direction == 1
+            query = query.order(key, asc=asc)
     
     # Apply pagination
     if skip > 0:
