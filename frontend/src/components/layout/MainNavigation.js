@@ -62,7 +62,7 @@ const NavLink = ({ href, children, className = '' }) => (
 const DropdownLink = ({ href, children }) => (
   <Link 
     to={href} 
-    className="block px-4 py-2 text-sm text-foreground hover:bg-gray-800"
+    className="block px-4 py-2.5 text-sm text-foreground hover:bg-gray-800 hover:text-secondary"
   >
     {children}
   </Link>
