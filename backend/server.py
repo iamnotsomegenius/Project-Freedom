@@ -9,11 +9,12 @@ import sys
 # Add the current directory to the path so we can import local modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# Import routers
-from routers import auth_supabase as auth, listings, investments, offers, deals, profiles, payments, files
+# Import routers - use Supabase versions of routers
+from routers import auth_supabase as auth
+from routers import listings_supabase as listings
+from routers import investments, offers, deals, profiles, payments, files
 
 # Import database functions
-from database import connect_to_mongo, close_mongo_connection
 from database_supabase import connect_to_supabase, close_supabase_connection
 from auth_supabase import get_current_user
 
@@ -62,14 +63,12 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_db_client():
-    # Connect to both MongoDB (for backward compatibility) and Supabase
-    await connect_to_mongo()
+    # Connect to Supabase
     await connect_to_supabase()
-    logger.info("Connected to MongoDB and Supabase")
+    logger.info("Connected to Supabase")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    # Close both connections
-    await close_mongo_connection()
+    # Close connection
     await close_supabase_connection()
-    logger.info("Disconnected from MongoDB and Supabase")
+    logger.info("Disconnected from Supabase")
