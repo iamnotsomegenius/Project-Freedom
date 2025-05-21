@@ -9,6 +9,14 @@ import sys
 # Add the current directory to the path so we can import local modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+# Load environment variables
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env')
+
+# Print environment variables for debugging
+print(f"SUPABASE_URL: {os.environ.get('SUPABASE_URL')}")
+print(f"SUPABASE_KEY length: {len(os.environ.get('SUPABASE_KEY', ''))}")
+
 # Import routers - use Supabase versions of routers
 from routers import auth_supabase as auth
 from routers import listings_supabase as listings
@@ -17,9 +25,6 @@ from routers import investments, offers, deals, profiles, payments, files
 # Import database functions
 from database_supabase import connect_to_supabase, close_supabase_connection
 from auth_supabase import get_current_user
-
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
 
 # Create the main app without a prefix
 app = FastAPI(title="SeedSMB API", description="API for the SeedSMB marketplace")
