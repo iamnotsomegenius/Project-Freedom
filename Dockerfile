@@ -2,12 +2,12 @@
 FROM node:20 AS frontend-build
 ARG FRONTEND_ENV
 ENV FRONTEND_ENV=${FRONTEND_ENV}
-WORKDIR /app
-COPY frontend/ /app/
-RUN rm /app/.env
-RUN touch /app/.env
-RUN echo "${FRONTEND_ENV}" | tr ',' '\n' > /app/.env
-RUN cat /app/.env
+WORKDIR /app/frontend
+COPY frontend/ /app/frontend/
+RUN rm /app/frontend/.env
+RUN touch /app/frontend/.env
+RUN echo "${FRONTEND_ENV}" | tr ',' '\n' > /app/frontend/.env
+RUN cat /app/frontend/.env
 RUN yarn install --frozen-lockfile && yarn build
 
 # Stage 2: Install Python Backend
@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Stage 3: Final Image
 FROM nginx:stable-alpine
 # Copy built frontend
-COPY --from=frontend-build /app/build /usr/share/nginx/html
+COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
 # Copy backend
 COPY --from=backend /app /backend
 # Copy nginx config
