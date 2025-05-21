@@ -172,7 +172,7 @@ const MainNavigation = () => {
             <span className="ml-2 font-bold text-lg text-foreground">SeedSMB</span>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 ml-12">
             {/* How It Works Dropdown */}
             <NavDropdown title="How It Works">
               <DropdownLink href="/how-it-works/buyers">For Buyers</DropdownLink>
