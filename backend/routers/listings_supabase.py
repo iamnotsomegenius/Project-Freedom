@@ -256,7 +256,7 @@ async def get_listings(
         if status:
             filtered_listings = [l for l in filtered_listings if l["status"] == status.value]
         else:
-            filtered_listings = [l for l in filtered_listings if l["status"] == "ACTIVE"]
+            filtered_listings = [l for l in filtered_listings if l["status"] == "active"]
         
         if industry:
             filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
