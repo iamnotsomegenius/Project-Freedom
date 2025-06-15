@@ -50,12 +50,20 @@ async def root():
 # Include the router in the main app
 app.include_router(api_router)
 
-# Add CORS middleware
+# Add CORS middleware with environment-specific configuration
+FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:3000")
+ALLOWED_ORIGINS = [
+    FRONTEND_ORIGIN,
+    "https://134c4334-a70c-496a-b2a8-5caeb70f4587.preview.emergentagent.com",  # Current frontend URL
+    "http://localhost:3000",  # Local development
+    "http://127.0.0.1:3000"   # Alternative local
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
