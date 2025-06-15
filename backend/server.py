@@ -10,8 +10,8 @@ from pathlib import Path
 import sys
 
 # Import our custom modules
-from logging_config import logger, setup_logging
-from error_handling import ErrorHandlingMiddleware
+from .logging_config import logger, setup_logging
+from .error_handling import ErrorHandlingMiddleware
 
 # Add the current directory to the path so we can import local modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
