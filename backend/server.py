@@ -84,7 +84,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure logging (remove old basic config)
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger("seedsmb")
 logger.info("Starting SeedSMB API server")
 logger.info(f"Environment: {os.environ.get('ENVIRONMENT', 'development')}")
 
