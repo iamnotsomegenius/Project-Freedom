@@ -95,16 +95,11 @@ class SeedSMBAPITester:
 
     def test_login(self, email=None, password=None):
         """Test login and get token"""
-        # If no credentials provided, try to register a new user first
+        # If no credentials provided, use mock credentials
         if not email or not password:
-            success, response = self.test_register_user()
-            if success and 'email' in response:
-                email = response['email']
-                password = "TestPass123!"
-            else:
-                # Fallback to test credentials
-                email = "admin@seedsmb.com"
-                password = "password123"
+            # Use one of the mock users from auth_supabase.py
+            email = "admin@seedsmb.com"
+            password = "password123"
         
         success, response = self.run_test(
             "User Login",
