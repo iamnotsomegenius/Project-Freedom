@@ -125,3 +125,5 @@ agent_communication:
     message: "Starting comprehensive backend API testing for SeedSMB marketplace"
   - agent: "testing"
     message: "Completed initial testing. Found issues with User Profiles, Investments, and Offers endpoints. The main issue appears to be that some routers are still using the old auth module instead of auth_supabase."
+  - agent: "testing"
+    message: "Detailed findings: 1) The API Health Check, Business Listings, and Authentication endpoints are working correctly. 2) The User Profiles, Investments, and Offers endpoints are failing because they're importing from the old 'auth' and 'database' modules instead of 'auth_supabase' and 'database_supabase'. 3) Unlike listings and auth, there doesn't appear to be a 'profiles_supabase.py' file, so the profiles.py file needs to be updated to use the Supabase modules."
