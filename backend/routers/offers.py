@@ -13,8 +13,8 @@ from models import (
     BusinessStatus,
     BusinessListing
 )
-from auth import get_current_user
-from database import get_database, create_document, list_documents, get_document, update_document
+from auth_supabase import get_current_user
+from database_supabase import get_supabase, create_document, list_documents, get_document, update_document
 
 router = APIRouter(prefix="/offers", tags=["offers"])
 
@@ -22,8 +22,7 @@ router = APIRouter(prefix="/offers", tags=["offers"])
 @router.post("/", response_model=Offer)
 async def create_offer(
     offer_data: OfferCreate,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Create a new offer
@@ -70,8 +69,7 @@ async def create_offer(
 
 @router.get("/", response_model=List[Offer])
 async def get_user_offers(
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get offers for the current user (as buyer)
@@ -94,8 +92,7 @@ async def get_user_offers(
 
 @router.get("/seller", response_model=List[Offer])
 async def get_seller_offers(
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get offers for businesses owned by the current user (as seller)
@@ -107,7 +104,7 @@ async def get_seller_offers(
         return []
     
     # Get business IDs
-    business_ids = [listing["_id"] for listing in seller_listings]
+    business_ids = [listing["id"] for listing in seller_listings]
     
     # Build filter query to find offers for these businesses
     filter_query = {"business_id": {"$in": business_ids}}
@@ -118,7 +115,7 @@ async def get_seller_offers(
     # For each offer, get the associated business listing
     for offer in offers:
         for listing in seller_listings:
-            if listing["_id"] == offer["business_id"]:
+            if listing["id"] == offer["business_id"]:
                 offer["business"] = listing
                 break
     
@@ -129,8 +126,7 @@ async def get_seller_offers(
 @router.get("/{offer_id}", response_model=Offer)
 async def get_offer(
     offer_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get a specific offer
@@ -171,8 +167,7 @@ async def get_offer(
 @router.post("/{offer_id}/accept", response_model=Deal)
 async def accept_offer(
     offer_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Accept an offer and create a deal
@@ -212,19 +207,19 @@ async def accept_offer(
     # Update the offer status
     await update_document("offers", offer_id, {
         "status": DealStatus.ACCEPTED.value,
-        "updated_at": datetime.utcnow()
+        "updated_at": datetime.utcnow().isoformat()
     })
     
     # Update the business listing
-    await update_document("business_listings", business["_id"], {
+    await update_document("business_listings", business["id"], {
         "under_loi": True,
         "status": BusinessStatus.UNDER_LOI.value,
-        "updated_at": datetime.utcnow()
+        "updated_at": datetime.utcnow().isoformat()
     })
     
     # Create a deal
     deal = Deal(
-        business_id=business["_id"],
+        business_id=business["id"],
         seller_id=business["seller_id"],
         buyer_id=offer["buyer_id"],
         offer_id=offer_id,
@@ -267,8 +262,7 @@ async def accept_offer(
 @router.post("/{offer_id}/reject", response_model=Offer)
 async def reject_offer(
     offer_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Reject an offer
@@ -308,7 +302,7 @@ async def reject_offer(
     # Update the offer status
     await update_document("offers", offer_id, {
         "status": DealStatus.REJECTED.value,
-        "updated_at": datetime.utcnow()
+        "updated_at": datetime.utcnow().isoformat()
     })
     
     # Get the updated offer

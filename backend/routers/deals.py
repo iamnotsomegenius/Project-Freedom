@@ -11,30 +11,31 @@ from models import (
     Document,
     BusinessListing
 )
-from auth import get_current_user
-from database import get_database, create_document, list_documents, get_document, update_document
+from auth_supabase import get_current_user
+from database_supabase import get_supabase, create_document, list_documents, get_document, update_document
 
 router = APIRouter(prefix="/deals", tags=["deals"])
 
 
 @router.get("/", response_model=List[Deal])
 async def get_user_deals(
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get deals for the current user (as buyer or seller)
     """
-    # Build filter query for deals where user is either buyer or seller
-    filter_query = {
-        "$or": [
-            {"buyer_id": current_user.id},
-            {"seller_id": current_user.id}
-        ]
-    }
+    # For Supabase, we need to make two separate queries since $or is complex
+    buyer_deals = await list_documents("deals", filter_query={"buyer_id": current_user.id})
+    seller_deals = await list_documents("deals", filter_query={"seller_id": current_user.id})
     
-    # Get deals
-    deals = await list_documents("deals", filter_query=filter_query)
+    # Combine and deduplicate deals
+    deal_ids = set()
+    deals = []
+    
+    for deal in buyer_deals + seller_deals:
+        if deal["id"] not in deal_ids:
+            deal_ids.add(deal["id"])
+            deals.append(deal)
     
     # For each deal, get the associated business listing and timeline events
     for deal in deals:
@@ -58,8 +59,7 @@ async def get_user_deals(
 @router.get("/{deal_id}", response_model=Deal)
 async def get_deal(
     deal_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get a specific deal
@@ -104,8 +104,7 @@ async def get_deal(
 async def add_timeline_event(
     deal_id: str,
     event_data: dict,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Add a timeline event to a deal
@@ -149,8 +148,7 @@ async def add_timeline_event(
 @router.post("/{deal_id}/complete", response_model=Deal)
 async def complete_deal(
     deal_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Mark a deal as completed
@@ -181,13 +179,13 @@ async def complete_deal(
     # Update the deal status
     await update_document("deals", deal_id, {
         "status": DealStatus.COMPLETED.value,
-        "updated_at": datetime.utcnow()
+        "updated_at": datetime.utcnow().isoformat()
     })
     
     # Update the business listing status to CLOSED
     await update_document("business_listings", deal["business_id"], {
         "status": "closed",
-        "updated_at": datetime.utcnow()
+        "updated_at": datetime.utcnow().isoformat()
     })
     
     # Create timeline event
@@ -226,8 +224,7 @@ async def complete_deal(
 async def add_document(
     deal_id: str,
     document_data: dict,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Add a document to a deal
@@ -284,8 +281,7 @@ async def add_document(
 @router.get("/{deal_id}/documents", response_model=List[Document])
 async def get_deal_documents(
     deal_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get all documents for a deal
