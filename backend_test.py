@@ -115,10 +115,18 @@ class SeedSMBAPITester:
         )
         if success and 'access_token' in response:
             self.token = response['access_token']
-            if 'user_id' in response:
-                self.user_id = response['user_id']
-            elif 'sub' in response:
-                self.user_id = response['sub']
+            
+            # Try to extract user_id from token
+            import jwt
+            try:
+                # Decode token without verification
+                decoded = jwt.decode(self.token, options={"verify_signature": False})
+                if 'sub' in decoded:
+                    self.user_id = decoded['sub']
+                    print(f"Extracted user_id from token: {self.user_id}")
+            except Exception as e:
+                print(f"Could not decode token: {e}")
+                
             return True
         return False
 
