@@ -10,8 +10,8 @@ from models import (
     BusinessListing,
     BusinessStatus
 )
-from auth import get_current_user
-from database import get_database, create_document, list_documents, get_document, update_document
+from auth_supabase import get_current_user
+from database_supabase import get_supabase, create_document, list_documents, get_document, update_document
 
 router = APIRouter(prefix="/investments", tags=["investments"])
 
@@ -19,8 +19,7 @@ router = APIRouter(prefix="/investments", tags=["investments"])
 @router.post("/", response_model=Investment)
 async def create_investment(
     investment_data: InvestmentCreate,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Create a new investment
@@ -76,7 +75,7 @@ async def create_investment(
     update_data = {
         "funding_raised": new_funding_raised,
         "investor_count": new_investor_count,
-        "updated_at": datetime.utcnow()
+        "updated_at": datetime.utcnow().isoformat()
     }
     
     await update_document("business_listings", investment_data.business_id, update_data)
@@ -86,8 +85,7 @@ async def create_investment(
 
 @router.get("/", response_model=List[Investment])
 async def get_user_investments(
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get investments for the current user
@@ -111,8 +109,7 @@ async def get_user_investments(
 @router.get("/business/{business_id}", response_model=List[Investment])
 async def get_business_investments(
     business_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get investments for a specific business
@@ -146,8 +143,7 @@ async def get_business_investments(
 @router.get("/{investment_id}", response_model=Investment)
 async def get_investment(
     investment_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get a specific investment

@@ -2,16 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 
 from models import UserProfile, UserProfileUpdate, UserType
-from auth import get_current_user
-from database import get_database, update_document, get_document, list_documents
+from auth_supabase import get_current_user
+from database_supabase import get_supabase, get_document, update_document, list_documents
 
 router = APIRouter(prefix="/profiles", tags=["profiles"])
 
 
 @router.get("/me", response_model=UserProfile)
 async def get_current_user_profile(
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get the current user's profile
@@ -31,8 +30,7 @@ async def get_current_user_profile(
 @router.put("/me", response_model=UserProfile)
 async def update_current_user_profile(
     profile_data: UserProfileUpdate,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Update the current user's profile
@@ -73,8 +71,7 @@ async def update_current_user_profile(
 
 @router.put("/me/complete-onboarding", response_model=UserProfile)
 async def complete_onboarding(
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Mark a user's onboarding as completed
@@ -114,8 +111,7 @@ async def complete_onboarding(
 @router.get("/{user_id}", response_model=UserProfile)
 async def get_user_profile(
     user_id: str,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get a user's profile by ID
@@ -135,8 +131,7 @@ async def get_user_profile(
 @router.get("/type/{user_type}", response_model=List[UserProfile])
 async def get_users_by_type(
     user_type: UserType,
-    current_user: UserProfile = Depends(get_current_user),
-    db=Depends(get_database)
+    current_user: UserProfile = Depends(get_current_user)
 ):
     """
     Get users by type (admin only)
