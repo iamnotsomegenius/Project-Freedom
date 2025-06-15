@@ -320,6 +320,9 @@ def main():
         if tester.user_id:
             tester.test_get_profile()
         
+        # Test current user endpoint
+        tester.test_get_current_user()
+        
         # Test creating a listing
         create_success, create_data = tester.test_create_listing()
         
