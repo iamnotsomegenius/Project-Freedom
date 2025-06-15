@@ -1,0 +1,15 @@
+2025-06-15 23:03:29,587 - seedsmb - INFO - [logging_config.py:63] - Logging system initialized
+2025-06-15 23:03:29,587 - seedsmb - INFO - [logging_config.py:64] - Log level set to: INFO
+2025-06-15 23:03:29,587 - seedsmb - INFO - [logging_config.py:65] - Detailed logs: /app/backend/logs/seedsmb_20250615.log
+2025-06-15 23:03:29,587 - seedsmb - INFO - [logging_config.py:66] - Error logs: /app/backend/logs/errors_20250615.log
+2025-06-15 23:03:31,656 - seedsmb - INFO - [server.py:88] - Starting SeedSMB API server
+2025-06-15 23:03:31,656 - seedsmb - INFO - [server.py:89] - Environment: development
+2025-06-15 23:03:31,690 - seedsmb - INFO - [server.py:95] - Connected to Supabase
+2025-06-15 23:03:37,357 - seedsmb - INFO - [server.py:101] - Disconnected from Supabase
+2025-06-15 23:03:39,207 - seedsmb - INFO - [logging_config.py:63] - Logging system initialized
+2025-06-15 23:03:39,207 - seedsmb - INFO - [logging_config.py:64] - Log level set to: INFO
+2025-06-15 23:03:39,207 - seedsmb - INFO - [logging_config.py:65] - Detailed logs: /app/backend/logs/seedsmb_20250615.log
+2025-06-15 23:03:39,207 - seedsmb - INFO - [logging_config.py:66] - Error logs: /app/backend/logs/errors_20250615.log
+2025-06-15 23:03:41,263 - seedsmb - INFO - [server.py:88] - Starting SeedSMB API server
+2025-06-15 23:03:41,263 - seedsmb - INFO - [server.py:89] - Environment: development
+2025-06-15 23:03:41,295 - seedsmb - INFO - [server.py:95] - Connected to Supabase
