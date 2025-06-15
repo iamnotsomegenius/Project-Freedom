@@ -306,15 +306,8 @@ def main():
     # Test authentication
     print("\n===== TESTING AUTHENTICATION =====\n")
     
-    # Try to register a new user
-    register_success, register_data = tester.test_register_user()
-    
-    # Try to login
-    if register_success and 'email' in register_data:
-        login_success = tester.test_login(register_data['email'], "TestPass123!")
-    else:
-        # Try with mock credentials
-        login_success = tester.test_login("admin@seedsmb.com", "password123")
+    # Try to login with mock user
+    login_success = tester.test_login("admin@seedsmb.com", "password123")
     
     # Test authenticated endpoints
     if login_success:
