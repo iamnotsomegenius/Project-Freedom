@@ -134,6 +134,18 @@ class SeedSMBAPITester:
             200
         )
 
+    def test_get_current_user(self):
+        """Test getting current user profile"""
+        if not self.token:
+            print("❌ No token available for testing")
+            return False
+            
+        return self.run_test(
+            "Get Current User",
+            "GET",
+            "/api/auth/me",
+            200
+        )
     def test_get_listings(self):
         """Test getting business listings"""
         return self.run_test(
