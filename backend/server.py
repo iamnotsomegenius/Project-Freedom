@@ -43,6 +43,9 @@ app = FastAPI(title="SeedSMB API", description="API for the SeedSMB marketplace"
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+# Add custom middleware
+app.add_middleware(ErrorHandlingMiddleware)
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
