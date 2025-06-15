@@ -57,7 +57,7 @@ backend:
         comment: "Initial test for user profile endpoints"
       - working: false
         agent: "testing"
-        comment: "User profile endpoint (GET /api/profiles/{id}) is returning a 500 Internal Server Error. This may be due to the profiles router not being properly migrated to use Supabase."
+        comment: "User profile endpoint (GET /api/profiles/{id}) is returning a 500 Internal Server Error. The issue is that profiles.py is importing from the old 'auth' module instead of 'auth_supabase' and using the old database module instead of 'database_supabase'."
 
   - task: "Investments"
     implemented: true
