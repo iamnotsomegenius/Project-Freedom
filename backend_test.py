@@ -102,7 +102,7 @@ class SeedSMBAPITester:
                 password = "TestPass123!"
             else:
                 # Fallback to test credentials
-                email = "test@example.com"
+                email = "admin@seedsmb.com"
                 password = "password123"
         
         success, response = self.run_test(
@@ -116,6 +116,8 @@ class SeedSMBAPITester:
             self.token = response['access_token']
             if 'user_id' in response:
                 self.user_id = response['user_id']
+            elif 'sub' in response:
+                self.user_id = response['sub']
             return True
         return False
 
