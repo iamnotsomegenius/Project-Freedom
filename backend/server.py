@@ -29,8 +29,15 @@ from routers import investments, offers, deals, profiles, payments, files
 from database_supabase import connect_to_supabase, close_supabase_connection
 from auth_supabase import get_current_user
 
+# Create rate limiter
+limiter = Limiter(key_func=get_remote_address)
+
 # Create the main app without a prefix
 app = FastAPI(title="SeedSMB API", description="API for the SeedSMB marketplace")
+
+# Add rate limiting state and handler
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
