@@ -32,6 +32,7 @@ class SeedSMBAPITester:
         if self.token:
             headers['Authorization'] = f'Bearer {self.token}'
             print(f"Using token: {self.token[:20]}...")
+            print(f"Full token length: {len(self.token)}")
 
         self.tests_run += 1
         print(f"\n🔍 Testing {name}...")
@@ -62,6 +63,7 @@ class SeedSMBAPITester:
             else:
                 print(f"❌ Failed - Expected {expected_status}, got {response.status_code}")
                 print(f"Response: {response_data}")
+                print(f"Headers sent: {headers}")
 
             return success, response_data
 
