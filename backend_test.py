@@ -31,6 +31,7 @@ class SeedSMBAPITester:
         headers = {'Content-Type': 'application/json'}
         if self.token:
             headers['Authorization'] = f'Bearer {self.token}'
+            print(f"Using token: {self.token[:20]}...")
 
         self.tests_run += 1
         print(f"\n🔍 Testing {name}...")
