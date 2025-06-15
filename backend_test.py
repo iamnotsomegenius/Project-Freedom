@@ -295,7 +295,8 @@ def main():
     if register_success and 'email' in register_data:
         login_success = tester.test_login(register_data['email'], "TestPass123!")
     else:
-        login_success = tester.test_login()
+        # Try with mock credentials
+        login_success = tester.test_login("admin@seedsmb.com", "password123")
     
     # Test authenticated endpoints
     if login_success:
