@@ -44,11 +44,11 @@ const DealPipeline = ({ user, onLogout }) => {
   }, []);
 
   const getDealsByStage = (stage) => {
-    return deals.filter(deal => deal.stage === stage);
+    return dealDataService.getDealsByStage(stage);
   };
 
   const getStageCount = (stage) => {
-    return getDealsByStage(stage).length;
+    return dealDataService.getDealsByStage(stage).length;
   };
 
   const getProgressColor = (progress) => {
