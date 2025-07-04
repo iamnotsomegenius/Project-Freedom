@@ -15,7 +15,7 @@ const SeedStackLayout = ({ children, user, onLogout }) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/seedstack-app/', icon: HomeIcon },
-    { name: 'Deal Pipeline', href: '/seedstack-app/pipeline', icon: Squares2X2Icon },
+    { name: 'Deal Pipeline', href: '/seedstack-app/deal-pipeline', icon: Squares2X2Icon },
     { name: 'Deal Sourcing & AI', href: '/seedstack-app/deal-sourcing', icon: MagnifyingGlassIcon },
     { name: 'P&L Analyzer', href: '/seedstack-app/pl-analyzer', icon: DocumentChartBarIcon },
     { name: 'LOI Generator', href: '/seedstack-app/loi-generator', icon: DocumentTextIcon },
