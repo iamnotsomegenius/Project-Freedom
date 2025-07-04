@@ -342,74 +342,161 @@ Or use the **Deal Sourcing** tab to build a custom buyer universe!`;
   };
 
   const renderChatTab = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white">
       {/* Chat Messages */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-4">
-        {messages.map((message) => (
-          <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-3xl p-3 rounded-lg ${
-              message.type === 'user' 
-                ? 'bg-green-600 text-white' 
-                : 'bg-gray-100 text-gray-900'
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto">
+          {messages.map((message) => (
+            <div key={message.id} className={`border-b border-gray-100 ${
+              message.type === 'user' ? 'bg-gray-50' : 'bg-white'
             }`}>
-              <div className="whitespace-pre-wrap text-sm">
-                {message.content}
-              </div>
-              <div className="text-xs opacity-70 mt-1">
-                {message.timestamp.toLocaleTimeString()}
+              <div className="px-6 py-8 flex space-x-4">
+                {/* Avatar */}
+                <div className="flex-shrink-0">
+                  {message.type === 'user' ? (
+                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm font-medium">
+                        {user?.display_name?.charAt(0) || 'U'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
+                      <MagnifyingGlassIcon className="h-5 w-5 text-white" />
+                    </div>
+                  )}
+                </div>
+                
+                {/* Message Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="text-gray-900 leading-relaxed">
+                    <div className="whitespace-pre-wrap text-[15px] leading-7">
+                      {message.content}
+                    </div>
+                  </div>
+                  
+                  {message.type === 'ai' && (
+                    <div className="flex items-center space-x-3 mt-4 pt-2">
+                      <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span>Copy</span>
+                      </button>
+                      <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        <span>Good response</span>
+                      </button>
+                      <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L12 12M5.636 5.636L12 12m6.364 6.364L12 12m0 0l6.364-6.364M12 12L5.636 5.636" />
+                        </svg>
+                        <span>Bad response</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-        
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="bg-gray-100 p-3 rounded-lg">
-              <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+          ))}
+          
+          {isLoading && (
+            <div className="border-b border-gray-100 bg-white">
+              <div className="px-6 py-8 flex space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
+                    <MagnifyingGlassIcon className="h-5 w-5 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center space-x-2 text-gray-500">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                    </div>
+                    <span className="text-sm">SeedStack is thinking...</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Quick Prompts */}
-      <div className="p-4 border-t border-gray-200 bg-gray-50">
-        <p className="text-sm text-gray-600 mb-2">Quick prompts:</p>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {quickPrompts.map((prompt, index) => (
-            <button
-              key={index}
-              onClick={() => handleQuickPrompt(prompt)}
-              className="px-3 py-1 text-xs bg-white border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
-            >
-              {prompt}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Message Input */}
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex space-x-2">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Ask about deals, markets, or get acquisition guidance..."
-            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-          />
-          <Button
-            onClick={handleSendMessage}
-            disabled={!newMessage.trim() || isLoading}
-            className="bg-green-600 hover:bg-green-700 text-white px-4"
-          >
-            <PaperAirplaneIcon className="h-4 w-4" />
-          </Button>
+      <div className="border-t border-gray-200 bg-white">
+        <div className="max-w-4xl mx-auto px-6 py-4">
+          {/* Quick Prompts */}
+          {messages.length <= 1 && (
+            <div className="mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {quickPrompts.slice(0, 4).map((prompt, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleQuickPrompt(prompt)}
+                    className="p-4 text-left border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="text-sm font-medium text-gray-900 mb-1">
+                      {prompt.split(':')[0] || prompt.substring(0, 30) + '...'}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {prompt.length > 50 ? prompt.substring(0, 50) + '...' : prompt}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Input Area */}
+          <div className="relative">
+            <div className="flex items-end space-x-3 bg-white border border-gray-300 rounded-xl shadow-sm focus-within:border-green-500 focus-within:ring-1 focus-within:ring-green-500">
+              <textarea
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+                placeholder="Ask about deal sourcing, market research, or get acquisition guidance..."
+                rows={1}
+                className="flex-1 p-4 border-0 resize-none focus:ring-0 focus:outline-none bg-transparent placeholder-gray-400 text-gray-900"
+                style={{
+                  minHeight: '24px',
+                  maxHeight: '120px',
+                }}
+                onInput={(e) => {
+                  e.target.style.height = 'auto';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+                }}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!newMessage.trim() || isLoading}
+                className={`p-2 m-2 rounded-lg transition-colors ${
+                  newMessage.trim() && !isLoading
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                <PaperAirplaneIcon className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-between mt-2 px-1">
+              <div className="text-xs text-gray-500">
+                Press Enter to send, Shift + Enter for new line
+              </div>
+              <div className="text-xs text-gray-500">
+                Powered by SeedStack AI
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
