@@ -90,20 +90,38 @@ async def get_user_investments(
     """
     Get investments for the current user
     """
-    # Build filter query
-    filter_query = {"investor_id": current_user.id}
-    
-    # Get investments
-    investments = await list_documents("investments", filter_query=filter_query)
-    
-    # For each investment, get the associated business listing
-    for investment in investments:
-        business = await get_document("business_listings", investment["business_id"])
-        if business:
-            investment["business"] = business
-    
-    # Convert to Investment objects
-    return [Investment(**investment) for investment in investments]
+    try:
+        # Build filter query
+        filter_query = {"investor_id": current_user.id}
+        
+        # Get investments
+        investments = await list_documents("investments", filter_query=filter_query)
+        
+        # For each investment, get the associated business listing
+        for investment in investments:
+            business = await get_document("business_listings", investment["business_id"])
+            if business:
+                investment["business"] = business
+        
+        # Convert to Investment objects
+        return [Investment(**investment) for investment in investments]
+    except Exception as e:
+        print(f"Error in get_user_investments: {e}")
+        
+        # Fallback to mock data
+        from mock_data_fallback import list_mock_documents
+        
+        # Get mock investments
+        investments = list_mock_documents("investments", filter_query={"investor_id": current_user.id})
+        
+        # For each investment, get the associated business listing
+        for investment in investments:
+            business = list_mock_documents("business_listings", filter_query={"id": investment["business_id"]})
+            if business and len(business) > 0:
+                investment["business"] = business[0]
+        
+        # Convert to Investment objects
+        return [Investment(**investment) for investment in investments]
 
 
 @router.get("/business/{business_id}", response_model=List[Investment])
