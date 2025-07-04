@@ -176,10 +176,10 @@ const SeedStackPage = () => {
                 <p className="text-gray-600 text-sm mb-3">Built-in Regulation CF and securities compliance for investment features.</p>
                 
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">📊 Data-Driven Insights</h4>
-                <p className="text-gray-600 text-sm mb-3">Advanced analytics and market intelligence for informed decisions.</p>
+                <p className="text-gray-600 text-sm mb-3">Advanced analytics and market intelligence for informed decision-making.</p>
                 
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">⚡ Performance Optimized</h4>
-                <p className="text-gray-600 text-sm">Sub-2 second load times with enterprise-grade infrastructure.</p>
+                <p className="text-gray-600 text-sm">Lightning-fast performance with enterprise-grade infrastructure and security.</p>
               </div>
             </div>
           </div>
