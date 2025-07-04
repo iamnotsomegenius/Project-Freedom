@@ -154,33 +154,6 @@ const SeedStackPage = () => {
             </div>
           </div>
 
-          {/* Technical Architecture */}
-          <div className="mb-20">
-            <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">Enterprise-Grade Architecture</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-                <BoltIcon className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-900 mb-2">React 18 + TypeScript</h4>
-                <p className="text-gray-600 text-sm">Modern frontend with Tailwind CSS and shadcn/ui components</p>
-              </div>
-              <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-                <CloudArrowUpIcon className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-900 mb-2">Supabase Backend</h4>
-                <p className="text-gray-600 text-sm">PostgreSQL, Auth, and Storage with 99.9% uptime SLA</p>
-              </div>
-              <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-                <CogIcon className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-900 mb-2">OpenAI GPT-4</h4>
-                <p className="text-gray-600 text-sm">Custom AI service layer with context-aware responses</p>
-              </div>
-              <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-                <ShieldCheckIcon className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-900 mb-2">Security & Compliance</h4>
-                <p className="text-gray-600 text-sm">GDPR/CCPA compliant with Reg CF adherence</p>
-              </div>
-            </div>
-          </div>
-
           {/* Key Differentiators */}
           <div className="bg-white rounded-lg border border-gray-200 p-8 mb-16">
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">What Makes SeedStack™ Different</h3>
