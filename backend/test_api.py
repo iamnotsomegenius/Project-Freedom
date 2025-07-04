@@ -11,7 +11,7 @@ from typing import Dict, Any
 import os
 
 # Configuration
-BASE_URL = os.environ.get("API_BASE_URL", "https://660b653b-8ee8-47eb-ae11-221483ef77f2.preview.emergentagent.com/api")
+BASE_URL = os.environ.get("API_BASE_URL", "https://7f09f187-eef0-4bf4-ac16-133ea01b254d.preview.emergentagent.com/api")
 TEST_USER_EMAIL = "test@example.com"
 TEST_USER_PASSWORD = "testpass123"
 
