@@ -591,3 +591,185 @@ async def publish_deal_to_marketplace(
         "listing_id": listing_id,
         "marketplace_url": f"/marketplace/{listing_id}"
     }
+
+
+# AI and Deal Sourcing Endpoints
+@router.post("/ai/chat", response_model=AIChatResponse)
+async def ai_chat(
+    request: AIChatRequest,
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    AI-powered chat for deal sourcing and acquisition guidance
+    """
+    try:
+        # Add user context to the request
+        user_context = {
+            "user_id": current_user.id,
+            "user_type": current_user.user_type,
+            "display_name": current_user.display_name
+        }
+        
+        # Generate AI response
+        response = await ai_service.generate_chat_response(request, user_context)
+        
+        # Save conversation to database (optional)
+        if request.conversation_id:
+            try:
+                # Try to update existing conversation
+                conversation = await get_document("ai_conversations", request.conversation_id)
+                if conversation and conversation["user_id"] == current_user.id:
+                    # Add new messages to existing conversation
+                    user_message = AIMessage(
+                        type="user",
+                        content=request.message
+                    )
+                    ai_message = AIMessage(
+                        type="ai", 
+                        content=response.response
+                    )
+                    
+                    conversation["messages"].extend([
+                        user_message.model_dump(),
+                        ai_message.model_dump()
+                    ])
+                    conversation["updated_at"] = datetime.utcnow().isoformat()
+                    
+                    await update_document("ai_conversations", request.conversation_id, conversation)
+            except:
+                # Create new conversation if update fails
+                pass
+        
+        return response
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"AI service error: {str(e)}"
+        )
+
+
+@router.get("/ai/conversations", response_model=List[AIConversation])
+async def get_conversations(
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    Get user's AI conversation history
+    """
+    conversations = await list_documents(
+        "ai_conversations",
+        filter_query={"user_id": current_user.id}
+    )
+    return [AIConversation(**conv) for conv in conversations]
+
+
+@router.post("/deal-sourcing/search", response_model=DealSourcingResponse)
+async def search_companies(
+    request: DealSourcingRequest,
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    Search for companies based on acquisition criteria
+    """
+    try:
+        # Use the deal sourcing service to find companies
+        response = await deal_sourcing_service.search_companies(
+            request.criteria, 
+            request.max_results
+        )
+        
+        # Log the search for analytics (optional)
+        search_log = {
+            "user_id": current_user.id,
+            "criteria": request.criteria.model_dump(),
+            "results_count": response.total_found,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        try:
+            await create_document("deal_sourcing_searches", search_log)
+        except:
+            # Don't fail the request if logging fails
+            pass
+        
+        return response
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Deal sourcing error: {str(e)}"
+        )
+
+
+@router.post("/deal-sourcing/add-to-crm")
+async def add_company_to_crm(
+    company_id: str,
+    company_data: dict,
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    Add a sourced company to the CRM pipeline
+    """
+    try:
+        # Create CRM deal from company data
+        deal = CRMDeal(
+            user_id=current_user.id,
+            title=company_data.get("company_name", "Unnamed Company"),
+            industry=company_data.get("industry", ""),
+            location=company_data.get("location", ""),
+            revenue=company_data.get("estimated_revenue", 0),
+            asking_price=company_data.get("estimated_revenue", 0) * 3,  # Rough estimate
+            stage="interested",
+            priority="medium",
+            notes=f"Sourced via AI: {company_data.get('business_details', {}).get('specialties', 'N/A')}",
+            broker_contact=company_data.get("contact_info", {}).get("email", ""),
+            source="AI Deal Sourcing",
+            last_activity=datetime.utcnow()
+        )
+        
+        deal_dict = deal.model_dump(by_alias=True)
+        deal_id = await create_document("crm_deals", deal_dict)
+        deal.id = deal_id
+        
+        # TODO: Trigger automated outreach sequence here
+        # This would send NDA emails, schedule follow-ups, etc.
+        
+        return {
+            "message": "Company added to CRM successfully",
+            "deal_id": deal_id,
+            "deal": deal,
+            "next_steps": [
+                "Automated NDA email scheduled",
+                "Initial outreach sequence started", 
+                "Company profile created in 'Interested' stage"
+            ]
+        }
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error adding company to CRM: {str(e)}"
+        )
+
+
+@router.get("/deal-sourcing/search-history")
+async def get_search_history(
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    Get user's deal sourcing search history
+    """
+    try:
+        searches = await list_documents(
+            "deal_sourcing_searches",
+            filter_query={"user_id": current_user.id}
+        )
+        return {
+            "searches": searches,
+            "total_searches": len(searches)
+        }
+    except:
+        return {
+            "searches": [],
+            "total_searches": 0
+        }
