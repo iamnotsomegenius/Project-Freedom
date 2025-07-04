@@ -159,14 +159,14 @@ const SeedStackPage = () => {
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">What Makes SeedStack™ Different</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">🤖 AI-First Approach</h4>
-                <p className="text-gray-600 text-sm mb-3">Every feature enhanced with AI capabilities for intelligent automation and insights.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">🚀 Modern Technology</h4>
+                <p className="text-gray-600 text-sm mb-3">Built with cutting-edge technology for intelligent automation and insights.</p>
                 
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">🔗 Integrated Ecosystem</h4>
-                <p className="text-gray-600 text-sm mb-3">Seamless flow between discovery, analysis, and funding in one platform.</p>
+                <p className="text-gray-600 text-sm mb-3">Seamless flow between discovery, analysis, and funding in one unified platform.</p>
                 
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">🏢 Professional Grade</h4>
-                <p className="text-gray-600 text-sm">Enterprise-quality tools for serious acquisition professionals.</p>
+                <p className="text-gray-600 text-sm">Enterprise-quality tools designed for serious acquisition professionals.</p>
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">⚖️ Regulatory Compliance</h4>
