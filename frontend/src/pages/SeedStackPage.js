@@ -1,199 +1,200 @@
 import React from 'react';
 import Button from '../components/ui/Button';
 import {
-  CloudIcon,
-  CpuChipIcon,
-  ChartBarIcon,
+  Squares2X2Icon,
+  ChatBubbleLeftRightIcon,
+  DocumentChartBarIcon,
+  MagnifyingGlassIcon,
   DocumentTextIcon,
+  ScaleIcon,
+  EnvelopeIcon,
   ShieldCheckIcon,
-  ArrowPathIcon,
-  BoltIcon,
-  CogIcon,
+  PencilSquareIcon,
+  FolderIcon,
+  ArrowTrendingUpIcon,
+  CheckCircleIcon,
 } from '@heroicons/react/24/outline';
 
 const SeedStackPage = () => {
   return (
-    <div className="min-h-screen">
-      {/* Custom SeedStack Background */}
-      <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-6xl mx-auto">
-            {/* Hero Section */}
-            <div className="text-center mb-16">
-              <h1 className="text-5xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  SeedStack
-                </span>
-                <span className="text-xs align-super text-purple-300">™</span>
-              </h1>
-              <h2 className="text-2xl text-purple-200 mb-6">Enterprise SaaS for Deal Management</h2>
-              <p className="text-purple-100 text-lg max-w-3xl mx-auto">
-                Power your private market transactions with our comprehensive software-as-a-service platform. 
-                Built for investment banks, private equity firms, family offices, and enterprise deal makers.
-              </p>
-            </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Section */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl font-bold text-gray-900 mb-4">
+              SeedStack<span className="text-xs align-super text-gray-600">™</span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-2">Deal Flow Management Platform</p>
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+              Professional-grade CRM and deal management software for business acquisition professionals, 
+              search fund operators, and private equity teams.
+            </p>
+          </div>
+        </div>
+      </div>
 
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-              <div className="bg-white/10 backdrop-blur-sm border border-purple-300/20 rounded-lg p-6">
-                <CloudIcon className="h-12 w-12 text-purple-300 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-3">Cloud-Native Infrastructure</h3>
-                <p className="text-purple-100 text-sm">Scalable, secure, and compliant infrastructure built for enterprise-grade deal flow management.</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm border border-purple-300/20 rounded-lg p-6">
-                <CpuChipIcon className="h-12 w-12 text-purple-300 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-3">AI-Powered Analytics</h3>
-                <p className="text-purple-100 text-sm">Advanced machine learning algorithms for deal sourcing, valuation modeling, and risk assessment.</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm border border-purple-300/20 rounded-lg p-6">
-                <ChartBarIcon className="h-12 w-12 text-purple-300 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-3">Real-Time Dashboard</h3>
-                <p className="text-purple-100 text-sm">Comprehensive portfolio monitoring with real-time performance metrics and customizable reporting.</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm border border-purple-300/20 rounded-lg p-6">
-                <DocumentTextIcon className="h-12 w-12 text-purple-300 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-3">Document Automation</h3>
-                <p className="text-purple-100 text-sm">Streamlined document generation, e-signature integration, and automated compliance workflows.</p>
-              </div>
-            </div>
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto">
+          {/* Core Features Overview */}
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Complete Deal Management Suite</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Streamline your entire acquisition process from initial sourcing to closing with our integrated platform.
+            </p>
+          </div>
 
-            {/* Core Modules */}
-            <div className="mb-16">
-              <h3 className="text-3xl font-bold text-center text-white mb-12">Core Modules</h3>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="bg-white/5 backdrop-blur-sm border border-purple-300/20 rounded-lg p-8">
-                  <ShieldCheckIcon className="h-10 w-10 text-purple-300 mb-6" />
-                  <h4 className="text-xl font-semibold text-white mb-4">Deal Origination & Sourcing</h4>
-                  <ul className="space-y-2 text-purple-100 text-sm">
-                    <li>• Automated deal pipeline management</li>
-                    <li>• CRM integration and lead scoring</li>
-                    <li>• Market intelligence and sourcing tools</li>
-                    <li>• Competitive landscape analysis</li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/5 backdrop-blur-sm border border-purple-300/20 rounded-lg p-8">
-                  <ArrowPathIcon className="h-10 w-10 text-purple-300 mb-6" />
-                  <h4 className="text-xl font-semibold text-white mb-4">Due Diligence Platform</h4>
-                  <ul className="space-y-2 text-purple-100 text-sm">
-                    <li>• Virtual data room management</li>
-                    <li>• Automated financial analysis</li>
-                    <li>• Risk assessment frameworks</li>
-                    <li>• Team collaboration tools</li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/5 backdrop-blur-sm border border-purple-300/20 rounded-lg p-8">
-                  <BoltIcon className="h-10 w-10 text-purple-300 mb-6" />
-                  <h4 className="text-xl font-semibold text-white mb-4">Portfolio Management</h4>
-                  <ul className="space-y-2 text-purple-100 text-sm">
-                    <li>• Performance tracking and reporting</li>
-                    <li>• Investor communication portal</li>
-                    <li>• ESG monitoring and compliance</li>
-                    <li>• Exit planning and execution</li>
-                  </ul>
-                </div>
-              </div>
+          {/* Feature Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <Squares2X2Icon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Deal Flow CRM</h3>
+              <p className="text-gray-600 text-sm">Trello-style kanban board to track deals from Inbox → LOI → Diligence → Closed with full pipeline visibility.</p>
             </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <ChatBubbleLeftRightIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">AI Assistant</h3>
+              <p className="text-gray-600 text-sm">GPT-4o powered chat panel for instant analysis, research assistance, and deal-related questions.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <DocumentChartBarIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Financial Parser</h3>
+              <p className="text-gray-600 text-sm">Upload P&L statements and get instant financial analysis with red flags, ratios, and executive summaries.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <MagnifyingGlassIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Market Research</h3>
+              <p className="text-gray-600 text-sm">Automated comps analysis, NAICS industry trends, and exit multiple benchmarking for informed valuations.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <DocumentTextIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Auto-Generate LOI</h3>
+              <p className="text-gray-600 text-sm">AI-powered Letter of Intent generation with industry-standard terms, fully editable and downloadable.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <ScaleIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Legal Assist</h3>
+              <p className="text-gray-600 text-sm">Generate NDAs, APA drafts, and legal checklists with AI assistance and attorney-reviewed templates.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <EnvelopeIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Outreach Engine</h3>
+              <p className="text-gray-600 text-sm">Generate and track broker communications, follow-up sequences, and relationship management.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <ShieldCheckIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">NDA & VDR Manager</h3>
+              <p className="text-gray-600 text-sm">Track executed NDAs and manage virtual data room access across multiple deals and stakeholders.</p>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <PencilSquareIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Collaboration Tools</h3>
+              <p className="text-gray-600 text-sm">Notion-style notes, tagging system, and document collaboration integrated with secure data rooms.</p>
+            </div>
+          </div>
 
-            {/* Enterprise Benefits */}
-            <div className="bg-white/5 backdrop-blur-sm border border-purple-300/20 rounded-lg p-8 mb-16">
-              <h3 className="text-2xl font-semibold text-center text-white mb-8">Enterprise Benefits</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-lg font-semibold text-purple-200 mb-4">Operational Efficiency</h4>
-                  <ul className="space-y-2 text-purple-100 text-sm">
-                    <li>• 60% reduction in deal processing time</li>
-                    <li>• 90% automation of routine tasks</li>
-                    <li>• Seamless integration with existing systems</li>
-                    <li>• Mobile-first design for on-the-go access</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-purple-200 mb-4">Risk & Compliance</h4>
-                  <ul className="space-y-2 text-purple-100 text-sm">
-                    <li>• SOC 2 Type II certified infrastructure</li>
-                    <li>• GDPR and CCPA compliance built-in</li>
-                    <li>• Audit trail and regulatory reporting</li>
-                    <li>• Multi-factor authentication & encryption</li>
-                  </ul>
-                </div>
+          {/* Platform Benefits */}
+          <div className="bg-gray-100 rounded-lg p-8 mb-20">
+            <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">Why SeedStack™?</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <ArrowTrendingUpIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Increase Deal Velocity</h4>
+                <p className="text-gray-600 text-sm">Process 3x more deals with automated workflows and AI-powered analysis tools.</p>
+              </div>
+              <div className="text-center">
+                <CheckCircleIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Reduce Manual Work</h4>
+                <p className="text-gray-600 text-sm">Eliminate 80% of repetitive tasks with intelligent automation and document generation.</p>
+              </div>
+              <div className="text-center">
+                <FolderIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Centralized Knowledge</h4>
+                <p className="text-gray-600 text-sm">All deal information, communications, and documents in one secure, searchable platform.</p>
               </div>
             </div>
+          </div>
 
-            {/* Pricing Tiers */}
-            <div className="mb-16">
-              <h3 className="text-3xl font-bold text-center text-white mb-12">Pricing Tiers</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="bg-white/10 backdrop-blur-sm border border-purple-300/20 rounded-lg p-8">
-                  <h4 className="text-xl font-semibold text-white mb-4">Professional</h4>
-                  <div className="text-3xl font-bold text-purple-300 mb-4">$2,500<span className="text-sm text-purple-200">/month</span></div>
-                  <ul className="space-y-2 text-purple-100 text-sm mb-6">
-                    <li>• Up to 50 active deals</li>
-                    <li>• Basic analytics & reporting</li>
-                    <li>• Standard integrations</li>
-                    <li>• Email support</li>
-                  </ul>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-500 text-white">
-                    Get Started
-                  </Button>
-                </div>
-                
-                <div className="bg-gradient-to-b from-purple-600/20 to-blue-600/20 backdrop-blur-sm border border-purple-300/40 rounded-lg p-8 relative">
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                  <h4 className="text-xl font-semibold text-white mb-4">Enterprise</h4>
-                  <div className="text-3xl font-bold text-purple-300 mb-4">$7,500<span className="text-sm text-purple-200">/month</span></div>
-                  <ul className="space-y-2 text-purple-100 text-sm mb-6">
-                    <li>• Unlimited deals</li>
-                    <li>• Advanced AI analytics</li>
-                    <li>• Custom integrations</li>
-                    <li>• Priority phone support</li>
-                    <li>• Dedicated account manager</li>
-                  </ul>
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white">
-                    Start Free Trial
-                  </Button>
-                </div>
-                
-                <div className="bg-white/10 backdrop-blur-sm border border-purple-300/20 rounded-lg p-8">
-                  <h4 className="text-xl font-semibold text-white mb-4">Custom</h4>
-                  <div className="text-3xl font-bold text-purple-300 mb-4">Contact Us</div>
-                  <ul className="space-y-2 text-purple-100 text-sm mb-6">
-                    <li>• White-label solution</li>
-                    <li>• Custom development</li>
-                    <li>• On-premise deployment</li>
-                    <li>• 24/7 dedicated support</li>
-                    <li>• Training & onboarding</li>
-                  </ul>
-                  <Button variant="outline" className="w-full border-purple-300 text-purple-300 hover:bg-purple-300 hover:text-purple-900">
-                    Contact Sales
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="text-center">
-              <h3 className="text-3xl font-bold text-white mb-4">Ready to Transform Your Deal Management?</h3>
-              <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
-                Join leading investment firms already using SeedStack™ to streamline their operations and accelerate deal execution.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white">
-                  Schedule Demo
+          {/* Pricing */}
+          <div className="mb-16">
+            <h3 className="text-3xl font-bold text-gray-900 text-center mb-12">Simple, Transparent Pricing</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="bg-white rounded-lg border border-gray-200 p-8">
+                <h4 className="text-xl font-semibold text-gray-900 mb-4">Starter</h4>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$299<span className="text-sm text-gray-600 font-normal">/month</span></div>
+                <ul className="space-y-3 text-gray-600 text-sm mb-8">
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Up to 25 active deals</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Basic AI assistant</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Financial parser</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Document templates</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Email support</li>
+                </ul>
+                <Button variant="outline" className="w-full border-gray-300 text-gray-900 hover:bg-gray-50">
+                  Start Free Trial
                 </Button>
-                <Button variant="outline" className="border-purple-300 text-purple-300 hover:bg-purple-300 hover:text-purple-900">
-                  Request Pricing
+              </div>
+              
+              <div className="bg-white rounded-lg border-2 border-green-600 p-8 relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                    Most Popular
+                  </span>
+                </div>
+                <h4 className="text-xl font-semibold text-gray-900 mb-4">Professional</h4>
+                <div className="text-3xl font-bold text-gray-900 mb-4">$799<span className="text-sm text-gray-600 font-normal">/month</span></div>
+                <ul className="space-y-3 text-gray-600 text-sm mb-8">
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Unlimited deals</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Advanced AI features</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Market research tools</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Outreach automation</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Priority support</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Team collaboration</li>
+                </ul>
+                <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+                  Start Free Trial
+                </Button>
+              </div>
+              
+              <div className="bg-white rounded-lg border border-gray-200 p-8">
+                <h4 className="text-xl font-semibold text-gray-900 mb-4">Enterprise</h4>
+                <div className="text-3xl font-bold text-gray-900 mb-4">Custom</div>
+                <ul className="space-y-3 text-gray-600 text-sm mb-8">
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Custom integrations</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />White-label option</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Dedicated support</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />Custom training</li>
+                  <li className="flex items-center"><CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />SLA guarantees</li>
+                </ul>
+                <Button variant="outline" className="w-full border-gray-300 text-gray-900 hover:bg-gray-50">
+                  Contact Sales
                 </Button>
               </div>
             </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">Ready to Streamline Your Deal Flow?</h3>
+            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              Join acquisition professionals who have transformed their deal management process with SeedStack™.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button className="bg-green-600 hover:bg-green-700 text-white">
+                Start Free 14-Day Trial
+              </Button>
+              <Button variant="outline" className="border-gray-300 text-gray-900 hover:bg-gray-50">
+                Schedule Demo
+              </Button>
+            </div>
+            <p className="text-sm text-gray-500 mt-4">No credit card required • Setup in under 5 minutes</p>
           </div>
         </div>
       </div>
