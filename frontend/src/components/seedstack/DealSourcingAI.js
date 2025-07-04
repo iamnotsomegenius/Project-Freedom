@@ -125,7 +125,54 @@ const DealSourcingAI = ({ user, onLogout }) => {
     setNewMessage('');
     setIsLoading(true);
 
-    // Simulate AI response based on message content
+    try {
+      // Get backend URL from environment
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+      
+      // Call real AI API
+      const response = await fetch(`${backendUrl}/api/seedstack/ai/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer demo_seedstack_token` // In production, use real auth token
+        },
+        body: JSON.stringify({
+          message: newMessage,
+          conversation_id: messages.length > 1 ? `conv_${Date.now()}` : null,
+          context: {
+            messages: messages.slice(-5) // Last 5 messages for context
+          }
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        const aiMessage = {
+          id: data.message_id,
+          type: 'ai',
+          content: data.response,
+          timestamp: new Date(),
+          suggestions: data.suggestions
+        };
+
+        setMessages(prev => [...prev, aiMessage]);
+      } else {
+        // Fallback to demo response if API fails
+        await handleDemoResponse();
+      }
+      
+    } catch (error) {
+      console.error('AI API error:', error);
+      // Fallback to demo response on error
+      await handleDemoResponse();
+    }
+    
+    setIsLoading(false);
+  };
+
+  const handleDemoResponse = async () => {
+    // Fallback demo response logic
     setTimeout(() => {
       let aiResponse = '';
       
@@ -178,36 +225,6 @@ Would you like me to **auto-populate the top 20 prospects** into your CRM and st
 ⚠️ High employee turnover (>100%/year)
 ⚠️ Lease expiring within 2 years
 ⚠️ Heavy reliance on delivery platforms`;
-      } else if (newMessage.toLowerCase().includes('due diligence') || newMessage.toLowerCase().includes('red flags')) {
-        aiResponse = `🔍 **Due Diligence Checklist - Small Business Acquisitions**
-
-**Financial Red Flags:**
-⚠️ Declining revenue 3+ years
-⚠️ EBITDA margins below industry average
-⚠️ High customer concentration (>20% from single client)
-⚠️ Unusual expense timing around sale date
-⚠️ Personal expenses mixed with business
-
-**Operational Red Flags:**
-⚠️ Key person dependency on owner
-⚠️ Outdated systems/technology
-⚠️ Regulatory compliance issues
-⚠️ High employee turnover
-⚠️ Customer complaints/reviews trending down
-
-**Legal Red Flags:**
-⚠️ Pending litigation
-⚠️ Lease issues or expiration
-⚠️ Licensing problems
-⚠️ Environmental concerns
-⚠️ Intellectual property disputes
-
-**Priority Areas to Investigate:**
-1. **Customer Analysis** (retention, concentration)
-2. **Financial Quality** (adjusted EBITDA)
-3. **Management Team** (key person risk)
-4. **Market Position** (competitive moat)
-5. **Growth Opportunities** (scalability)`;
       } else {
         aiResponse = `I can help you with deal sourcing, market research, and acquisition guidance. Try asking about:
 
@@ -228,7 +245,6 @@ Or use the **Deal Sourcing** tab to build a custom buyer universe!`;
       };
 
       setMessages(prev => [...prev, aiMessage]);
-      setIsLoading(false);
     }, 1500);
   };
 
