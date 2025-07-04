@@ -93,14 +93,11 @@ const MobileMenu = ({ isOpen, onClose }) => {
         <div className="p-4">
           <nav className="flex flex-col space-y-4">
             <div className="border-b border-gray-800 pb-2">
-              <div className="text-lg font-medium mb-2">How It Works</div>
-              <div className="pl-4 space-y-2">
-                <Link to="/how-it-works/buyers" className="block text-gray-400 hover:text-secondary">For Buyers</Link>
-                <Link to="/how-it-works/sellers" className="block text-gray-400 hover:text-secondary">For Sellers</Link>
-                <Link to="/how-it-works/investors" className="block text-gray-400 hover:text-secondary">For Investors</Link>
-                <Link to="/how-it-works/regulatory" className="block text-gray-400 hover:text-secondary">Regulatory Framework</Link>
-                <Link to="/how-it-works/pricing" className="block text-gray-400 hover:text-secondary">Pricing</Link>
-              </div>
+              <Link to="/how-it-works" className="text-lg font-medium text-foreground hover:text-secondary">How It Works</Link>
+            </div>
+            
+            <div className="border-b border-gray-800 pb-2">
+              <Link to="/pricing" className="text-lg font-medium text-foreground hover:text-secondary">Pricing</Link>
             </div>
             
             <div className="border-b border-gray-800 pb-2">
@@ -118,6 +115,15 @@ const MobileMenu = ({ isOpen, onClose }) => {
                 <Link to="/dashboard/investments" className="block text-gray-400 hover:text-secondary">Investment Portfolio</Link>
                 <Link to="/resources" className="block text-gray-400 hover:text-secondary">Resources</Link>
               </div>
+            </div>
+
+            <div className="border-b border-gray-800 pb-2">
+              <Link 
+                to="/seedstack" 
+                className="text-lg font-medium text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text hover:from-purple-300 hover:to-pink-300"
+              >
+                SeedStack<span className="text-xs align-super">™</span>
+              </Link>
             </div>
           </nav>
           
