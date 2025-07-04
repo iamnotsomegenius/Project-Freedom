@@ -58,13 +58,13 @@ const SeedStackDashboard = ({ user, onLogout }) => {
   const quickActions = [
     {
       name: 'Add New Deal',
-      href: '/seedstack-app/pipeline',
+      href: '/seedstack-app/deal-pipeline',
       icon: Squares2X2Icon,
       description: 'Start tracking a new acquisition opportunity'
     },
     {
       name: 'Chat with AI',
-      href: '/seedstack-app/ai-assistant',
+      href: '/seedstack-app/deal-sourcing',
       icon: ChatBubbleLeftRightIcon,
       description: 'Get AI assistance for deal analysis'
     },
@@ -75,10 +75,10 @@ const SeedStackDashboard = ({ user, onLogout }) => {
       description: 'Upload and analyze financial statements'
     },
     {
-      name: 'Market Research',
-      href: '/seedstack-app/market-research',
+      name: 'Generate LOI',
+      href: '/seedstack-app/loi-generator',
       icon: ChartBarIcon,
-      description: 'Research industry trends and valuations'
+      description: 'Create professional letters of intent'
     }
   ];
 
