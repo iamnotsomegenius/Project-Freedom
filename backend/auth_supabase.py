@@ -118,7 +118,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
             email=email,
             user_type=UserType(user_type)
         )
-    except JWTError:
+    except JWTError as e:
+        print(f"JWT Error: {e}")
         raise credentials_exception
     
     # Look up the user from Supabase
@@ -138,8 +139,31 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
             return user
     except Exception as e:
         print(f"Error fetching user from Supabase: {e}")
+        
+        # If we can't get the user from Supabase, use a mock user for testing
+        # Import here to avoid circular imports
+        from routers.auth_supabase import MOCK_USERS
+        
+        # Try to find the user in mock data by ID or email
+        mock_user = None
+        for email, user in MOCK_USERS.items():
+            if user["id"] == token_data.user_id or user["email"] == token_data.email:
+                mock_user = user
+                break
+        
+        if mock_user:
+            return UserProfile(
+                id=mock_user["id"],
+                email=mock_user["email"],
+                user_type=UserType(mock_user["user_type"]),
+                display_name=mock_user.get("display_name"),
+                avatar_url=mock_user.get("avatar_url"),
+                completed_onboarding=mock_user.get("completed_onboarding", False),
+                created_at=mock_user.get("created_at", datetime.utcnow()),
+                updated_at=mock_user.get("updated_at", datetime.utcnow())
+            )
     
-    # If Supabase lookup failed, construct user from token
+    # If Supabase lookup failed and no mock user found, construct user from token
     user = UserProfile(
         id=token_data.user_id,
         email=token_data.email,
