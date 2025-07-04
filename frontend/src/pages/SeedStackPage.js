@@ -73,13 +73,13 @@ const SeedStackPage = () => {
             
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
               <DocumentChartBarIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">P&L Analyzer</h3>
-              <p className="text-gray-600 text-sm mb-4">Upload financial statements and get instant AI-powered analysis with red flags, benchmarking, and actionable insights.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Financial Analysis</h3>
+              <p className="text-gray-600 text-sm mb-4">Upload financial statements to receive comprehensive analysis with red flag identification, benchmarking, and actionable insights.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Support for Excel, CSV files</li>
-                <li>• Red flag identification</li>
+                <li>• Multiple file format support</li>
+                <li>• Automated red flag detection</li>
                 <li>• Industry benchmarking</li>
-                <li>• Downloadable reports</li>
+                <li>• Professional analysis reports</li>
               </ul>
             </div>
             
