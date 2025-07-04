@@ -7,19 +7,11 @@ import {
   MagnifyingGlassIcon,
   DocumentTextIcon,
   ScaleIcon,
-  EnvelopeIcon,
-  ShieldCheckIcon,
-  PencilSquareIcon,
-  FolderIcon,
   ArrowTrendingUpIcon,
   CheckCircleIcon,
-  CloudArrowUpIcon,
-  ChartPieIcon,
   BanknotesIcon,
   CurrencyDollarIcon,
   UserGroupIcon,
-  CogIcon,
-  BoltIcon,
 } from '@heroicons/react/24/outline';
 
 const SeedStackPage = () => {
