@@ -334,7 +334,10 @@ const DealPipeline = ({ user, onLogout }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {stages.map((stage) => {
               const count = getStageCount(stage.id);
-              const IconComponent = stage.icon;
+              const IconComponent = stage.id === 'interested' ? UserGroupIcon :
+                                 stage.id === 'loi_sent' ? DocumentTextIcon :
+                                 stage.id === 'diligence' ? CheckCircleIcon :
+                                 BuildingOfficeIcon;
               
               return (
                 <div 
