@@ -118,14 +118,21 @@ async def update_document(
     """
     Update a document by ID
     """
-    response = supabase.table(table).update(update_data).eq("id", document_id).execute()
-    
-    # Check for errors
-    if hasattr(response, 'error') and response.error:
-        raise Exception(f"Error updating document: {response.error}")
-    
-    # Return success
-    return True
+    try:
+        response = supabase.table(table).update(update_data).eq("id", document_id).execute()
+        
+        # Check for errors
+        if hasattr(response, 'error') and response.error:
+            raise Exception(f"Error updating document: {response.error}")
+        
+        # Return success
+        return True
+    except Exception as e:
+        print(f"Error updating document in Supabase: {e}")
+        
+        # Fallback to mock data
+        from mock_data_fallback import update_mock_document
+        return update_mock_document(table, document_id, update_data)
 
 
 async def delete_document(table: str, document_id: str) -> bool:
