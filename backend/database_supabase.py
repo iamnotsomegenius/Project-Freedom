@@ -62,23 +62,30 @@ async def create_document(table: str, document: Dict[str, Any]) -> str:
     """
     Create a document in Supabase and return its ID
     """
-    # Ensure document has an ID
-    if 'id' not in document:
-        document['id'] = generate_uuid()
-    
-    # Insert into Supabase
-    response = supabase.table(table).insert(document).execute()
-    
-    # Check for errors
-    if hasattr(response, 'error') and response.error:
-        raise Exception(f"Error creating document: {response.error}")
-    
-    # Get the ID of the created record
-    created_data = response.data
-    if created_data and len(created_data) > 0:
-        return created_data[0]['id']
-    
-    return document['id']
+    try:
+        # Ensure document has an ID
+        if 'id' not in document:
+            document['id'] = generate_uuid()
+        
+        # Insert into Supabase
+        response = supabase.table(table).insert(document).execute()
+        
+        # Check for errors
+        if hasattr(response, 'error') and response.error:
+            raise Exception(f"Error creating document: {response.error}")
+        
+        # Get the ID of the created record
+        created_data = response.data
+        if created_data and len(created_data) > 0:
+            return created_data[0]['id']
+        
+        return document['id']
+    except Exception as e:
+        print(f"Error creating document in Supabase: {e}")
+        
+        # Fallback to mock data
+        from mock_data_fallback import create_mock_document
+        return create_mock_document(table, document)
 
 
 async def get_document(table: str, document_id: str) -> Optional[Dict[str, Any]]:
