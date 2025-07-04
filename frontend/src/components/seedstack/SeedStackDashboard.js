@@ -91,16 +91,41 @@ const SeedStackDashboard = ({ user, onLogout }) => {
           <p className="text-gray-600">Welcome back, {user?.display_name || 'Demo User'}</p>
         </div>
 
-        {/* Stats Grid */}
+        {/* Stats Grid - Deal Pipeline Stages */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stages.map((stage) => {
+            const count = stageCounts[stage.id] || 0;
+            const IconComponent = stage.id === 'interested' ? UserGroupIcon :
+                                 stage.id === 'loi_sent' ? DocumentTextIcon :
+                                 stage.id === 'diligence' ? CheckCircleIcon :
+                                 BuildingOfficeIcon;
+            
+            return (
+              <div key={stage.id} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <IconComponent className={`h-8 w-8 ${stage.dashboardColor}`} />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600">{stage.title}</p>
+                    <p className="text-2xl font-bold text-gray-900">{count}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Summary Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Squares2X2Icon className="h-8 w-8 text-green-600" />
+                <Squares2X2Icon className="h-8 w-8 text-gray-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Deals</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalDeals}</p>
+                <p className="text-sm font-medium text-gray-600">Total Active Deals</p>
+                <p className="text-2xl font-bold text-gray-900">{totalDeals}</p>
               </div>
             </div>
           </div>
@@ -108,23 +133,11 @@ const SeedStackDashboard = ({ user, onLogout }) => {
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <ClockIcon className="h-8 w-8 text-blue-600" />
+                <DocumentChartBarIcon className="h-8 w-8 text-indigo-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Active Deals</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.activeDeals}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <DocumentChartBarIcon className="h-8 w-8 text-purple-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Analyses</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.completedAnalyses}</p>
+                <p className="text-sm font-medium text-gray-600">Analyses Completed</p>
+                <p className="text-2xl font-bold text-gray-900">5</p>
               </div>
             </div>
           </div>
@@ -135,8 +148,8 @@ const SeedStackDashboard = ({ user, onLogout }) => {
                 <CheckCircleIcon className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">LOIs Generated</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.loisGenerated}</p>
+                <p className="text-sm font-medium text-gray-600">Documents Generated</p>
+                <p className="text-2xl font-bold text-gray-900">8</p>
               </div>
             </div>
           </div>
