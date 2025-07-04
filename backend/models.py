@@ -215,7 +215,68 @@ class Document(BaseId, TimestampModel):
         from_attributes = True
 
 
-# SeedStack™ CRM Models
+# AI and Deal Sourcing Models
+class DealSourcingCriteria(BaseModel):
+    industry: Optional[str] = None
+    location: Optional[str] = None
+    radius: Optional[str] = None
+    employees: Optional[str] = None
+    years_in_business: Optional[str] = None
+    ownership_type: Optional[str] = None
+    revenue_range: Optional[str] = None
+    additional_criteria: Optional[str] = None
+
+class CompanyProfile(BaseModel):
+    id: str
+    company_name: str
+    industry: str
+    location: str
+    distance: Optional[str] = None
+    employees: Optional[int] = None
+    years_in_business: Optional[int] = None
+    estimated_revenue: Optional[int] = None
+    ownership: Optional[str] = None
+    match_score: int
+    contact_info: dict
+    business_details: dict
+
+class DealSourcingRequest(BaseModel):
+    criteria: DealSourcingCriteria
+    max_results: Optional[int] = 50
+
+class DealSourcingResponse(BaseModel):
+    companies: List[CompanyProfile]
+    total_found: int
+    search_criteria: DealSourcingCriteria
+
+class AIMessageType(str, Enum):
+    USER = "user"
+    AI = "ai"
+    SYSTEM = "system"
+
+class AIMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    type: AIMessageType
+    content: str
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    metadata: Optional[dict] = None
+
+class AIConversation(BaseId, TimestampModel):
+    user_id: str
+    title: Optional[str] = None
+    messages: List[AIMessage] = []
+    context: Optional[dict] = None
+
+class AIChatRequest(BaseModel):
+    message: str
+    conversation_id: Optional[str] = None
+    context: Optional[dict] = None
+
+class AIChatResponse(BaseModel):
+    response: str
+    conversation_id: str
+    message_id: str
+    suggestions: Optional[List[str]] = None
 class CRMDeal(BaseId, TimestampModel):
     user_id: str
     title: str
