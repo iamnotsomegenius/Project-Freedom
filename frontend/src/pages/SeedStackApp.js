@@ -43,7 +43,7 @@ const SeedStackApp = () => {
     <div className="min-h-screen bg-gray-50">
       <Routes>
         <Route path="/" element={<SeedStackDashboard user={user} onLogout={handleLogout} />} />
-        <Route path="/pipeline" element={<DealPipeline user={user} onLogout={handleLogout} />} />
+        <Route path="/deal-pipeline" element={<DealPipeline user={user} onLogout={handleLogout} />} />
         <Route path="/deal-sourcing" element={<DealSourcingAI user={user} onLogout={handleLogout} />} />
         <Route path="/pl-analyzer" element={<PLAnalyzer user={user} onLogout={handleLogout} />} />
         <Route path="/loi-generator" element={<LOIGenerator user={user} onLogout={handleLogout} />} />
