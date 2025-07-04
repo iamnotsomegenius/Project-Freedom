@@ -43,12 +43,10 @@ const DealSourcingAI = ({ user, onLogout }) => {
   ];
 
   const quickPrompts = [
-    "Find auto repair shops in the Southeast that meet my criteria",
-    "Analyze market trends for small manufacturing businesses",
-    "Help me build a buyer universe for restaurants under $2M",
-    "What are key due diligence areas for service businesses?",
-    "Draft an LOI template for small acquisitions",
-    "Identify red flags in franchise businesses"
+    "Find auto repair shops in the Southeast with 20+ years experience",
+    "What are current market trends for small manufacturing businesses?", 
+    "Help me analyze the restaurant industry for acquisition opportunities",
+    "What key metrics should I evaluate when buying a service business?"
   ];
 
   const presetCriteria = [
