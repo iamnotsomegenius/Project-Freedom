@@ -44,9 +44,8 @@ const SeedStackApp = () => {
       <Routes>
         <Route path="/" element={<SeedStackDashboard user={user} onLogout={handleLogout} />} />
         <Route path="/pipeline" element={<DealPipeline user={user} onLogout={handleLogout} />} />
-        <Route path="/ai-assistant" element={<AIAssistant user={user} onLogout={handleLogout} />} />
+        <Route path="/deal-sourcing" element={<DealSourcingAI user={user} onLogout={handleLogout} />} />
         <Route path="/pl-analyzer" element={<PLAnalyzer user={user} onLogout={handleLogout} />} />
-        <Route path="/market-research" element={<MarketResearch user={user} onLogout={handleLogout} />} />
         <Route path="/loi-generator" element={<LOIGenerator user={user} onLogout={handleLogout} />} />
         <Route path="/legal-templates" element={<LegalTemplates user={user} onLogout={handleLogout} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
