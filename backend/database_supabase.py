@@ -145,46 +145,53 @@ async def list_documents(
     """
     List documents with optional filtering, pagination, and sorting
     """
-    supabase = get_supabase()
-    
-    # Basic query
-    query = supabase.table(table).select("*")
-    
-    # Apply filtering
-    if filter_query:
-        for key, value in filter_query.items():
-            # Handle different filter types
-            if isinstance(value, dict):
-                # Handle operators like $in, $gte, etc.
-                for op, op_value in value.items():
-                    if op == '$in':
-                        # Handle $in operator
-                        query = query.in_(key, op_value)
-                    elif op == '$gte':
-                        query = query.gte(key, op_value)
-                    elif op == '$lte':
-                        query = query.lte(key, op_value)
-                    elif op == '$gt':
-                        query = query.gt(key, op_value)
-                    elif op == '$lt':
-                        query = query.lt(key, op_value)
-                    # Add more operators as needed
-            else:
-                # Simple equality filter
-                query = query.eq(key, value)
-    
-    # Apply pagination
-    if skip > 0:
-        query = query.range(skip, skip + limit - 1)
-    else:
-        query = query.limit(limit)
-    
-    # Execute query
-    response = query.execute()
-    
-    # Check for errors
-    if hasattr(response, 'error') and response.error:
-        raise Exception(f"Error listing documents: {response.error}")
-    
-    # Return the documents
-    return response.data
+    try:
+        supabase = get_supabase()
+        
+        # Basic query
+        query = supabase.table(table).select("*")
+        
+        # Apply filtering
+        if filter_query:
+            for key, value in filter_query.items():
+                # Handle different filter types
+                if isinstance(value, dict):
+                    # Handle operators like $in, $gte, etc.
+                    for op, op_value in value.items():
+                        if op == '$in':
+                            # Handle $in operator
+                            query = query.in_(key, op_value)
+                        elif op == '$gte':
+                            query = query.gte(key, op_value)
+                        elif op == '$lte':
+                            query = query.lte(key, op_value)
+                        elif op == '$gt':
+                            query = query.gt(key, op_value)
+                        elif op == '$lt':
+                            query = query.lt(key, op_value)
+                        # Add more operators as needed
+                else:
+                    # Simple equality filter
+                    query = query.eq(key, value)
+        
+        # Apply pagination
+        if skip > 0:
+            query = query.range(skip, skip + limit - 1)
+        else:
+            query = query.limit(limit)
+        
+        # Execute query
+        response = query.execute()
+        
+        # Check for errors
+        if hasattr(response, 'error') and response.error:
+            raise Exception(f"Error listing documents: {response.error}")
+        
+        # Return the documents
+        return response.data
+    except Exception as e:
+        print(f"Error listing documents from Supabase: {e}")
+        
+        # Fallback to mock data
+        from mock_data_fallback import list_mock_documents
+        return list_mock_documents(table, filter_query)
