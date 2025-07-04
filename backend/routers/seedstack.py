@@ -22,6 +22,13 @@ from models import (
     LegalTemplateRequest,
     NDA,
     NDACreate,
+    # New AI models
+    DealSourcingRequest,
+    DealSourcingResponse,
+    AIChatRequest,
+    AIChatResponse,
+    AIConversation,
+    AIMessage
 )
 from auth_supabase import get_current_user
 from database_supabase import (
@@ -32,6 +39,7 @@ from database_supabase import (
     update_document,
     delete_document
 )
+from ai_services import ai_service, deal_sourcing_service
 
 router = APIRouter(prefix="/seedstack", tags=["seedstack"])
 
