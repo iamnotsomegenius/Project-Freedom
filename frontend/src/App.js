@@ -85,6 +85,9 @@ function App() {
                   {/* Pricing */}
                   <Route path="/pricing" element={<PricingPage />} />
 
+                  {/* SeedStack */}
+                  <Route path="/seedstack" element={<SeedStackPage />} />
+                  
                   {/* SeedStack App */}
                   <Route path="/seedstack-app/*" element={<SeedStackApp />} />
                   
