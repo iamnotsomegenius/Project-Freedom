@@ -132,9 +132,9 @@ const SeedStackPage = () => {
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">Integrated Ecosystem</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
-                <FolderIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <Squares2X2Icon className="h-12 w-12 text-green-600 mx-auto mb-4" />
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Marketplace Integration</h4>
-                <p className="text-gray-600 text-sm">Seamless deal discovery with advanced filtering, saved searches, and NDA-gated document access.</p>
+                <p className="text-gray-600 text-sm">Seamless deal discovery with advanced filtering, saved searches, and secure document access.</p>
               </div>
               <div className="text-center">
                 <UserGroupIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
@@ -144,7 +144,7 @@ const SeedStackPage = () => {
               <div className="text-center">
                 <CurrencyDollarIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Investor Portal</h4>
-                <p className="text-gray-600 text-sm">Regulation CF campaign management, investment tracking, and portfolio performance monitoring.</p>
+                <p className="text-gray-600 text-sm">Investment campaign management, portfolio tracking, and comprehensive performance monitoring.</p>
               </div>
             </div>
           </div>
