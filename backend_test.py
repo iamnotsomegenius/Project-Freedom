@@ -64,6 +64,14 @@ class SeedSMBAPITester:
                 print(f"❌ Failed - Expected {expected_status}, got {response.status_code}")
                 print(f"Response: {response_data}")
                 print(f"Headers sent: {headers}")
+                
+                # Try to get more detailed error information
+                if response.status_code == 500:
+                    print("Internal Server Error - This could be due to a database connection issue or code error")
+                    print("Check the server logs for more details")
+                elif response.status_code == 401:
+                    print("Unauthorized - This could be due to an invalid or expired token")
+                    print("Token validation details:", self.token[:30] + "..." if self.token else "No token")
 
             return success, response_data
 
