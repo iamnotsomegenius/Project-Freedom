@@ -62,12 +62,12 @@ const SeedStackPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
               <ChatBubbleLeftRightIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">AI Assistant Chat</h3>
-              <p className="text-gray-600 text-sm mb-4">Conversational GPT-4 integration with context-aware responses based on your deal pipeline and analysis needs.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">AI Deal Assistant</h3>
+              <p className="text-gray-600 text-sm mb-4">Intelligent conversational assistant that understands your deals and provides expert guidance throughout the acquisition process.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Real-time chat with deal context</li>
-                <li>• Quick action buttons</li>
-                <li>• Message history & threading</li>
+                <li>• Context-aware deal analysis</li>
+                <li>• Strategic guidance and recommendations</li>
+                <li>• Instant answers to acquisition questions</li>
               </ul>
             </div>
             
