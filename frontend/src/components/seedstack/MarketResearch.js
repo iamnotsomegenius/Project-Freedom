@@ -239,7 +239,7 @@ const MarketResearch = ({ user, onLogout }) => {
                 </div>
                 
                 <div className="text-center">
-                  <TrendingUpIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <ArrowTrendingUpIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                   <p className="text-sm text-gray-600">Growth Rate</p>
                   <p className="text-xl font-bold text-gray-900">{research.overview.growth_rate}</p>
                 </div>
