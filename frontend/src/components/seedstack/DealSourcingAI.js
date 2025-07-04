@@ -99,7 +99,7 @@ const DealSourcingAI = ({ user, onLogout }) => {
       {
         id: 1,
         type: 'ai',
-        content: "🎯 **Deal Sourcing & AI Assistant**\n\nI can help you:\n\n**🔍 Find Target Companies:**\n• Build custom buyer universes with specific criteria\n• Search for businesses matching your investment thesis\n• Auto-populate qualified deals into your CRM\n\n**📊 Market Intelligence:**\n• Industry analysis and market trends\n• Valuation benchmarking\n• Competitive landscape research\n\n**🤝 Deal Guidance:**\n• Due diligence planning\n• LOI drafting and negotiation\n• Financial analysis and red flags\n\nTry: \"Find auto repair shops in the Southeast\" or use the Deal Sourcing tab to build a custom search!",
+        content: "Hello! I'm your AI assistant for business acquisition and deal sourcing. I can help you:\n\n**🎯 Find Target Companies**\n• Build custom search criteria for your ideal acquisition targets\n• Search databases for businesses matching your investment thesis\n• Generate detailed company profiles with contact information\n\n**📊 Market Intelligence**\n• Analyze industry trends and market dynamics\n• Provide valuation benchmarking and multiples\n• Research competitive landscapes and opportunities\n\n**🤝 Acquisition Guidance**\n• Guide you through due diligence processes\n• Help draft LOIs and negotiate terms\n• Identify potential red flags and risks\n\nWhat would you like to explore today?",
         timestamp: new Date()
       }
     ]);
