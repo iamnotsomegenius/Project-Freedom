@@ -25,3 +25,4 @@ supabase>=2.4.0
 stripe>=8.0.0
 httpx>=0.26.0
 slowapi>=0.1.9
+openai>=1.0.0
