@@ -53,9 +53,9 @@ const SeedStackPage = () => {
         <div className="max-w-6xl mx-auto">
           {/* AI-Powered Core Features */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">AI-Powered Deal Intelligence</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Comprehensive Acquisition Platform</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Revolutionary AI tools that analyze, research, and generate everything you need for successful acquisitions.
+              Advanced tools that streamline, analyze, and optimize every aspect of your business acquisition process.
             </p>
           </div>
 
