@@ -164,19 +164,21 @@ const DealPipeline = ({ user, onLogout }) => {
   return (
     <SeedStackLayout user={user} onLogout={onLogout}>
       <div className="h-full flex flex-col">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 space-y-4 sm:space-y-0">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Deal Pipeline</h1>
-            <p className="text-gray-600">Track your acquisition opportunities</p>
+        {/* Fixed Header */}
+        <div className="flex-shrink-0 p-6 border-b border-gray-200 bg-white">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Deal Pipeline</h1>
+              <p className="text-gray-600">Track your acquisition opportunities</p>
+            </div>
+            <Button 
+              onClick={() => setShowAddDeal(true)}
+              className="bg-green-600 hover:bg-green-700 text-white"
+            >
+              <PlusIcon className="h-4 w-4 mr-2" />
+              Add Deal
+            </Button>
           </div>
-          <Button 
-            onClick={() => setShowAddDeal(true)}
-            className="bg-green-600 hover:bg-green-700 text-white self-start sm:self-auto"
-          >
-            <PlusIcon className="h-4 w-4 mr-2" />
-            Add Deal
-          </Button>
         </div>
 
         {/* Kanban Board */}
