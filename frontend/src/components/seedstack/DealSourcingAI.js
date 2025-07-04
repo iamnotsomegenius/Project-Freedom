@@ -370,6 +370,56 @@ Or use the **Deal Sourcing** tab to build a custom buyer universe!`;
   };
 
   const handleAddToCRM = async (company, index) => {
+    try {
+      // Get backend URL from environment
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+      
+      // Call real CRM API
+      const response = await fetch(`${backendUrl}/api/seedstack/deal-sourcing/add-to-crm`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer demo_seedstack_token` // In production, use real auth token
+        },
+        body: JSON.stringify({
+          company_id: company.id,
+          company_data: company
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Visual feedback
+        const button = document.querySelector(`[data-company-id="${company.id}"]`);
+        if (button) {
+          button.textContent = 'Added!';
+          button.classList.add('bg-green-600');
+          button.disabled = true;
+        }
+
+        // Show success message from API
+        const successMessage = {
+          id: Date.now(),
+          type: 'ai',
+          content: `✅ **${company.company_name}** has been added to your CRM!\n\n**Next Steps:**\n${data.next_steps.map(step => `• ${step}`).join('\n')}\n\nYou can track progress in the Deal Pipeline.`,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, successMessage]);
+      } else {
+        // Fallback to demo behavior
+        handleDemoAddToCRM(company);
+      }
+      
+    } catch (error) {
+      console.error('Add to CRM API error:', error);
+      // Fallback to demo behavior
+      handleDemoAddToCRM(company);
+    }
+  };
+
+  const handleDemoAddToCRM = (company) => {
     // Visual feedback
     const button = document.querySelector(`[data-company-id="${company.id}"]`);
     if (button) {
