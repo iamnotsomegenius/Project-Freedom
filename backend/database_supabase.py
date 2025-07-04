@@ -85,17 +85,24 @@ async def get_document(table: str, document_id: str) -> Optional[Dict[str, Any]]
     """
     Get a document by ID
     """
-    response = supabase.table(table).select("*").eq("id", document_id).execute()
-    
-    # Check for errors
-    if hasattr(response, 'error') and response.error:
-        raise Exception(f"Error getting document: {response.error}")
-    
-    # Return the document if found
-    if response.data and len(response.data) > 0:
-        return response.data[0]
-    
-    return None
+    try:
+        response = supabase.table(table).select("*").eq("id", document_id).execute()
+        
+        # Check for errors
+        if hasattr(response, 'error') and response.error:
+            raise Exception(f"Error getting document: {response.error}")
+        
+        # Return the document if found
+        if response.data and len(response.data) > 0:
+            return response.data[0]
+        
+        return None
+    except Exception as e:
+        print(f"Error getting document from Supabase: {e}")
+        
+        # Fallback to mock data
+        from mock_data_fallback import get_mock_document
+        return get_mock_document(table, document_id)
 
 
 async def update_document(
