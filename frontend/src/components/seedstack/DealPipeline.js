@@ -207,22 +207,22 @@ const DealPipeline = ({ user, onLogout }) => {
     return 'bg-gray-300';
   };
 
-  const renderOutreachColumns = (deal) => (
+  const renderInterestedColumns = (deal) => (
     <>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
         {deal.company_name}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.last_outreach}
+        {deal.industry}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {deal.location}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.industry}
+        ${deal.revenue?.toLocaleString()}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        ${deal.revenue?.toLocaleString()}
+        ${deal.asking_price?.toLocaleString()}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {deal.contact_person}
@@ -231,11 +231,20 @@ const DealPipeline = ({ user, onLogout }) => {
         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
           deal.nda_signed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
         }`}>
-          {deal.nda_signed ? 'NDA Signed' : 'NDA Pending'}
+          {deal.nda_signed ? `Signed ${deal.nda_date}` : 'Pending'}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.interest_level === 'high' ? 'bg-green-100 text-green-800' :
+          deal.interest_level === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+          'bg-red-100 text-red-800'
+        }`}>
+          {deal.interest_level?.toUpperCase()}
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.next_action}
+        {deal.next_meeting}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <button className="text-blue-600 hover:text-blue-900 mr-2">
@@ -248,19 +257,19 @@ const DealPipeline = ({ user, onLogout }) => {
     </>
   );
 
-  const renderLOISubmittedColumns = (deal) => (
+  const renderLOISentColumns = (deal) => (
     <>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
         {deal.company_name}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.loi_submitted_date}
+        {deal.loi_sent_date}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         ${deal.loi_amount?.toLocaleString()}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.broker_name}
+        {deal.loi_terms}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {deal.response_deadline}
@@ -268,15 +277,22 @@ const DealPipeline = ({ user, onLogout }) => {
       <td className="px-6 py-4 whitespace-nowrap">
         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
           deal.loi_status === 'accepted' ? 'bg-green-100 text-green-800' :
+          deal.loi_status === 'countered' ? 'bg-blue-100 text-blue-800' :
           deal.loi_status === 'under_review' ? 'bg-yellow-100 text-yellow-800' :
           'bg-red-100 text-red-800'
         }`}>
           {deal.loi_status?.replace('_', ' ').toUpperCase()}
         </span>
       </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.days_pending} days
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.broker_name}
+      </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <button className="text-blue-600 hover:text-blue-900 mr-2">
-          <PlayIcon className="h-4 w-4 inline" /> Auto Follow-up
+          <PlayIcon className="h-4 w-4 inline" /> Follow-up
         </button>
         <button className="text-gray-600 hover:text-gray-900">
           <EllipsisVerticalIcon className="h-4 w-4" />
@@ -285,7 +301,7 @@ const DealPipeline = ({ user, onLogout }) => {
     </>
   );
 
-  const renderLOISignedColumns = (deal) => (
+  const renderDiligenceColumns = (deal) => (
     <>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
         {deal.company_name}
@@ -294,27 +310,47 @@ const DealPipeline = ({ user, onLogout }) => {
         {deal.loi_signed_date}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.counsel_name}
+        {deal.dd_end_date}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="flex items-center">
+          <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
+            <div 
+              className={`h-2 rounded-full ${getProgressColor(deal.qoe_completion)}`}
+              style={{ width: `${deal.qoe_completion}%` }}
+            ></div>
+          </div>
+          <span className="text-xs text-gray-500">{deal.qoe_completion}%</span>
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-          deal.qoe_status === 'completed' ? 'bg-green-100 text-green-800' :
-          deal.qoe_status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+          deal.legal_review === 'completed' ? 'bg-green-100 text-green-800' :
+          deal.legal_review === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
           'bg-gray-100 text-gray-800'
         }`}>
-          QoE: {deal.qoe_status?.replace('_', ' ')}
+          {deal.legal_review?.replace('_', ' ')}
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
           deal.vdr_access === 'granted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
         }`}>
-          VDR: {deal.vdr_access}
+          {deal.vdr_docs_uploaded}% uploaded
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.financial_review === 'completed' ? 'bg-green-100 text-green-800' :
+          deal.financial_review === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+          'bg-gray-100 text-gray-800'
+        }`}>
+          Financial: {deal.financial_review}
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <button className="text-blue-600 hover:text-blue-900 mr-2">
-          <PlayIcon className="h-4 w-4 inline" /> Auto VDR
+          <PlayIcon className="h-4 w-4 inline" /> Auto DD
         </button>
         <button className="text-gray-600 hover:text-gray-900">
           <EllipsisVerticalIcon className="h-4 w-4" />
@@ -329,7 +365,10 @@ const DealPipeline = ({ user, onLogout }) => {
         {deal.company_name}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deal.closing_target}
+        {deal.target_close_date}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        ${deal.purchase_price?.toLocaleString()}
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
@@ -341,6 +380,18 @@ const DealPipeline = ({ user, onLogout }) => {
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.apa_status === 'executed' ? 'bg-green-100 text-green-800' :
+          deal.apa_status === 'in_review' ? 'bg-yellow-100 text-yellow-800' :
+          'bg-gray-100 text-gray-800'
+        }`}>
+          APA: {deal.apa_status}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.conditions_cleared}/{deal.closing_conditions} cleared
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
         {deal.marketplace_listed && (
           <div className="flex items-center">
             <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
@@ -350,7 +401,7 @@ const DealPipeline = ({ user, onLogout }) => {
               ></div>
             </div>
             <span className="text-xs text-gray-500">
-              ${deal.funding_raised?.toLocaleString()} / ${deal.funding_target?.toLocaleString()}
+              ${(deal.funding_raised/1000).toFixed(0)}k/${(deal.funding_target/1000).toFixed(0)}k
             </span>
           </div>
         )}
