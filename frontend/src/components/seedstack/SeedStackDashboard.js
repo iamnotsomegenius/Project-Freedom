@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SeedStackLayout from './SeedStackLayout';
+import dealDataService from '../../services/dealDataService';
 import {
   Squares2X2Icon,
   ChatBubbleLeftRightIcon,
@@ -7,6 +8,9 @@ import {
   ChartBarIcon,
   CheckCircleIcon,
   ClockIcon,
+  UserGroupIcon,
+  DocumentTextIcon,
+  BuildingOfficeIcon,
 } from '@heroicons/react/24/outline';
 
 const SeedStackDashboard = ({ user, onLogout }) => {
