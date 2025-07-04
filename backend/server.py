@@ -71,7 +71,7 @@ app.include_router(api_router)
 FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:3000")
 ALLOWED_ORIGINS = [
     FRONTEND_ORIGIN,
-    "https://134c4334-a70c-496a-b2a8-5caeb70f4587.preview.emergentagent.com",  # Current frontend URL
+    "https://245c604c-4c50-4fab-bca8-4dbabbe9217d.preview.emergentagent.com",  # Current frontend URL
     "http://localhost:3000",  # Local development
     "http://127.0.0.1:3000"   # Alternative local
 ]
