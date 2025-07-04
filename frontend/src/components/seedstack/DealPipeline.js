@@ -350,13 +350,13 @@ const DealPipeline = ({ user, onLogout }) => {
 
   return (
     <SeedStackLayout user={user} onLogout={onLogout}>
-      <div className="h-full flex flex-col">
-        {/* Fixed Header */}
-        <div className="flex-shrink-0 p-6 border-b border-gray-200 bg-white">
+      <div className="h-full flex flex-col bg-gray-50">
+        {/* Header */}
+        <div className="flex-shrink-0 p-6 bg-white border-b border-gray-200">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Deal Pipeline</h1>
-              <p className="text-gray-600">Track your acquisition opportunities</p>
+              <p className="text-gray-600">Automated workflow management for seamless acquisitions</p>
             </div>
             <Button 
               onClick={() => setShowAddDeal(true)}
@@ -368,221 +368,80 @@ const DealPipeline = ({ user, onLogout }) => {
           </div>
         </div>
 
-        {/* Scrollable Kanban Board */}
-        <div className="flex-1 p-6 overflow-x-auto bg-gray-50">
-          <div className="flex space-x-6" style={{ minWidth: 'fit-content' }}>
-            {stages.map((stage) => (
-              <div 
-                key={stage.id} 
-                className="flex-shrink-0 w-80"
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, stage.id)}
-              >
-                <div className={`${stage.color} rounded-lg p-4 h-full`}>
-                  <h3 className="font-semibold text-gray-900 mb-4">
-                    {stage.title} ({getDealsByStage(stage.id).length})
-                  </h3>
-                  
-                  <div className="space-y-3">
-                    {getDealsByStage(stage.id).map((deal) => (
-                      <div
-                        key={deal.id}
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, deal.id)}
-                        className={`bg-white rounded-lg p-4 shadow-sm border-l-4 ${getPriorityColor(deal.priority)} cursor-move hover:shadow-md transition-shadow`}
-                      >
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-medium text-gray-900 text-sm">{deal.title}</h4>
-                          <div className="relative">
-                            <button className="text-gray-400 hover:text-gray-600">
-                              <EllipsisVerticalIcon className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </div>
-                        
-                        <div className="text-xs text-gray-600 space-y-1">
-                          <p><strong>Industry:</strong> {deal.industry}</p>
-                          <p><strong>Location:</strong> {deal.location}</p>
-                          <p><strong>Asking:</strong> ${deal.asking_price?.toLocaleString()}</p>
-                          <p><strong>Revenue:</strong> ${deal.revenue?.toLocaleString()}</p>
-                          <p><strong>EBITDA:</strong> ${deal.ebitda?.toLocaleString()}</p>
-                        </div>
-                        
-                        {deal.notes && (
-                          <p className="text-xs text-gray-500 mt-2 italic">{deal.notes}</p>
-                        )}
-                        
-                        <div className="mt-3 flex justify-between items-center">
-                          <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                            deal.priority === 'high' ? 'bg-red-100 text-red-800' :
-                            deal.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-green-100 text-green-800'
-                          }`}>
-                            {deal.priority}
-                          </span>
-                          
-                          {(stage.id === 'loi_sent' || stage.id === 'diligence' || stage.id === 'closed') && !deal.marketplace_listing_id && (
-                            <button
-                              onClick={() => publishToMarketplace(deal.id)}
-                              className="text-xs text-green-600 hover:text-green-800 flex items-center"
-                              title="Publish to SeedSMB Marketplace"
-                            >
-                              <LinkIcon className="h-3 w-3 mr-1" />
-                              Publish
-                            </button>
-                          )}
-                          
-                          {deal.marketplace_listing_id && (
-                            <span className="text-xs text-green-600 flex items-center">
-                              <LinkIcon className="h-3 w-3 mr-1" />
-                              Live
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+        {/* Stage Summary Cards */}
+        <div className="flex-shrink-0 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {stages.map((stage) => {
+              const count = getStageCount(stage.id);
+              const IconComponent = stage.icon;
+              
+              return (
+                <div 
+                  key={stage.id}
+                  onClick={() => setActiveStage(stage.id)}
+                  className={`${stage.color} border-2 rounded-lg p-6 cursor-pointer hover:shadow-md transition-all ${
+                    activeStage === stage.id ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium opacity-75">{stage.title}</p>
+                      <p className="text-3xl font-bold">{count}</p>
+                    </div>
+                    <IconComponent className="h-8 w-8 opacity-75" />
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        {/* Add Deal Modal */}
-        {showAddDeal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Deal</h3>
+        {/* Detailed Table View */}
+        <div className="flex-1 px-6 pb-6 overflow-hidden">
+          <div className="bg-white rounded-lg border border-gray-200 h-full flex flex-col">
+            <div className="p-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {stages.find(s => s.id === activeStage)?.title} Details
+              </h3>
+            </div>
+            
+            <div className="flex-1 overflow-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50 sticky top-0">
+                  <tr>
+                    {getColumnHeaders(activeStage).map((header, index) => (
+                      <th 
+                        key={index}
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {getDealsByStage(activeStage).map((deal) => (
+                    <tr key={deal.id} className="hover:bg-gray-50">
+                      {renderTableRow(deal)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
               
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Business Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={newDeal.title}
-                    onChange={(e) => setNewDeal({...newDeal, title: e.target.value})}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                    placeholder="Enter business name"
-                  />
+              {getDealsByStage(activeStage).length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">No deals in this stage yet.</p>
+                  <Button 
+                    onClick={() => setShowAddDeal(true)}
+                    className="mt-4 bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    Add Your First Deal
+                  </Button>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Industry
-                    </label>
-                    <input
-                      type="text"
-                      value={newDeal.industry}
-                      onChange={(e) => setNewDeal({...newDeal, industry: e.target.value})}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                      placeholder="e.g., Technology"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Location
-                    </label>
-                    <input
-                      type="text"
-                      value={newDeal.location}
-                      onChange={(e) => setNewDeal({...newDeal, location: e.target.value})}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                      placeholder="City, State"
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Asking Price
-                    </label>
-                    <input
-                      type="number"
-                      value={newDeal.asking_price}
-                      onChange={(e) => setNewDeal({...newDeal, asking_price: e.target.value})}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                      placeholder="0"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Revenue
-                    </label>
-                    <input
-                      type="number"
-                      value={newDeal.revenue}
-                      onChange={(e) => setNewDeal({...newDeal, revenue: e.target.value})}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                      placeholder="0"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      EBITDA
-                    </label>
-                    <input
-                      type="number"
-                      value={newDeal.ebitda}
-                      onChange={(e) => setNewDeal({...newDeal, ebitda: e.target.value})}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                      placeholder="0"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Broker Contact
-                  </label>
-                  <input
-                    type="email"
-                    value={newDeal.broker_contact}
-                    onChange={(e) => setNewDeal({...newDeal, broker_contact: e.target.value})}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                    placeholder="broker@example.com"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Notes
-                  </label>
-                  <textarea
-                    value={newDeal.notes}
-                    onChange={(e) => setNewDeal({...newDeal, notes: e.target.value})}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                    rows="3"
-                    placeholder="Initial thoughts, key details..."
-                  />
-                </div>
-              </div>
-              
-              <div className="flex justify-end space-x-3 mt-6">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowAddDeal(false)}
-                  className="border-gray-300 text-gray-700"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleAddDeal}
-                  disabled={!newDeal.title}
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                  Add Deal
-                </Button>
-              </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </SeedStackLayout>
   );
