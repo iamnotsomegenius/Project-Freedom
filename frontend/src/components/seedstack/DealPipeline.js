@@ -53,49 +53,81 @@ const DealPipeline = ({ user, onLogout }) => {
   }, []);
 
   const loadDeals = async () => {
-    // Mock data - in production this would fetch from API
+    // Enhanced mock data with workflow tracking
     const mockDeals = [
       {
         id: '1',
-        title: 'Tech Services Co',
-        industry: 'Technology',
+        company_name: 'TechServ Solutions',
+        industry: 'Technology Services',
         location: 'Austin, TX',
-        asking_price: 2500000,
         revenue: 3200000,
         ebitda: 640000,
-        stage: 'inbox',
-        priority: 'high',
-        notes: 'Strong recurring revenue model',
-        broker_contact: 'john@techbroker.com',
-        marketplace_listing_id: null
+        asking_price: 2500000,
+        stage: 'outreach',
+        last_outreach: '2024-01-15',
+        contact_person: 'John Smith',
+        email: 'john@techserv.com',
+        phone: '(512) 555-0123',
+        nda_signed: false,
+        response_status: 'pending',
+        next_action: 'Follow up call scheduled',
+        automation_suggestions: ['Send follow-up email', 'Schedule call']
       },
       {
         id: '2',
-        title: 'Manufacturing Inc',
+        company_name: 'Manufacturing Plus',
         industry: 'Manufacturing',
         location: 'Detroit, MI',
-        asking_price: 4800000,
         revenue: 8200000,
         ebitda: 1150000,
-        stage: 'interested',
-        priority: 'medium',
-        notes: 'Family-owned for 40 years',
-        broker_contact: 'sarah@industrialbrokers.com',
-        marketplace_listing_id: null
+        asking_price: 4800000,
+        stage: 'loi_submitted',
+        loi_submitted_date: '2024-01-10',
+        loi_amount: 4200000,
+        broker_name: 'Sarah Wilson',
+        response_deadline: '2024-01-25',
+        loi_status: 'under_review',
+        automation_suggestions: ['Send reminder', 'Prepare revised LOI']
       },
       {
         id: '3',
-        title: 'Restaurant Chain',
+        company_name: 'Restaurant Chain Co',
         industry: 'Food Service',
         location: 'Phoenix, AZ',
-        asking_price: 1800000,
         revenue: 2900000,
         ebitda: 420000,
-        stage: 'loi_sent',
-        priority: 'high',
-        notes: 'LOI sent for $1.6M',
-        broker_contact: 'mike@restaurantdeals.com',
-        marketplace_listing_id: null
+        asking_price: 1800000,
+        stage: 'loi_signed',
+        loi_signed_date: '2024-01-05',
+        due_diligence_start: '2024-01-12',
+        counsel_assigned: true,
+        counsel_name: 'Johnson & Associates',
+        qoe_ordered: true,
+        qoe_status: 'in_progress',
+        vdr_created: true,
+        vdr_access: 'granted',
+        automation_suggestions: ['Request additional docs', 'Schedule management meeting']
+      },
+      {
+        id: '4',
+        company_name: 'Software Dynamics',
+        industry: 'Software',
+        location: 'San Francisco, CA',
+        revenue: 5100000,
+        ebitda: 1020000,
+        asking_price: 6500000,
+        stage: 'closing',
+        closing_target: '2024-02-15',
+        counsel_review: 'completed',
+        qoe_completed: true,
+        qoe_findings: 'clean',
+        sba_lender: 'First National Bank',
+        sba_approval: 'approved',
+        marketplace_listed: true,
+        funding_raised: 2100000,
+        funding_target: 6500000,
+        closing_progress: 75,
+        automation_suggestions: ['Finalize purchase agreement', 'Schedule closing']
       }
     ];
     setDeals(mockDeals);
