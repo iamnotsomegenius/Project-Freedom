@@ -18,7 +18,7 @@ import Button from '../ui/Button';
 
 const DealPipeline = ({ user, onLogout }) => {
   const [deals, setDeals] = useState([]);
-  const [activeStage, setActiveStage] = useState('outreach');
+  const [activeStage, setActiveStage] = useState('interested');
   const [showAddDeal, setShowAddDeal] = useState(false);
 
   const stages = [
