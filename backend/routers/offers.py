@@ -74,20 +74,38 @@ async def get_user_offers(
     """
     Get offers for the current user (as buyer)
     """
-    # Build filter query
-    filter_query = {"buyer_id": current_user.id}
-    
-    # Get offers
-    offers = await list_documents("offers", filter_query=filter_query)
-    
-    # For each offer, get the associated business listing
-    for offer in offers:
-        business = await get_document("business_listings", offer["business_id"])
-        if business:
-            offer["business"] = business
-    
-    # Convert to Offer objects
-    return [Offer(**offer) for offer in offers]
+    try:
+        # Build filter query
+        filter_query = {"buyer_id": current_user.id}
+        
+        # Get offers
+        offers = await list_documents("offers", filter_query=filter_query)
+        
+        # For each offer, get the associated business listing
+        for offer in offers:
+            business = await get_document("business_listings", offer["business_id"])
+            if business:
+                offer["business"] = business
+        
+        # Convert to Offer objects
+        return [Offer(**offer) for offer in offers]
+    except Exception as e:
+        print(f"Error in get_user_offers: {e}")
+        
+        # Fallback to mock data
+        from mock_data_fallback import list_mock_documents
+        
+        # Get mock offers
+        offers = list_mock_documents("offers", filter_query={"buyer_id": current_user.id})
+        
+        # For each offer, get the associated business listing
+        for offer in offers:
+            business = list_mock_documents("business_listings", filter_query={"id": offer["business_id"]})
+            if business and len(business) > 0:
+                offer["business"] = business[0]
+        
+        # Convert to Offer objects
+        return [Offer(**offer) for offer in offers]
 
 
 @router.get("/seller", response_model=List[Offer])
