@@ -258,12 +258,14 @@ const SeedStackPage = () => {
               Join 1,000+ acquisition professionals who have revolutionized their deal flow with AI-powered tools.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button 
-                className="bg-green-600 hover:bg-green-700 text-white"
-                onClick={() => window.open('/seedstack-app', '_blank')}
+              <a 
+                href="/seedstack-app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 Try Live Demo
-              </Button>
+              </a>
               <Button variant="outline" className="border-gray-300 text-gray-900 hover:bg-gray-50">
                 Schedule Demo
               </Button>
