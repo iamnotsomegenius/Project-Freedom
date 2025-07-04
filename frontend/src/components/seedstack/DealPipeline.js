@@ -53,8 +53,9 @@ const DealPipeline = ({ user, onLogout }) => {
   }, []);
 
   const loadDeals = async () => {
-    // Enhanced mock data with workflow tracking
+    // Enhanced mock data with intuitive workflow tracking
     const mockDeals = [
+      // INTERESTED STAGE
       {
         id: '1',
         company_name: 'TechServ Solutions',
@@ -63,50 +64,58 @@ const DealPipeline = ({ user, onLogout }) => {
         revenue: 3200000,
         ebitda: 640000,
         asking_price: 2500000,
-        stage: 'outreach',
-        last_outreach: '2024-01-15',
+        stage: 'interested',
+        first_contact: '2024-01-10',
         contact_person: 'John Smith',
         email: 'john@techserv.com',
         phone: '(512) 555-0123',
-        nda_signed: false,
-        response_status: 'pending',
-        next_action: 'Follow up call scheduled',
-        automation_suggestions: ['Send follow-up email', 'Schedule call']
+        nda_signed: true,
+        nda_date: '2024-01-12',
+        interest_level: 'high',
+        next_meeting: '2024-01-20',
+        broker_name: 'Tech Brokers LLC',
+        automation_suggestions: ['Schedule management meeting', 'Request financials']
       },
       {
         id: '2',
+        company_name: 'Local Restaurant Co',
+        industry: 'Food Service',
+        location: 'Dallas, TX',
+        revenue: 1800000,
+        ebitda: 280000,
+        asking_price: 1200000,
+        stage: 'interested',
+        first_contact: '2024-01-08',
+        contact_person: 'Maria Garcia',
+        email: 'maria@localrest.com',
+        phone: '(214) 555-0456',
+        nda_signed: false,
+        nda_date: null,
+        interest_level: 'medium',
+        next_meeting: '2024-01-18',
+        broker_name: 'Restaurant Deals Inc',
+        automation_suggestions: ['Send NDA', 'Schedule call']
+      },
+
+      // LOI SENT STAGE
+      {
+        id: '3',
         company_name: 'Manufacturing Plus',
         industry: 'Manufacturing',
         location: 'Detroit, MI',
         revenue: 8200000,
         ebitda: 1150000,
         asking_price: 4800000,
-        stage: 'loi_submitted',
-        loi_submitted_date: '2024-01-10',
+        stage: 'loi_sent',
+        loi_sent_date: '2024-01-05',
         loi_amount: 4200000,
-        broker_name: 'Sarah Wilson',
+        loi_terms: '7x EBITDA, 20% down',
+        broker_name: 'Industrial Brokers',
         response_deadline: '2024-01-25',
         loi_status: 'under_review',
+        days_pending: 10,
+        follow_up_date: '2024-01-22',
         automation_suggestions: ['Send reminder', 'Prepare revised LOI']
-      },
-      {
-        id: '3',
-        company_name: 'Restaurant Chain Co',
-        industry: 'Food Service',
-        location: 'Phoenix, AZ',
-        revenue: 2900000,
-        ebitda: 420000,
-        asking_price: 1800000,
-        stage: 'loi_signed',
-        loi_signed_date: '2024-01-05',
-        due_diligence_start: '2024-01-12',
-        counsel_assigned: true,
-        counsel_name: 'Johnson & Associates',
-        qoe_ordered: true,
-        qoe_status: 'in_progress',
-        vdr_created: true,
-        vdr_access: 'granted',
-        automation_suggestions: ['Request additional docs', 'Schedule management meeting']
       },
       {
         id: '4',
@@ -116,18 +125,68 @@ const DealPipeline = ({ user, onLogout }) => {
         revenue: 5100000,
         ebitda: 1020000,
         asking_price: 6500000,
+        stage: 'loi_sent',
+        loi_sent_date: '2024-01-03',
+        loi_amount: 5800000,
+        loi_terms: '5.7x EBITDA, seller financing',
+        broker_name: 'Tech Acquisitions',
+        response_deadline: '2024-01-20',
+        loi_status: 'countered',
+        days_pending: 12,
+        follow_up_date: '2024-01-21',
+        automation_suggestions: ['Review counter-offer', 'Negotiate terms']
+      },
+
+      // DILIGENCE STAGE
+      {
+        id: '5',
+        company_name: 'Healthcare Services Inc',
+        industry: 'Healthcare',
+        location: 'Phoenix, AZ',
+        revenue: 2900000,
+        ebitda: 420000,
+        asking_price: 1800000,
+        stage: 'diligence',
+        loi_signed_date: '2024-12-20',
+        dd_start_date: '2024-01-02',
+        dd_end_date: '2024-02-02',
+        qoe_provider: 'Johnson CPA',
+        qoe_status: 'in_progress',
+        qoe_completion: 60,
+        legal_counsel: 'Smith & Associates',
+        legal_review: 'in_progress',
+        vdr_access: 'granted',
+        vdr_docs_uploaded: 85,
+        financial_review: 'completed',
+        insurance_review: 'pending',
+        automation_suggestions: ['Request missing docs', 'Schedule mgmt meeting']
+      },
+
+      // CLOSING STAGE
+      {
+        id: '6',
+        company_name: 'Logistics Corp',
+        industry: 'Logistics',
+        location: 'Chicago, IL',
+        revenue: 4500000,
+        ebitda: 675000,
+        asking_price: 3200000,
         stage: 'closing',
-        closing_target: '2024-02-15',
-        counsel_review: 'completed',
-        qoe_completed: true,
-        qoe_findings: 'clean',
+        target_close_date: '2024-02-15',
+        purchase_price: 2900000,
         sba_lender: 'First National Bank',
         sba_approval: 'approved',
-        marketplace_listed: true,
-        funding_raised: 2100000,
-        funding_target: 6500000,
+        sba_amount: 2320000,
+        equity_required: 580000,
+        apa_status: 'executed',
+        closing_conditions: 3,
+        conditions_cleared: 2,
+        title_company: 'Reliable Title Co',
         closing_progress: 75,
-        automation_suggestions: ['Finalize purchase agreement', 'Schedule closing']
+        marketplace_listed: true,
+        funding_raised: 450000,
+        funding_target: 580000,
+        automation_suggestions: ['Clear final conditions', 'Schedule closing']
       }
     ];
     setDeals(mockDeals);
