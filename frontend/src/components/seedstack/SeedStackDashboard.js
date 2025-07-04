@@ -14,31 +14,46 @@ import {
 } from '@heroicons/react/24/outline';
 
 const SeedStackDashboard = ({ user, onLogout }) => {
-  const [stats, setStats] = useState({
-    totalDeals: 0,
-    activeDeals: 0,
-    completedAnalyses: 0,
-    loisGenerated: 0
-  });
-
+  const [stageCounts, setStageCounts] = useState({});
+  const [totalDeals, setTotalDeals] = useState(0);
   const [recentActivity, setRecentActivity] = useState([]);
 
-  useEffect(() => {
-    // Mock data - in production this would come from API
-    setStats({
-      totalDeals: 12,
-      activeDeals: 8,
-      completedAnalyses: 5,
-      loisGenerated: 3
-    });
+  // Get stages from shared service
+  const stages = dealDataService.getStages();
 
+  useEffect(() => {
+    // Load data from shared service
+    dealDataService.loadMockData();
+    updateStats();
+
+    // Listen for data updates
+    const handleDataUpdate = () => {
+      updateStats();
+    };
+
+    dealDataService.addListener(handleDataUpdate);
+
+    // Setup recent activity
     setRecentActivity([
-      { id: 1, type: 'deal_created', message: 'New deal added: Tech Services Co', time: '2 hours ago' },
-      { id: 2, type: 'analysis_completed', message: 'P&L analysis completed for Manufacturing Inc', time: '5 hours ago' },
-      { id: 3, type: 'loi_generated', message: 'LOI generated for Restaurant Chain', time: '1 day ago' },
-      { id: 4, type: 'market_research', message: 'Market research completed for SaaS sector', time: '2 days ago' },
+      { id: 1, type: 'deal_created', message: 'New deal added: TechServ Solutions', time: '2 hours ago' },
+      { id: 2, type: 'analysis_completed', message: 'P&L analysis completed for Manufacturing Plus', time: '5 hours ago' },
+      { id: 3, type: 'loi_generated', message: 'LOI generated for Healthcare Services Inc', time: '1 day ago' },
+      { id: 4, type: 'market_research', message: 'Market research completed for auto repair sector', time: '2 days ago' },
     ]);
+
+    // Cleanup listener on unmount
+    return () => {
+      dealDataService.removeListener(handleDataUpdate);
+    };
   }, []);
+
+  const updateStats = () => {
+    const counts = dealDataService.getStageCounts();
+    const total = dealDataService.getTotalDeals();
+    
+    setStageCounts(counts);
+    setTotalDeals(total);
+  };
 
   const quickActions = [
     {
