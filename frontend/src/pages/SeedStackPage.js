@@ -264,14 +264,17 @@ const SeedStackPage = () => {
               Join 1,000+ acquisition professionals who have revolutionized their deal flow with AI-powered tools.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button className="bg-green-600 hover:bg-green-700 text-white">
-                Start Free 14-Day Trial
+              <Button 
+                className="bg-green-600 hover:bg-green-700 text-white"
+                onClick={() => window.open('/seedstack-app', '_blank')}
+              >
+                Try Live Demo
               </Button>
               <Button variant="outline" className="border-gray-300 text-gray-900 hover:bg-gray-50">
                 Schedule Demo
               </Button>
             </div>
-            <p className="text-sm text-gray-500 mt-4">No credit card required • Full feature access • Setup in under 5 minutes</p>
+            <p className="text-sm text-gray-500 mt-4">No setup required • Full feature access • Explore all capabilities</p>
           </div>
         </div>
       </div>
