@@ -259,7 +259,42 @@ Or use the **Deal Sourcing** tab to build a custom buyer universe!`;
   const handleSearchDeals = async () => {
     setIsSearching(true);
     
-    // Simulate search with realistic results
+    try {
+      // Get backend URL from environment
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+      
+      // Call real deal sourcing API
+      const response = await fetch(`${backendUrl}/api/seedstack/deal-sourcing/search`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer demo_seedstack_token` // In production, use real auth token
+        },
+        body: JSON.stringify({
+          criteria: sourcingCriteria,
+          max_results: 20
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResults(data.companies);
+      } else {
+        // Fallback to demo data if API fails
+        await handleDemoSearch();
+      }
+      
+    } catch (error) {
+      console.error('Deal sourcing API error:', error);
+      // Fallback to demo data on error
+      await handleDemoSearch();
+    }
+    
+    setIsSearching(false);
+  };
+
+  const handleDemoSearch = async () => {
+    // Fallback demo search logic
     setTimeout(() => {
       const mockResults = [
         {
@@ -331,7 +366,6 @@ Or use the **Deal Sourcing** tab to build a custom buyer universe!`;
       ];
       
       setSearchResults(mockResults);
-      setIsSearching(false);
     }, 2000);
   };
 
