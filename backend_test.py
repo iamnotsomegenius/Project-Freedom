@@ -288,6 +288,144 @@ class SeedSMBAPITester:
             200
         )
 
+def test_seedstack_endpoints(tester):
+    """Test SeedStack endpoints"""
+    print("\n===== TESTING SEEDSTACK ENDPOINTS =====\n")
+    
+    # Test SeedStack demo login
+    success, response = tester.run_test(
+        "SeedStack Demo Login",
+        "POST",
+        "/api/seedstack/demo-login",
+        200
+    )
+    
+    if success and 'access_token' in response:
+        # Save the demo token for subsequent requests
+        tester.token = response['access_token']
+        print(f"Using SeedStack demo token: {tester.token}")
+        
+        # Test SeedStack deals endpoint
+        tester.run_test(
+            "SeedStack Deals",
+            "GET",
+            "/api/seedstack/deals",
+            200
+        )
+        
+        # Test creating a SeedStack deal
+        success, deal_response = tester.run_test(
+            "Create SeedStack Deal",
+            "POST",
+            "/api/seedstack/deals",
+            201,
+            data={
+                "title": f"Test Deal {uuid.uuid4()}",
+                "industry": "Technology",
+                "location": "San Francisco, CA",
+                "stage": "initial_contact",
+                "asking_price": 1000000,
+                "revenue": 500000,
+                "ebitda": 150000,
+                "notes": "Test deal created via API"
+            }
+        )
+        
+        deal_id = None
+        if success and 'id' in deal_response:
+            deal_id = deal_response['id']
+            
+            # Test SeedStack chat
+            tester.run_test(
+                "SeedStack Chat",
+                "POST",
+                "/api/seedstack/chat",
+                200,
+                data={
+                    "message": "What are the key metrics to evaluate for this business?",
+                    "message_type": "deal_analysis",
+                    "deal_id": deal_id
+                }
+            )
+            
+            # Test getting chat history
+            tester.run_test(
+                "SeedStack Chat History",
+                "GET",
+                "/api/seedstack/chat",
+                200,
+                params={"deal_id": deal_id}
+            )
+            
+            # Test P&L analysis
+            tester.run_test(
+                "SeedStack P&L Analysis",
+                "POST",
+                "/api/seedstack/pl-analysis",
+                200,
+                data={
+                    "deal_id": deal_id,
+                    "file_name": "financial_statements.xlsx",
+                    "file_content": "base64_encoded_content_placeholder"
+                }
+            )
+            
+            # Test market research
+            tester.run_test(
+                "SeedStack Market Research",
+                "POST",
+                "/api/seedstack/market-research",
+                200,
+                data={
+                    "deal_id": deal_id,
+                    "industry": "Technology",
+                    "location": "San Francisco, CA"
+                }
+            )
+            
+            # Test LOI generation
+            tester.run_test(
+                "SeedStack LOI Generation",
+                "POST",
+                "/api/seedstack/loi",
+                200,
+                data={
+                    "deal_id": deal_id,
+                    "business_name": "Test Business",
+                    "seller_name": "John Seller",
+                    "buyer_name": "Jane Buyer",
+                    "offer_amount": 950000,
+                    "due_diligence_period": 30,
+                    "exclusivity_period": 60,
+                    "financing_contingency": True,
+                    "earnout_provision": "10% of revenue for 2 years",
+                    "additional_terms": "Seller to provide 90 days of transition support"
+                }
+            )
+            
+            # Test legal templates
+            tester.run_test(
+                "SeedStack Legal Templates",
+                "POST",
+                "/api/seedstack/legal-templates",
+                200,
+                data={
+                    "deal_id": deal_id,
+                    "template_type": "nda",
+                    "template_name": "Standard NDA",
+                    "customizations": {
+                        "term": "2 years",
+                        "governing_law": "California"
+                    }
+                }
+            )
+        else:
+            print("⚠️ Skipping additional SeedStack tests due to deal creation failure")
+    else:
+        print("⚠️ Skipping SeedStack tests due to demo login failure")
+    
+    return success
+
 def main():
     # Setup
     tester = SeedSMBAPITester()
@@ -354,6 +492,9 @@ def main():
             tester.test_create_offer()
     else:
         print("⚠️ Skipping authenticated tests due to login failure")
+    
+    # Test SeedStack endpoints
+    test_seedstack_endpoints(tester)
     
     # Print results
     print(f"\n===== TEST RESULTS =====")
