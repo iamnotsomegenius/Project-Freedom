@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 
@@ -55,69 +55,89 @@ const queryClient = new QueryClient({
   },
 });
 
+// Component to handle conditional navigation/footer rendering
+const AppLayout = ({ children }) => {
+  const location = useLocation();
+  const isSeedStackApp = location.pathname.startsWith('/seedstack-app');
+
+  if (isSeedStackApp) {
+    // For SeedStack app, don't render main navigation or footer
+    return (
+      <div className="min-h-screen">
+        {children}
+      </div>
+    );
+  }
+
+  // For all other routes, render with main navigation and footer
+  return (
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <MainNavigation />
+      <main className="flex-grow">
+        {children}
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <AuthModalProvider>
           <Router>
-            <div className="flex flex-col min-h-screen bg-background text-foreground">
-              <MainNavigation />
-              
-              <main className="flex-grow">
-                <Routes>
-                  {/* Public Pages */}
-                  <Route path="/" element={<HomePage />} />
-                  
-                  {/* Marketplace */}
-                  <Route path="/marketplace" element={<MarketplacePage />} />
-                  <Route path="/marketplace/:id" element={<BusinessDetailPage />} />
-                  <Route path="/marketplace/:id/invest" element={<InvestmentPage />} />
-                  <Route path="/marketplace/:id/make-offer" element={<MakeOfferPage />} />
-                  
-                  {/* How It Works */}
-                  <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/how-it-works/buyers" element={<BuyersPage />} />
-                  <Route path="/how-it-works/sellers" element={<SellersPage />} />
-                  <Route path="/how-it-works/investors" element={<InvestorsPage />} />
-                  <Route path="/how-it-works/regulatory" element={<RegulatoryPage />} />
-                  
-                  {/* Pricing */}
-                  <Route path="/pricing" element={<PricingPage />} />
+            <AppLayout>
+              <Routes>
+                {/* Public Pages */}
+                <Route path="/" element={<HomePage />} />
+                
+                {/* Marketplace */}
+                <Route path="/marketplace" element={<MarketplacePage />} />
+                <Route path="/marketplace/:id" element={<BusinessDetailPage />} />
+                <Route path="/marketplace/:id/invest" element={<InvestmentPage />} />
+                <Route path="/marketplace/:id/make-offer" element={<MakeOfferPage />} />
+                
+                {/* How It Works */}
+                <Route path="/how-it-works" element={<HowItWorksPage />} />
+                <Route path="/how-it-works/buyers" element={<BuyersPage />} />
+                <Route path="/how-it-works/sellers" element={<SellersPage />} />
+                <Route path="/how-it-works/investors" element={<InvestorsPage />} />
+                <Route path="/how-it-works/regulatory" element={<RegulatoryPage />} />
+                
+                {/* Pricing */}
+                <Route path="/pricing" element={<PricingPage />} />
 
-                  {/* SeedStack */}
-                  <Route path="/seedstack" element={<SeedStackPage />} />
-                  
-                  {/* SeedStack App */}
-                  <Route path="/seedstack-app/*" element={<SeedStackApp />} />
-                  
-                  {/* About */}
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/about/founder" element={<FounderPage />} />
-                  <Route path="/about/mission" element={<MissionPage />} />
-                  
-                  {/* Additional Pages */}
-                  <Route path="/success-stories" element={<SuccessStoriesPage />} />
-                  <Route path="/resources" element={<ResourceCenterPage />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  
-                  {/* Dashboard Routes */}
-                  <Route path="/dashboard" element={<DashboardLayout />}>
-                    <Route index element={<SellerDashboardPage />} />
-                    <Route path="seller" element={<SellerDashboardPage />} />
-                    <Route path="investments" element={<InvestmentPortfolioPage />} />
-                    {/* Add more dashboard routes as needed */}
-                  </Route>
-                  
-                  {/* 404 Route */}
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </main>
-              
-              <Footer />
-              <AuthModal />
-              <Toaster position="top-right" />
-            </div>
+                {/* SeedStack */}
+                <Route path="/seedstack" element={<SeedStackPage />} />
+                
+                {/* SeedStack App */}
+                <Route path="/seedstack-app/*" element={<SeedStackApp />} />
+                
+                {/* About */}
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/about/founder" element={<FounderPage />} />
+                <Route path="/about/mission" element={<MissionPage />} />
+                
+                {/* Additional Pages */}
+                <Route path="/success-stories" element={<SuccessStoriesPage />} />
+                <Route path="/resources" element={<ResourceCenterPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                
+                {/* Dashboard Routes */}
+                <Route path="/dashboard" element={<DashboardLayout />}>
+                  <Route index element={<SellerDashboardPage />} />
+                  <Route path="seller" element={<SellerDashboardPage />} />
+                  <Route path="investments" element={<InvestmentPortfolioPage />} />
+                  {/* Add more dashboard routes as needed */}
+                </Route>
+                
+                {/* 404 Route */}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </AppLayout>
+            <AuthModal />
+            <Toaster position="top-right" />
           </Router>
         </AuthModalProvider>
       </AuthProvider>
