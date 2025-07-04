@@ -97,13 +97,13 @@ const SeedStackPage = () => {
             
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
               <DocumentTextIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">LOI Generator</h3>
-              <p className="text-gray-600 text-sm mb-4">AI-powered Letter of Intent creation with dynamic forms, professional templates, and real-time editing.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Letter of Intent Generator</h3>
+              <p className="text-gray-600 text-sm mb-4">Create professional Letters of Intent with guided forms, customizable terms, and industry-standard templates.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Dynamic form collection</li>
+                <li>• Guided form completion</li>
                 <li>• Professional templates</li>
-                <li>• Real-time preview</li>
-                <li>• Multi-format download</li>
+                <li>• Real-time document preview</li>
+                <li>• Multiple export formats</li>
               </ul>
             </div>
             
