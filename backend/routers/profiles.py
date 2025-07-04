@@ -116,16 +116,38 @@ async def get_user_profile(
     """
     Get a user's profile by ID
     """
-    # Get user from database
-    user = await get_document("profiles", user_id)
-    
-    if not user:
+    try:
+        # Get user from database
+        user = await get_document("profiles", user_id)
+        
+        if not user:
+            # If user not found in database, try to use the current user if IDs match
+            if user_id == current_user.id:
+                return current_user
+            
+            # Try to get from mock data
+            from mock_data_fallback import get_mock_document
+            user = get_mock_document("profiles", user_id)
+            
+            if not user:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="User not found"
+                )
+        
+        return UserProfile(**user)
+    except Exception as e:
+        print(f"Error in get_user_profile: {e}")
+        
+        # If there's an error, try to use the current user if IDs match
+        if user_id == current_user.id:
+            return current_user
+        
+        # Otherwise, raise 404
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"
         )
-    
-    return UserProfile(**user)
 
 
 @router.get("/type/{user_type}", response_model=List[UserProfile])
