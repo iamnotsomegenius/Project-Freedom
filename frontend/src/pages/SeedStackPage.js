@@ -85,13 +85,13 @@ const SeedStackPage = () => {
             
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
               <MagnifyingGlassIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Market Research Engine</h3>
-              <p className="text-gray-600 text-sm mb-4">Automated industry analysis, competitive landscape mapping, and valuation multiple benchmarking by NAICS code.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Market Intelligence</h3>
+              <p className="text-gray-600 text-sm mb-4">Comprehensive industry analysis, competitive landscape mapping, and valuation benchmarking for informed decision-making.</p>
               <ul className="text-xs text-gray-500 space-y-1">
                 <li>• Industry trend analysis</li>
-                <li>• Market size projections</li>
-                <li>• Competitive mapping</li>
-                <li>• Valuation multiples</li>
+                <li>• Market size and growth projections</li>
+                <li>• Competitive landscape mapping</li>
+                <li>• Valuation multiple benchmarks</li>
               </ul>
             </div>
             
