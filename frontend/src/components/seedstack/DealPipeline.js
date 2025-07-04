@@ -3,7 +3,16 @@ import SeedStackLayout from './SeedStackLayout';
 import {
   PlusIcon,
   EllipsisVerticalIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  ExclamationTriangleIcon,
+  DocumentTextIcon,
+  BanknotesIcon,
+  BuildingOfficeIcon,
+  UserGroupIcon,
+  ChevronRightIcon,
   LinkIcon,
+  PlayIcon,
 } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
 
