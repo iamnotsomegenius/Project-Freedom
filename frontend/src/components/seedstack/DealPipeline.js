@@ -133,82 +133,218 @@ const DealPipeline = ({ user, onLogout }) => {
     setDeals(mockDeals);
   };
 
-  const handleAddDeal = async () => {
-    const deal = {
-      id: Date.now().toString(),
-      ...newDeal,
-      asking_price: parseFloat(newDeal.asking_price) || 0,
-      revenue: parseFloat(newDeal.revenue) || 0,
-      ebitda: parseFloat(newDeal.ebitda) || 0,
-      stage: 'inbox',
-      priority: 'medium',
-      marketplace_listing_id: null
-    };
-
-    setDeals([...deals, deal]);
-    setNewDeal({
-      title: '',
-      industry: '',
-      location: '',
-      asking_price: '',
-      revenue: '',
-      ebitda: '',
-      notes: '',
-      broker_contact: ''
-    });
-    setShowAddDeal(false);
-  };
-
-  const handleDragStart = (e, dealId) => {
-    e.dataTransfer.setData('text/plain', dealId);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e, targetStage) => {
-    e.preventDefault();
-    const dealId = e.dataTransfer.getData('text/plain');
-    
-    setDeals(deals.map(deal => 
-      deal.id === dealId 
-        ? { ...deal, stage: targetStage }
-        : deal
-    ));
-  };
-
-  const publishToMarketplace = async (dealId) => {
-    const deal = deals.find(d => d.id === dealId);
-    if (!deal) return;
-
-    if (deal.stage === 'inbox' || deal.stage === 'interested') {
-      alert('Deal must be at LOI stage or beyond to publish to marketplace');
-      return;
-    }
-
-    // Simulate API call
-    const marketplaceId = `marketplace-${Date.now()}`;
-    
-    setDeals(deals.map(d => 
-      d.id === dealId 
-        ? { ...d, marketplace_listing_id: marketplaceId }
-        : d
-    ));
-
-    alert(`Deal successfully published to SeedSMB Marketplace! Listing ID: ${marketplaceId}`);
-  };
-
   const getDealsByStage = (stage) => {
     return deals.filter(deal => deal.stage === stage);
   };
 
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case 'high': return 'border-l-red-500';
-      case 'medium': return 'border-l-yellow-500';
-      case 'low': return 'border-l-green-500';
-      default: return 'border-l-gray-500';
+  const getStageCount = (stage) => {
+    return getDealsByStage(stage).length;
+  };
+
+  const getProgressColor = (progress) => {
+    if (progress >= 75) return 'bg-green-500';
+    if (progress >= 50) return 'bg-yellow-500';
+    if (progress >= 25) return 'bg-blue-500';
+    return 'bg-gray-300';
+  };
+
+  const renderOutreachColumns = (deal) => (
+    <>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {deal.company_name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.last_outreach}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.location}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.industry}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        ${deal.revenue?.toLocaleString()}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.contact_person}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.nda_signed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        }`}>
+          {deal.nda_signed ? 'NDA Signed' : 'NDA Pending'}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.next_action}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <button className="text-blue-600 hover:text-blue-900 mr-2">
+          <PlayIcon className="h-4 w-4 inline" /> Automate
+        </button>
+        <button className="text-gray-600 hover:text-gray-900">
+          <EllipsisVerticalIcon className="h-4 w-4" />
+        </button>
+      </td>
+    </>
+  );
+
+  const renderLOISubmittedColumns = (deal) => (
+    <>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {deal.company_name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.loi_submitted_date}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        ${deal.loi_amount?.toLocaleString()}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.broker_name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.response_deadline}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.loi_status === 'accepted' ? 'bg-green-100 text-green-800' :
+          deal.loi_status === 'under_review' ? 'bg-yellow-100 text-yellow-800' :
+          'bg-red-100 text-red-800'
+        }`}>
+          {deal.loi_status?.replace('_', ' ').toUpperCase()}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <button className="text-blue-600 hover:text-blue-900 mr-2">
+          <PlayIcon className="h-4 w-4 inline" /> Auto Follow-up
+        </button>
+        <button className="text-gray-600 hover:text-gray-900">
+          <EllipsisVerticalIcon className="h-4 w-4" />
+        </button>
+      </td>
+    </>
+  );
+
+  const renderLOISignedColumns = (deal) => (
+    <>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {deal.company_name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.loi_signed_date}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.counsel_name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.qoe_status === 'completed' ? 'bg-green-100 text-green-800' :
+          deal.qoe_status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+          'bg-gray-100 text-gray-800'
+        }`}>
+          QoE: {deal.qoe_status?.replace('_', ' ')}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.vdr_access === 'granted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+        }`}>
+          VDR: {deal.vdr_access}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <button className="text-blue-600 hover:text-blue-900 mr-2">
+          <PlayIcon className="h-4 w-4 inline" /> Auto VDR
+        </button>
+        <button className="text-gray-600 hover:text-gray-900">
+          <EllipsisVerticalIcon className="h-4 w-4" />
+        </button>
+      </td>
+    </>
+  );
+
+  const renderClosingColumns = (deal) => (
+    <>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {deal.company_name}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {deal.closing_target}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+          deal.sba_approval === 'approved' ? 'bg-green-100 text-green-800' :
+          deal.sba_approval === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+          'bg-red-100 text-red-800'
+        }`}>
+          SBA: {deal.sba_approval}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        {deal.marketplace_listed && (
+          <div className="flex items-center">
+            <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
+              <div 
+                className={`h-2 rounded-full ${getProgressColor((deal.funding_raised / deal.funding_target) * 100)}`}
+                style={{ width: `${(deal.funding_raised / deal.funding_target) * 100}%` }}
+              ></div>
+            </div>
+            <span className="text-xs text-gray-500">
+              ${deal.funding_raised?.toLocaleString()} / ${deal.funding_target?.toLocaleString()}
+            </span>
+          </div>
+        )}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="flex items-center">
+          <div className="w-20 bg-gray-200 rounded-full h-2 mr-2">
+            <div 
+              className={`h-2 rounded-full ${getProgressColor(deal.closing_progress)}`}
+              style={{ width: `${deal.closing_progress}%` }}
+            ></div>
+          </div>
+          <span className="text-xs text-gray-500">{deal.closing_progress}%</span>
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <button className="text-blue-600 hover:text-blue-900 mr-2">
+          <PlayIcon className="h-4 w-4 inline" /> Auto Close
+        </button>
+        <button className="text-gray-600 hover:text-gray-900">
+          <EllipsisVerticalIcon className="h-4 w-4" />
+        </button>
+      </td>
+    </>
+  );
+
+  const getColumnHeaders = (stage) => {
+    switch (stage) {
+      case 'outreach':
+        return ['Company', 'Last Outreach', 'Location', 'Industry', 'Revenue', 'Contact', 'NDA Status', 'Next Action', 'Actions'];
+      case 'loi_submitted':
+        return ['Company', 'Submitted', 'LOI Amount', 'Broker', 'Deadline', 'Status', 'Actions'];
+      case 'loi_signed':
+        return ['Company', 'Signed Date', 'Counsel', 'QoE Status', 'VDR Access', 'Actions'];
+      case 'closing':
+        return ['Company', 'Target Close', 'SBA Status', 'Marketplace Funding', 'Closing Progress', 'Actions'];
+      default:
+        return [];
+    }
+  };
+
+  const renderTableRow = (deal) => {
+    switch (activeStage) {
+      case 'outreach':
+        return renderOutreachColumns(deal);
+      case 'loi_submitted':
+        return renderLOISubmittedColumns(deal);
+      case 'loi_signed':
+        return renderLOISignedColumns(deal);
+      case 'closing':
+        return renderClosingColumns(deal);
+      default:
+        return null;
     }
   };
 
