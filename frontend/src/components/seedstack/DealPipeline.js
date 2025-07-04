@@ -23,27 +23,27 @@ const DealPipeline = ({ user, onLogout }) => {
 
   const stages = [
     { 
-      id: 'outreach', 
-      title: 'Initial Outreach', 
+      id: 'interested', 
+      title: 'Interested', 
       color: 'bg-blue-50 border-blue-200 text-blue-900',
       icon: UserGroupIcon 
     },
     { 
-      id: 'loi_submitted', 
-      title: 'LOI Submitted', 
+      id: 'loi_sent', 
+      title: 'LOI Sent', 
       color: 'bg-yellow-50 border-yellow-200 text-yellow-900',
       icon: DocumentTextIcon 
     },
     { 
-      id: 'loi_signed', 
-      title: 'LOI Signed', 
-      color: 'bg-green-50 border-green-200 text-green-900',
+      id: 'diligence', 
+      title: 'Diligence', 
+      color: 'bg-purple-50 border-purple-200 text-purple-900',
       icon: CheckCircleIcon 
     },
     { 
       id: 'closing', 
-      title: 'Closing / Due Diligence', 
-      color: 'bg-purple-50 border-purple-200 text-purple-900',
+      title: 'Closing', 
+      color: 'bg-green-50 border-green-200 text-green-900',
       icon: BuildingOfficeIcon 
     }
   ];
