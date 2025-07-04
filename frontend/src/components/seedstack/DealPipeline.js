@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SeedStackLayout from './SeedStackLayout';
+import dealDataService from '../../services/dealDataService';
 import {
   PlusIcon,
   EllipsisVerticalIcon,
