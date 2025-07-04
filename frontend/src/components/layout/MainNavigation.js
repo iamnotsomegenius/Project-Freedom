@@ -192,14 +192,14 @@ const MainNavigation = () => {
   
   return (
     <header className="bg-primary/95 sticky top-0 z-40 border-b border-gray-800">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="flex justify-between items-center h-16 min-h-[4rem]">
+          <Link to="/" className="flex items-center flex-shrink-0">
             <Logo className="h-8 w-auto" />
             <span className="ml-2 font-bold text-lg text-foreground">SeedSMB</span>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 overflow-hidden">
             {/* How It Works */}
             <NavLink href="/how-it-works">How It Works</NavLink>
             
@@ -225,14 +225,14 @@ const MainNavigation = () => {
             </NavLink>
           </nav>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 lg:space-x-4 flex-shrink-0">
             {user ? (
               <>
                 {user.user_type === 'SELLER' && (
                   <Button 
                     href="/dashboard/seller/create-listing"
                     variant="outline"
-                    className="hidden md:block border-secondary text-secondary hover:bg-secondary/10"
+                    className="hidden lg:block border-secondary text-secondary hover:bg-secondary/10 text-sm px-3 py-1.5"
                   >
                     List Business
                   </Button>
@@ -244,13 +244,13 @@ const MainNavigation = () => {
                 <Button 
                   onClick={() => openAuthModal({ mode: 'signin' })}
                   variant="ghost"
-                  className="hidden md:block text-foreground hover:bg-gray-800"
+                  className="hidden lg:block text-foreground hover:bg-gray-800 text-sm px-3 py-1.5"
                 >
                   Sign In
                 </Button>
                 <Button 
                   onClick={() => openAuthModal({ mode: 'signup' })}
-                  className="hidden md:block bg-secondary hover:bg-secondary/90 text-background"
+                  className="hidden lg:block bg-secondary hover:bg-secondary/90 text-background text-sm px-3 py-1.5"
                 >
                   Get Started
                 </Button>
@@ -260,7 +260,7 @@ const MainNavigation = () => {
             {/* Mobile Menu Button */}
             <button
               type="button"
-              className="md:hidden text-gray-400 hover:text-foreground"
+              className="lg:hidden text-gray-400 hover:text-foreground p-2"
               onClick={() => setMobileMenuOpen(true)}
             >
               <Bars3Icon className="h-6 w-6" />
