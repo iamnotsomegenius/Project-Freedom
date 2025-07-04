@@ -58,13 +58,26 @@ const SeedStackPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
-              <ChatBubbleLeftRightIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">AI Deal Assistant</h3>
-              <p className="text-gray-600 text-sm mb-4">Intelligent conversational assistant that understands your deals and provides expert guidance throughout the acquisition process.</p>
+              <MagnifyingGlassIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Market Research</h3>
+              <p className="text-gray-600 text-sm mb-4">Comprehensive industry analysis, competitive landscape mapping, and valuation benchmarking for informed decision-making.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Context-aware deal analysis</li>
-                <li>• Strategic guidance and recommendations</li>
-                <li>• Instant answers to acquisition questions</li>
+                <li>• Industry trend analysis</li>
+                <li>• Market size and growth projections</li>
+                <li>• Competitive landscape mapping</li>
+                <li>• Valuation multiple benchmarks</li>
+              </ul>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <Squares2X2Icon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Deal Pipeline CRM</h3>
+              <p className="text-gray-600 text-sm mb-4">Kanban-style deal flow management: Inbox → Interested → LOI Sent → Due Diligence → Closed.</p>
+              <ul className="text-xs text-gray-500 space-y-1">
+                <li>• Drag-and-drop progression</li>
+                <li>• Priority color coding</li>
+                <li>• Activity tracking</li>
+                <li>• Notes & next actions</li>
               </ul>
             </div>
             
@@ -81,50 +94,37 @@ const SeedStackPage = () => {
             </div>
             
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
-              <MagnifyingGlassIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Market Intelligence</h3>
-              <p className="text-gray-600 text-sm mb-4">Comprehensive industry analysis, competitive landscape mapping, and valuation benchmarking for informed decision-making.</p>
-              <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Industry trend analysis</li>
-                <li>• Market size and growth projections</li>
-                <li>• Competitive landscape mapping</li>
-                <li>• Valuation multiple benchmarks</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
               <DocumentTextIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Letter of Intent Generator</h3>
-              <p className="text-gray-600 text-sm mb-4">Create professional Letters of Intent with guided forms, customizable terms, and industry-standard templates.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Legal Document Suite</h3>
+              <p className="text-gray-600 text-sm mb-4">Generate Letters of Intent and essential legal documents including NDAs, APA outlines, due diligence checklists, and employment agreements.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Guided form completion</li>
-                <li>• Professional templates</li>
-                <li>• Real-time document preview</li>
-                <li>• Multiple export formats</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
-              <ScaleIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Legal Document Library</h3>
-              <p className="text-gray-600 text-sm mb-4">Generate essential legal documents including NDAs, APA outlines, due diligence checklists, and employment agreements.</p>
-              <ul className="text-xs text-gray-500 space-y-1">
+                <li>• Professional LOI creation</li>
                 <li>• One-click document generation</li>
                 <li>• Customizable legal terms</li>
-                <li>• Professional formatting</li>
                 <li>• Instant download and sharing</li>
               </ul>
             </div>
             
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
-              <Squares2X2Icon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Deal Pipeline CRM</h3>
-              <p className="text-gray-600 text-sm mb-4">Kanban-style deal flow management: Inbox → Interested → LOI Sent → Due Diligence → Closed.</p>
+              <ChatBubbleLeftRightIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">AI Deal Assistant</h3>
+              <p className="text-gray-600 text-sm mb-4">Intelligent conversational assistant that understands your deals and provides expert guidance throughout the acquisition process.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• Drag-and-drop progression</li>
-                <li>• Priority color coding</li>
-                <li>• Activity tracking</li>
-                <li>• Notes & next actions</li>
+                <li>• Context-aware deal analysis</li>
+                <li>• Strategic guidance and recommendations</li>
+                <li>• Instant answers to acquisition questions</li>
+              </ul>
+            </div>
+            
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
+              <BanknotesIcon className="h-10 w-10 text-green-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">VDR & Capital Raising Tools</h3>
+              <p className="text-gray-600 text-sm mb-4">Seamless virtual data room and capital raising capabilities integrated with the SeedSMB marketplace for comprehensive deal execution.</p>
+              <ul className="text-xs text-gray-500 space-y-1">
+                <li>• Secure document sharing</li>
+                <li>• Marketplace integration</li>
+                <li>• Investor outreach tools</li>
+                <li>• Deal syndication platform</li>
               </ul>
             </div>
           </div>
