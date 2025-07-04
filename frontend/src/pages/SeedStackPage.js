@@ -109,13 +109,13 @@ const SeedStackPage = () => {
             
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:border-green-300 transition-colors">
               <ScaleIcon className="h-10 w-10 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Legal Templates Library</h3>
-              <p className="text-gray-600 text-sm mb-4">AI-generated legal documents including NDAs, APA outlines, due diligence checklists, and employment agreements.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Legal Document Library</h3>
+              <p className="text-gray-600 text-sm mb-4">Generate essential legal documents including NDAs, APA outlines, due diligence checklists, and employment agreements.</p>
               <ul className="text-xs text-gray-500 space-y-1">
-                <li>• One-click template generation</li>
-                <li>• Customizable terms</li>
-                <li>• Legal disclaimers</li>
-                <li>• Instant download</li>
+                <li>• One-click document generation</li>
+                <li>• Customizable legal terms</li>
+                <li>• Professional formatting</li>
+                <li>• Instant download and sharing</li>
               </ul>
             </div>
             
