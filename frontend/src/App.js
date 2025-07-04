@@ -80,7 +80,12 @@ function App() {
                   <Route path="/how-it-works/sellers" element={<SellersPage />} />
                   <Route path="/how-it-works/investors" element={<InvestorsPage />} />
                   <Route path="/how-it-works/regulatory" element={<RegulatoryPage />} />
-                  <Route path="/how-it-works/pricing" element={<PricingPage />} />
+                  
+                  {/* Pricing */}
+                  <Route path="/pricing" element={<PricingPage />} />
+
+                  {/* SeedStack */}
+                  <Route path="/seedstack" element={<SeedStackPage />} />
                   
                   {/* About */}
                   <Route path="/about" element={<AboutPage />} />
