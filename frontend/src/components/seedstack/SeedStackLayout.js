@@ -17,9 +17,8 @@ const SeedStackLayout = ({ children, user, onLogout }) => {
   const navigation = [
     { name: 'Dashboard', href: '/seedstack-app/', icon: HomeIcon },
     { name: 'Deal Pipeline', href: '/seedstack-app/pipeline', icon: Squares2X2Icon },
-    { name: 'AI Assistant', href: '/seedstack-app/ai-assistant', icon: ChatBubbleLeftRightIcon },
+    { name: 'Deal Sourcing & AI', href: '/seedstack-app/deal-sourcing', icon: MagnifyingGlassIcon },
     { name: 'P&L Analyzer', href: '/seedstack-app/pl-analyzer', icon: DocumentChartBarIcon },
-    { name: 'Market Research', href: '/seedstack-app/market-research', icon: MagnifyingGlassIcon },
     { name: 'LOI Generator', href: '/seedstack-app/loi-generator', icon: DocumentTextIcon },
     { name: 'Legal Templates', href: '/seedstack-app/legal-templates', icon: ScaleIcon },
   ];
