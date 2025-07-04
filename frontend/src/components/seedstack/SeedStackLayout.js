@@ -29,15 +29,21 @@ const SeedStackLayout = ({ children, user, onLogout }) => {
       {/* Sidebar */}
       <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg">
         <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+          {/* Logo and Back to Marketplace */}
+          <div className="flex flex-col space-y-3 p-6 border-b border-gray-200">
             <h1 className="text-xl font-bold text-gray-900">
               SeedStack<span className="text-xs align-super text-gray-600">™</span>
             </h1>
+            <a
+              href="/"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              ← Back to Marketplace
+            </a>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -62,7 +68,7 @@ const SeedStackLayout = ({ children, user, onLogout }) => {
           </nav>
 
           {/* User menu */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="flex-shrink-0 p-4 border-t border-gray-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -89,7 +95,7 @@ const SeedStackLayout = ({ children, user, onLogout }) => {
 
       {/* Main content */}
       <div className="flex-1 ml-64">
-        <main className="flex-1">
+        <main className="min-h-screen">
           {children}
         </main>
       </div>
