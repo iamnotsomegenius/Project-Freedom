@@ -180,81 +180,83 @@ const DealPipeline = ({ user, onLogout }) => {
         </div>
 
         {/* Kanban Board */}
-        <div className="flex space-x-6 overflow-x-auto pb-6">
-          {stages.map((stage) => (
-            <div 
-              key={stage.id} 
-              className="flex-shrink-0 w-80"
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, stage.id)}
-            >
-              <div className={`${stage.color} rounded-lg p-4`}>
-                <h3 className="font-semibold text-gray-900 mb-4">
-                  {stage.title} ({getDealsByStage(stage.id).length})
-                </h3>
-                
-                <div className="space-y-3">
-                  {getDealsByStage(stage.id).map((deal) => (
-                    <div
-                      key={deal.id}
-                      draggable
-                      onDragStart={(e) => handleDragStart(e, deal.id)}
-                      className={`bg-white rounded-lg p-4 shadow-sm border-l-4 ${getPriorityColor(deal.priority)} cursor-move hover:shadow-md transition-shadow`}
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-medium text-gray-900 text-sm">{deal.title}</h4>
-                        <div className="relative">
-                          <button className="text-gray-400 hover:text-gray-600">
-                            <EllipsisVerticalIcon className="h-4 w-4" />
-                          </button>
+        <div className="overflow-x-auto">
+          <div className="flex space-x-6 min-w-max pb-6">
+            {stages.map((stage) => (
+              <div 
+                key={stage.id} 
+                className="flex-shrink-0 w-72 sm:w-80"
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, stage.id)}
+              >
+                <div className={`${stage.color} rounded-lg p-4 min-h-[600px]`}>
+                  <h3 className="font-semibold text-gray-900 mb-4">
+                    {stage.title} ({getDealsByStage(stage.id).length})
+                  </h3>
+                  
+                  <div className="space-y-3">
+                    {getDealsByStage(stage.id).map((deal) => (
+                      <div
+                        key={deal.id}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, deal.id)}
+                        className={`bg-white rounded-lg p-4 shadow-sm border-l-4 ${getPriorityColor(deal.priority)} cursor-move hover:shadow-md transition-shadow`}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-medium text-gray-900 text-sm">{deal.title}</h4>
+                          <div className="relative">
+                            <button className="text-gray-400 hover:text-gray-600">
+                              <EllipsisVerticalIcon className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div className="text-xs text-gray-600 space-y-1">
+                          <p><strong>Industry:</strong> {deal.industry}</p>
+                          <p><strong>Location:</strong> {deal.location}</p>
+                          <p><strong>Asking:</strong> ${deal.asking_price?.toLocaleString()}</p>
+                          <p><strong>Revenue:</strong> ${deal.revenue?.toLocaleString()}</p>
+                          <p><strong>EBITDA:</strong> ${deal.ebitda?.toLocaleString()}</p>
+                        </div>
+                        
+                        {deal.notes && (
+                          <p className="text-xs text-gray-500 mt-2 italic">{deal.notes}</p>
+                        )}
+                        
+                        <div className="mt-3 flex justify-between items-center">
+                          <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                            deal.priority === 'high' ? 'bg-red-100 text-red-800' :
+                            deal.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-green-100 text-green-800'
+                          }`}>
+                            {deal.priority}
+                          </span>
+                          
+                          {(stage.id === 'loi_sent' || stage.id === 'diligence' || stage.id === 'closed') && !deal.marketplace_listing_id && (
+                            <button
+                              onClick={() => publishToMarketplace(deal.id)}
+                              className="text-xs text-green-600 hover:text-green-800 flex items-center"
+                              title="Publish to SeedSMB Marketplace"
+                            >
+                              <LinkIcon className="h-3 w-3 mr-1" />
+                              Publish
+                            </button>
+                          )}
+                          
+                          {deal.marketplace_listing_id && (
+                            <span className="text-xs text-green-600 flex items-center">
+                              <LinkIcon className="h-3 w-3 mr-1" />
+                              Live
+                            </span>
+                          )}
                         </div>
                       </div>
-                      
-                      <div className="text-xs text-gray-600 space-y-1">
-                        <p><strong>Industry:</strong> {deal.industry}</p>
-                        <p><strong>Location:</strong> {deal.location}</p>
-                        <p><strong>Asking:</strong> ${deal.asking_price?.toLocaleString()}</p>
-                        <p><strong>Revenue:</strong> ${deal.revenue?.toLocaleString()}</p>
-                        <p><strong>EBITDA:</strong> ${deal.ebitda?.toLocaleString()}</p>
-                      </div>
-                      
-                      {deal.notes && (
-                        <p className="text-xs text-gray-500 mt-2 italic">{deal.notes}</p>
-                      )}
-                      
-                      <div className="mt-3 flex justify-between items-center">
-                        <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                          deal.priority === 'high' ? 'bg-red-100 text-red-800' :
-                          deal.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
-                        }`}>
-                          {deal.priority}
-                        </span>
-                        
-                        {(stage.id === 'loi_sent' || stage.id === 'diligence' || stage.id === 'closed') && !deal.marketplace_listing_id && (
-                          <button
-                            onClick={() => publishToMarketplace(deal.id)}
-                            className="text-xs text-green-600 hover:text-green-800 flex items-center"
-                            title="Publish to SeedSMB Marketplace"
-                          >
-                            <LinkIcon className="h-3 w-3 mr-1" />
-                            Publish
-                          </button>
-                        )}
-                        
-                        {deal.marketplace_listing_id && (
-                          <span className="text-xs text-green-600 flex items-center">
-                            <LinkIcon className="h-3 w-3 mr-1" />
-                            Live
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Add Deal Modal */}
