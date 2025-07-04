@@ -39,6 +39,7 @@ import ResourceCenterPage from './pages/ResourceCenterPage';
 import FAQPage from './pages/FAQPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SeedStackPage from './pages/SeedStackPage';
+import SeedStackApp from './pages/SeedStackApp';
 
 // Dashboard Pages
 import SellerDashboardPage from './pages/dashboard/SellerDashboardPage';
