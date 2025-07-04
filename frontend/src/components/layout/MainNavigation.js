@@ -194,14 +194,11 @@ const MainNavigation = () => {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-8">
-            {/* How It Works Dropdown */}
-            <NavDropdown title="How It Works">
-              <DropdownLink href="/how-it-works/buyers">For Buyers</DropdownLink>
-              <DropdownLink href="/how-it-works/sellers">For Sellers</DropdownLink>
-              <DropdownLink href="/how-it-works/investors">For Investors</DropdownLink>
-              <DropdownLink href="/how-it-works/regulatory">Regulatory Framework</DropdownLink>
-              <DropdownLink href="/how-it-works/pricing">Pricing</DropdownLink>
-            </NavDropdown>
+            {/* How It Works */}
+            <NavLink href="/how-it-works">How It Works</NavLink>
+            
+            {/* Pricing */}
+            <NavLink href="/pricing">Pricing</NavLink>
             
             {/* About Us Dropdown */}
             <NavDropdown title="About Us">
@@ -215,6 +212,11 @@ const MainNavigation = () => {
               <DropdownLink href="/dashboard/investments">Investment Portfolio</DropdownLink>
               <DropdownLink href="/resources">Resources</DropdownLink>
             </NavDropdown>
+
+            {/* SeedStack */}
+            <NavLink href="/seedstack" className="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text hover:from-purple-300 hover:to-pink-300 font-semibold">
+              SeedStack<span className="text-xs align-super">™</span>
+            </NavLink>
           </nav>
           
           <div className="flex items-center space-x-4">
