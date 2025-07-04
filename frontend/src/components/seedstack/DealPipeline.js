@@ -181,17 +181,17 @@ const DealPipeline = ({ user, onLogout }) => {
           </div>
         </div>
 
-        {/* Kanban Board */}
-        <div className="overflow-x-auto">
-          <div className="flex space-x-6 min-w-max pb-6">
+        {/* Scrollable Kanban Board */}
+        <div className="flex-1 p-6 overflow-x-auto bg-gray-50">
+          <div className="flex space-x-6" style={{ minWidth: 'fit-content' }}>
             {stages.map((stage) => (
               <div 
                 key={stage.id} 
-                className="flex-shrink-0 w-72 sm:w-80"
+                className="flex-shrink-0 w-80"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, stage.id)}
               >
-                <div className={`${stage.color} rounded-lg p-4 min-h-[600px]`}>
+                <div className={`${stage.color} rounded-lg p-4 h-full`}>
                   <h3 className="font-semibold text-gray-900 mb-4">
                     {stage.title} ({getDealsByStage(stage.id).length})
                   </h3>
