@@ -42,7 +42,7 @@ const NavDropdown = ({ title, children }) => {
       </button>
       
       {isOpen && (
-        <div className="absolute top-full left-0 mt-0 w-48 bg-primary border border-gray-800 rounded-md shadow-lg py-2 z-50">
+        <div className="absolute top-full left-0 mt-0 w-48 bg-primary border border-gray-800 rounded-md shadow-lg py-2 z-50 max-w-[200px] min-w-[160px]">
           {children}
         </div>
       )}
