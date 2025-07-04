@@ -38,8 +38,11 @@ const SeedStackPage = () => {
               into a data-driven, scalable business model.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-              <Button className="bg-green-600 hover:bg-green-700 text-white">
-                Start Free 14-Day Trial
+              <Button 
+                className="bg-green-600 hover:bg-green-700 text-white"
+                onClick={() => window.open('/seedstack-app', '_blank')}
+              >
+                Try Live Demo
               </Button>
               <Button variant="outline" className="border-gray-300 text-gray-900 hover:bg-gray-50">
                 Schedule Demo
