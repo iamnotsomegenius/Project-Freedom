@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+
+// Components
 import SeedStackLogin from '../components/seedstack/SeedStackLogin';
 import SeedStackDashboard from '../components/seedstack/SeedStackDashboard';
 import DealPipeline from '../components/seedstack/DealPipeline';
-import AIAssistant from '../components/seedstack/AIAssistant';
+import DealSourcingAI from '../components/seedstack/DealSourcingAI';
 import PLAnalyzer from '../components/seedstack/PLAnalyzer';
-import MarketResearch from '../components/seedstack/MarketResearch';
 import LOIGenerator from '../components/seedstack/LOIGenerator';
 import LegalTemplates from '../components/seedstack/LegalTemplates';
 
