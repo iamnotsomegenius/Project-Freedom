@@ -292,7 +292,7 @@ def test_seedstack_endpoints(tester):
     """Test SeedStack endpoints"""
     print("\n===== TESTING SEEDSTACK ENDPOINTS =====\n")
     
-    # First, login with regular credentials to get a valid token
+    # First, login with admin credentials to get a valid token
     login_success = tester.test_login("admin@seedsmb.com", "password123")
     if not login_success:
         print("⚠️ Skipping SeedStack tests due to login failure")
@@ -445,15 +445,8 @@ def main():
     # Test authentication
     print("\n===== TESTING AUTHENTICATION =====\n")
     
-    # Try to register a new user
-    register_success, register_data = tester.test_register_user()
-    
-    # Try to login
-    if register_success and 'email' in register_data:
-        login_success = tester.test_login(register_data['email'], "TestPass123!")
-    else:
-        # Try with mock credentials
-        login_success = tester.test_login("admin@seedsmb.com", "password123")
+    # Try to login with admin credentials
+    login_success = tester.test_login("admin@seedsmb.com", "password123")
     
     # Test authenticated endpoints
     if login_success:
