@@ -430,14 +430,14 @@ const DealPipeline = ({ user, onLogout }) => {
 
   const getColumnHeaders = (stage) => {
     switch (stage) {
-      case 'outreach':
-        return ['Company', 'Last Outreach', 'Location', 'Industry', 'Revenue', 'Contact', 'NDA Status', 'Next Action', 'Actions'];
-      case 'loi_submitted':
-        return ['Company', 'Submitted', 'LOI Amount', 'Broker', 'Deadline', 'Status', 'Actions'];
-      case 'loi_signed':
-        return ['Company', 'Signed Date', 'Counsel', 'QoE Status', 'VDR Access', 'Actions'];
+      case 'interested':
+        return ['Company', 'Industry', 'Location', 'Revenue', 'Asking Price', 'Contact', 'NDA Status', 'Interest Level', 'Next Meeting', 'Actions'];
+      case 'loi_sent':
+        return ['Company', 'LOI Sent', 'LOI Amount', 'LOI Terms', 'Response Due', 'Status', 'Days Pending', 'Broker', 'Actions'];
+      case 'diligence':
+        return ['Company', 'LOI Signed', 'DD Deadline', 'QoE Progress', 'Legal Review', 'VDR Status', 'Financial Review', 'Actions'];
       case 'closing':
-        return ['Company', 'Target Close', 'SBA Status', 'Marketplace Funding', 'Closing Progress', 'Actions'];
+        return ['Company', 'Target Close', 'Purchase Price', 'SBA Status', 'APA Status', 'Conditions', 'Marketplace Funding', 'Closing Progress', 'Actions'];
       default:
         return [];
     }
@@ -445,12 +445,12 @@ const DealPipeline = ({ user, onLogout }) => {
 
   const renderTableRow = (deal) => {
     switch (activeStage) {
-      case 'outreach':
-        return renderOutreachColumns(deal);
-      case 'loi_submitted':
-        return renderLOISubmittedColumns(deal);
-      case 'loi_signed':
-        return renderLOISignedColumns(deal);
+      case 'interested':
+        return renderInterestedColumns(deal);
+      case 'loi_sent':
+        return renderLOISentColumns(deal);
+      case 'diligence':
+        return renderDiligenceColumns(deal);
       case 'closing':
         return renderClosingColumns(deal);
       default:
