@@ -282,16 +282,29 @@ async def get_all_listings():
     return result
 
 
-@router.get("/", response_model=List[BusinessListing])
-async def get_listings_main():
+@router.get("/browse", response_model=List[BusinessListing])
+async def browse_listings():
     """
-    Get business listings - main endpoint
+    Browse all business listings 
     """
     result = []
     for listing in MOCK_LISTINGS:
         if listing["status"] == "active":
             result.append(BusinessListing(**listing))
     return result
+
+
+# Temporarily disable the root route to avoid conflicts
+# @router.get("/", response_model=List[BusinessListing])
+# async def get_listings_main():
+#     """
+#     Get business listings - main endpoint
+#     """
+#     result = []
+#     for listing in MOCK_LISTINGS:
+#         if listing["status"] == "active":
+#             result.append(BusinessListing(**listing))
+#     return result
 
 
 @router.get("/featured", response_model=List[BusinessListing])
