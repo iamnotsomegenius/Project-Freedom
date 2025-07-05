@@ -283,54 +283,14 @@ async def get_all_listings():
 
 
 @router.get("/", response_model=List[BusinessListing])
-async def get_listings_main(
-    status: Optional[str] = None,
-    industry: Optional[str] = None,
-    min_revenue: Optional[float] = None,
-    max_revenue: Optional[float] = None,
-    min_profit: Optional[float] = None,
-    max_profit: Optional[float] = None,
-    location: Optional[str] = None,
-    search: Optional[str] = None,
-    skip: int = Query(0, ge=0),
-    limit: int = Query(20, ge=1, le=100)
-):
+async def get_listings_main():
     """
-    Get business listings with optional filtering
+    Get business listings - main endpoint
     """
-    # Start with all active listings
-    filtered_listings = [l for l in MOCK_LISTINGS if l["status"] == "active"]
-    
-    # Apply filters
-    if industry:
-        filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
-    
-    if min_revenue is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= min_revenue]
-    
-    if max_revenue is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= max_revenue]
-    
-    if min_profit is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= min_profit]
-    
-    if max_profit is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= max_profit]
-    
-    if location:
-        filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
-    
-    if search:
-        filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
-    
-    # Apply pagination
-    paginated_listings = filtered_listings[skip:skip+limit]
-    
-    # Convert to BusinessListing objects
     result = []
-    for listing in paginated_listings:
-        result.append(BusinessListing(**listing))
-    
+    for listing in MOCK_LISTINGS:
+        if listing["status"] == "active":
+            result.append(BusinessListing(**listing))
     return result
 
 
