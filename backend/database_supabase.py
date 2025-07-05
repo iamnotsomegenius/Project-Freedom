@@ -32,14 +32,18 @@ async def connect_to_supabase():
     global supabase
     if supabase is None:
         if not supabase_url or not supabase_key:
-            raise ValueError("Supabase URL and Key must be set in environment variables")
+            print("WARNING: Supabase URL and Key not found, using mock data fallback")
+            return
         
         try:
             supabase = create_client(supabase_url, supabase_key)
+            # Test the connection with a simple query
+            test_response = supabase.table("business_listings").select("count", count="exact").limit(1).execute()
             print("Successfully connected to Supabase")
         except Exception as e:
-            print(f"Error connecting to Supabase: {str(e)}")
-            raise
+            print(f"Error connecting to Supabase: {str(e)} - Using mock data fallback")
+            # Set supabase to None so functions know to use fallback
+            supabase = None
 
 
 async def close_supabase_connection():
