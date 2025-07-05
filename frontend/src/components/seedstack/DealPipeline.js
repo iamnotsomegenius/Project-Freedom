@@ -311,17 +311,17 @@ const DealPipeline = ({ user, onLogout }) => {
 
   return (
     <SeedStackLayout user={user} onLogout={onLogout}>
-      <div className="h-full flex flex-col bg-gray-50">
+      <div className="h-full flex flex-col bg-gray-50 overflow-hidden">
         {/* Header */}
-        <div className="flex-shrink-0 p-6 bg-white border-b border-gray-200">
-          <div className="flex justify-between items-center">
+        <div className="flex-shrink-0 p-4 lg:p-6 bg-white border-b border-gray-200">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-4 lg:space-y-0">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Deal Pipeline</h1>
-              <p className="text-gray-600">Automated workflow management for seamless acquisitions</p>
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Deal Pipeline</h1>
+              <p className="text-gray-600 text-sm lg:text-base">Automated workflow management for seamless acquisitions</p>
             </div>
             <Button 
               onClick={() => setShowAddDeal(true)}
-              className="bg-green-600 hover:bg-green-700 text-white"
+              className="bg-green-600 hover:bg-green-700 text-white w-full lg:w-auto"
             >
               <PlusIcon className="h-4 w-4 mr-2" />
               Add Deal
@@ -330,8 +330,8 @@ const DealPipeline = ({ user, onLogout }) => {
         </div>
 
         {/* Stage Summary Cards */}
-        <div className="flex-shrink-0 p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex-shrink-0 p-4 lg:p-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
             {stages.map((stage) => {
               const count = getStageCount(stage.id);
               const IconComponent = stage.id === 'interested' ? UserGroupIcon :
@@ -343,16 +343,16 @@ const DealPipeline = ({ user, onLogout }) => {
                 <div 
                   key={stage.id}
                   onClick={() => setActiveStage(stage.id)}
-                  className={`${stage.color} border-2 rounded-lg p-6 cursor-pointer hover:shadow-md transition-all ${
+                  className={`${stage.color} border-2 rounded-lg p-3 lg:p-6 cursor-pointer hover:shadow-md transition-all ${
                     activeStage === stage.id ? 'ring-2 ring-offset-2 ring-blue-500' : ''
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium opacity-75">{stage.title}</p>
-                      <p className="text-3xl font-bold">{count}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs lg:text-sm font-medium opacity-75 truncate">{stage.title}</p>
+                      <p className="text-2xl lg:text-3xl font-bold">{count}</p>
                     </div>
-                    <IconComponent className="h-8 w-8 opacity-75" />
+                    <IconComponent className="h-6 w-6 lg:h-8 lg:w-8 opacity-75 flex-shrink-0 ml-2" />
                   </div>
                 </div>
               );
@@ -361,7 +361,7 @@ const DealPipeline = ({ user, onLogout }) => {
         </div>
 
         {/* Detailed Table View */}
-        <div className="flex-1 px-6 pb-6 overflow-hidden">
+        <div className="flex-1 px-4 lg:px-6 pb-4 lg:pb-6 overflow-hidden">
           <div className="bg-white rounded-lg border border-gray-200 h-full flex flex-col">
             <div className="p-4 border-b border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900">
@@ -370,27 +370,41 @@ const DealPipeline = ({ user, onLogout }) => {
             </div>
             
             <div className="flex-1 overflow-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50 sticky top-0">
-                  <tr>
-                    {getColumnHeaders(activeStage).map((header, index) => (
-                      <th 
-                        key={index}
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {getDealsByStage(activeStage).map((deal) => (
-                    <tr key={deal.id} className="hover:bg-gray-50">
-                      {renderTableRow(deal)}
+              {/* Desktop Table View */}
+              <div className="hidden lg:block">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50 sticky top-0">
+                    <tr>
+                      {getColumnHeaders(activeStage).map((header, index) => (
+                        <th 
+                          key={index}
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          {header}
+                        </th>
+                      ))}
                     </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {getDealsByStage(activeStage).map((deal) => (
+                      <tr key={deal.id} className="hover:bg-gray-50">
+                        {renderTableRow(deal)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="lg:hidden">
+                <div className="space-y-4 p-4">
+                  {getDealsByStage(activeStage).map((deal) => (
+                    <div key={deal.id} className="bg-gray-50 rounded-lg p-4 space-y-3">
+                      {renderMobileCard(deal)}
+                    </div>
                   ))}
-                </tbody>
-              </table>
+                </div>
+              </div>
               
               {getDealsByStage(activeStage).length === 0 && (
                 <div className="text-center py-12">
