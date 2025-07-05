@@ -271,14 +271,48 @@ async def debug_listings():
 
 
 @router.get("/all", response_model=List[BusinessListing])
-async def get_all_listings():
+async def get_all_listings(
+    industry: Optional[str] = None,
+    minRevenue: Optional[float] = None,
+    maxRevenue: Optional[float] = None,
+    minProfit: Optional[float] = None,
+    maxProfit: Optional[float] = None,
+    location: Optional[str] = None,
+    search: Optional[str] = None
+):
     """
-    Get all business listings - simplified version
+    Get all business listings with optional filtering
     """
+    # Start with all active listings
+    filtered_listings = [l for l in MOCK_LISTINGS if l["status"] == "active"]
+    
+    # Apply filters if provided
+    if industry:
+        filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
+    
+    if minRevenue is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= minRevenue]
+    
+    if maxRevenue is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= maxRevenue]
+    
+    if minProfit is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= minProfit]
+    
+    if maxProfit is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= maxProfit]
+    
+    if location:
+        filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
+    
+    if search:
+        filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
+    
+    # Convert to BusinessListing objects
     result = []
-    for listing in MOCK_LISTINGS:
-        if listing["status"] == "active":
-            result.append(BusinessListing(**listing))
+    for listing in filtered_listings:
+        result.append(BusinessListing(**listing))
+    
     return result
 
 
