@@ -71,6 +71,7 @@ MOCK_LISTINGS = [
         "seller_id": "2",  # seller@example.com
         "status": BusinessStatus.ACTIVE.value,
         "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
         "created_at": "2023-04-15T00:00:00Z",
         "updated_at": "2023-04-15T00:00:00Z"
     },
@@ -92,6 +93,7 @@ MOCK_LISTINGS = [
         "seller_id": "2",  # seller@example.com
         "status": BusinessStatus.ACTIVE.value,
         "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
         "created_at": "2023-05-10T00:00:00Z",
         "updated_at": "2023-05-10T00:00:00Z"
     },
@@ -113,6 +115,7 @@ MOCK_LISTINGS = [
         "seller_id": "2",  # seller@example.com
         "status": BusinessStatus.ACTIVE.value,
         "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
         "created_at": "2023-05-20T00:00:00Z",
         "updated_at": "2023-05-20T00:00:00Z"
     },
@@ -134,8 +137,53 @@ MOCK_LISTINGS = [
         "seller_id": "2",  # seller@example.com
         "status": BusinessStatus.ACTIVE.value,
         "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
         "created_at": "2023-06-01T00:00:00Z",
         "updated_at": "2023-06-01T00:00:00Z"
+    },
+    {
+        "id": "5",
+        "title": "Manufacturing Workshop",
+        "industry": "Manufacturing",
+        "location": "Denver, CO",
+        "description": "Well-established manufacturing business with modern equipment and skilled workforce.",
+        "annual_revenue": 850000,
+        "annual_profit": 220000,
+        "asking_price": 975000,
+        "employees_count": 15,
+        "years_in_business": 12,
+        "reason_for_selling": "Retirement",
+        "funding_target": 400000,
+        "funding_raised": 180000,
+        "investor_count": 6,
+        "seller_id": "2",  # seller@example.com
+        "status": BusinessStatus.ACTIVE.value,
+        "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
+        "created_at": "2023-06-15T00:00:00Z",
+        "updated_at": "2023-06-15T00:00:00Z"
+    },
+    {
+        "id": "6",
+        "title": "Healthcare Services Clinic",
+        "industry": "Healthcare",
+        "location": "Boston, MA",
+        "description": "Turnkey healthcare facility with excellent reputation and steady client base.",
+        "annual_revenue": 480000,
+        "annual_profit": 145000,
+        "asking_price": 620000,
+        "employees_count": 8,
+        "years_in_business": 7,
+        "reason_for_selling": "Relocation",
+        "funding_target": 250000,
+        "funding_raised": 95000,
+        "investor_count": 4,
+        "seller_id": "2",  # seller@example.com
+        "status": BusinessStatus.ACTIVE.value,
+        "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
+        "created_at": "2023-07-01T00:00:00Z",
+        "updated_at": "2023-07-01T00:00:00Z"
     }
 ]
 
