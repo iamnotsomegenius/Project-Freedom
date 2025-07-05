@@ -2,12 +2,20 @@ import api from './axios';
 
 export const getListings = async (params = {}) => {
   try {
-    // Use the featured endpoint which is working properly
-    const response = await api.get('/listings/featured');
+    // Use the main listings endpoint with proper error handling
+    const response = await api.get('/listings', { params });
     return response.data;
   } catch (error) {
     console.error('Error fetching listings:', error);
-    throw error;
+    
+    // Fallback to featured listings if main endpoint fails
+    try {
+      const fallbackResponse = await api.get('/listings/featured');
+      return fallbackResponse.data;
+    } catch (fallbackError) {
+      console.error('Fallback also failed:', fallbackError);
+      throw error;
+    }
   }
 };
 
