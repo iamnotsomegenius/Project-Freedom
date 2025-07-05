@@ -163,13 +163,13 @@ async def list_documents(
     """
     List documents with optional filtering, pagination, and sorting
     """
+    # If Supabase is not available, go directly to mock data
+    if supabase is None:
+        print(f"Supabase not available, using mock data for {table}")
+        from mock_data_fallback import list_mock_documents
+        return list_mock_documents(table, filter_query)
+    
     try:
-        supabase = get_supabase()
-        
-        # Check if supabase is None (not connected)
-        if supabase is None:
-            raise Exception("Supabase client is not initialized")
-        
         # Basic query
         query = supabase.table(table).select("*")
         
