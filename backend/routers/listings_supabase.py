@@ -213,6 +213,39 @@ async def create_listing(
         return mock_listing
 
 
+@router.get("/test", response_model=List[BusinessListing])
+async def test_listings():
+    """
+    Simple test endpoint to verify basic functionality
+    """
+    # Return just one mock listing to test
+    test_listing = {
+        "id": "test-1",
+        "title": "Test Business",
+        "industry": "Test",
+        "location": "Test City",
+        "description": "Test description",
+        "annual_revenue": 100000,
+        "annual_profit": 30000,
+        "asking_price": 150000,
+        "employees_count": 3,
+        "years_in_business": 5,
+        "reason_for_selling": "Test",
+        "funding_target": 50000,
+        "funding_raised": 25000,
+        "seller_id": "2",
+        "status": "active",
+        "under_loi": False,
+        "cover_image_url": "https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80",
+        "investor_count": 1,
+        "funding_end_date": None,
+        "created_at": "2023-04-15T00:00:00Z",
+        "updated_at": "2023-04-15T00:00:00Z"
+    }
+    
+    return [BusinessListing(**test_listing)]
+
+
 @router.get("/", response_model=List[BusinessListing])
 async def get_listings(
     status: Optional[BusinessStatus] = None,
@@ -229,50 +262,33 @@ async def get_listings(
     """
     Get business listings with optional filtering
     """
-    # For demo purposes, use mock data directly
-    print("Getting listings with filters:", {
-        "status": status,
-        "industry": industry,
-        "min_revenue": min_revenue,
-        "max_revenue": max_revenue,
-        "location": location,
-        "search": search
-    })
+    # For demo purposes, use mock data directly - simplified version
+    filtered_listings = []
     
-    # Apply simple filters to mock data
-    filtered_listings = MOCK_LISTINGS
+    for listing in MOCK_LISTINGS:
+        # Apply basic filters
+        if status and listing["status"] != status.value:
+            continue
+        if not status and listing["status"] != "active":
+            continue
+        if industry and listing["industry"].lower() != industry.lower():
+            continue
+        
+        filtered_listings.append(listing)
     
-    if status:
-        filtered_listings = [l for l in filtered_listings if l["status"] == status.value]
-    else:
-        filtered_listings = [l for l in filtered_listings if l["status"] == "active"]
-    
-    if industry:
-        filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
-    
-    if min_revenue is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= min_revenue]
-    
-    if max_revenue is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= max_revenue]
-    
-    if min_profit is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= min_profit]
-    
-    if max_profit is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= max_profit]
-    
-    if location:
-        filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
-    
-    if search:
-        filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
-    
-    # Paginate results
+    # Apply pagination
     paginated_listings = filtered_listings[skip:skip+limit]
     
     # Convert to BusinessListing objects
-    return [BusinessListing(**listing) for listing in paginated_listings]
+    result = []
+    for listing in paginated_listings:
+        try:
+            result.append(BusinessListing(**listing))
+        except Exception as e:
+            print(f"Error converting listing {listing.get('id', 'unknown')}: {e}")
+            continue
+    
+    return result
 
 
 @router.get("/featured", response_model=List[BusinessListing])
