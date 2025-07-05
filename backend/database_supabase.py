@@ -162,6 +162,10 @@ async def list_documents(
     try:
         supabase = get_supabase()
         
+        # Check if supabase is None (not connected)
+        if supabase is None:
+            raise Exception("Supabase client is not initialized")
+        
         # Basic query
         query = supabase.table(table).select("*")
         
