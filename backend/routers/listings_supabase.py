@@ -332,23 +332,79 @@ async def get_all_listings(
     return result
 
 
-@router.get("/browse", response_model=List[BusinessListing])
-async def browse_listings():
+@router.get("/", response_model=List[BusinessListing])
+async def get_listings(
+    status: Optional[str] = None,
+    industry: Optional[str] = None,
+    minRevenue: Optional[str] = None,
+    maxRevenue: Optional[str] = None,
+    minProfit: Optional[str] = None,
+    maxProfit: Optional[str] = None,
+    location: Optional[str] = None,
+    search: Optional[str] = None,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100)
+):
     """
-    Browse all business listings 
+    Get business listings with optional filtering - Using robust mock data
     """
+    # Start with all active listings from our improved mock data
+    filtered_listings = [l for l in MOCK_LISTINGS if l["status"] == "active"]
+    
+    # Apply filters if provided (and not empty)
+    if industry and industry.strip():
+        filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
+    
+    if minRevenue and minRevenue.strip():
+        try:
+            min_rev = float(minRevenue)
+            filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= min_rev]
+        except ValueError:
+            pass
+    
+    if maxRevenue and maxRevenue.strip():
+        try:
+            max_rev = float(maxRevenue)
+            filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= max_rev]
+        except ValueError:
+            pass
+    
+    if minProfit and minProfit.strip():
+        try:
+            min_prof = float(minProfit)
+            filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= min_prof]
+        except ValueError:
+            pass
+    
+    if maxProfit and maxProfit.strip():
+        try:
+            max_prof = float(maxProfit)
+            filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= max_prof]
+        except ValueError:
+            pass
+    
+    if location and location.strip():
+        filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
+    
+    if search and search.strip():
+        filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
+    
+    # Apply pagination
+    paginated_listings = filtered_listings[skip:skip+limit]
+    
+    # Convert to BusinessListing objects
     result = []
-    for listing in MOCK_LISTINGS:
-        if listing["status"] == "active":
-            result.append(BusinessListing(**listing))
+    for listing in paginated_listings:
+        result.append(BusinessListing(**listing))
+    
     return result
 
 
-# Temporarily disable the root route to avoid conflicts
-# @router.get("/", response_model=List[BusinessListing])
-# async def get_listings_main():
+# Temporarily disable the problematic route
+# @router.get("/browse", response_model=List[BusinessListing])
+# async def browse_listings():
 #     """
-#     Get business listings - main endpoint
+#     Browse all business listings 
 #     """
 #     result = []
 #     for listing in MOCK_LISTINGS:
