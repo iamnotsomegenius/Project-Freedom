@@ -270,34 +270,28 @@ async def debug_listings():
         return {"error": str(e)}
 
 
+@router.get("/all", response_model=List[BusinessListing])
+async def get_all_listings():
+    """
+    Get all business listings - simplified version
+    """
+    result = []
+    for listing in MOCK_LISTINGS:
+        if listing["status"] == "active":
+            result.append(BusinessListing(**listing))
+    return result
+
+
 @router.get("/", response_model=List[BusinessListing])
-async def get_listings(
-    status: Optional[BusinessStatus] = None,
-    industry: Optional[str] = None,
-    min_revenue: Optional[float] = None,
-    max_revenue: Optional[float] = None,
-    min_profit: Optional[float] = None,
-    max_profit: Optional[float] = None,
-    location: Optional[str] = None,
-    search: Optional[str] = None,
-    skip: int = Query(0, ge=0),
-    limit: int = Query(20, ge=1, le=100)
-):
+async def get_listings_main():
     """
-    Get business listings with optional filtering
+    Get business listings - main endpoint
     """
-    try:
-        # For demo purposes, use mock data directly - even more simplified
-        result = []
-        
-        for listing in MOCK_LISTINGS[:limit]:  # Just take first few items
-            if listing["status"] == "active":
-                result.append(BusinessListing(**listing))
-        
-        return result
-    except Exception as e:
-        # Return error info for debugging
-        return []
+    result = []
+    for listing in MOCK_LISTINGS:
+        if listing["status"] == "active":
+            result.append(BusinessListing(**listing))
+    return result
 
 
 @router.get("/featured", response_model=List[BusinessListing])
