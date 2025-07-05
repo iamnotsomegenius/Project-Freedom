@@ -309,6 +309,183 @@ const DealPipeline = ({ user, onLogout }) => {
     }
   };
 
+  const renderMobileCard = (deal) => {
+    switch (activeStage) {
+      case 'interested':
+        return (
+          <div className="space-y-2">
+            <div className="flex justify-between items-start">
+              <h4 className="text-lg font-semibold text-gray-900">{deal.company_name}</h4>
+              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                deal.interest_level === 'high' ? 'bg-green-100 text-green-800' :
+                deal.interest_level === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                {deal.interest_level?.toUpperCase()}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              <div><span className="font-medium">Industry:</span> {deal.industry}</div>
+              <div><span className="font-medium">Location:</span> {deal.location}</div>
+              <div><span className="font-medium">Revenue:</span> ${deal.revenue?.toLocaleString()}</div>
+              <div><span className="font-medium">Asking Price:</span> ${deal.asking_price?.toLocaleString()}</div>
+              <div><span className="font-medium">Contact:</span> {deal.contact_person}</div>
+              <div><span className="font-medium">Next Meeting:</span> {deal.next_meeting}</div>
+            </div>
+            <div className="flex justify-between items-center pt-2">
+              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                deal.nda_signed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+              }`}>
+                {deal.nda_signed ? `NDA Signed ${deal.nda_date}` : 'NDA Pending'}
+              </span>
+              <button className="text-blue-600 hover:text-blue-900 text-sm">
+                <PlayIcon className="h-4 w-4 inline mr-1" /> Automate
+              </button>
+            </div>
+          </div>
+        );
+      case 'loi_sent':
+        return (
+          <div className="space-y-2">
+            <div className="flex justify-between items-start">
+              <h4 className="text-lg font-semibold text-gray-900">{deal.company_name}</h4>
+              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                deal.loi_status === 'accepted' ? 'bg-green-100 text-green-800' :
+                deal.loi_status === 'countered' ? 'bg-blue-100 text-blue-800' :
+                deal.loi_status === 'under_review' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                {deal.loi_status?.replace('_', ' ').toUpperCase()}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              <div><span className="font-medium">LOI Sent:</span> {deal.loi_sent_date}</div>
+              <div><span className="font-medium">LOI Amount:</span> ${deal.loi_amount?.toLocaleString()}</div>
+              <div><span className="font-medium">LOI Terms:</span> {deal.loi_terms}</div>
+              <div><span className="font-medium">Response Due:</span> {deal.response_deadline}</div>
+              <div><span className="font-medium">Days Pending:</span> {deal.days_pending} days</div>
+              <div><span className="font-medium">Broker:</span> {deal.broker_name}</div>
+            </div>
+            <div className="flex justify-end pt-2">
+              <button className="text-blue-600 hover:text-blue-900 text-sm">
+                <PlayIcon className="h-4 w-4 inline mr-1" /> Follow-up
+              </button>
+            </div>
+          </div>
+        );
+      case 'diligence':
+        return (
+          <div className="space-y-2">
+            <h4 className="text-lg font-semibold text-gray-900">{deal.company_name}</h4>
+            <div className="grid grid-cols-1 gap-y-2 text-sm">
+              <div><span className="font-medium">LOI Signed:</span> {deal.loi_signed_date}</div>
+              <div><span className="font-medium">DD Deadline:</span> {deal.dd_end_date}</div>
+              <div className="flex items-center">
+                <span className="font-medium mr-2">QoE Progress:</span>
+                <div className="flex items-center flex-1">
+                  <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                    <div 
+                      className={`h-2 rounded-full ${getProgressColor(deal.qoe_completion)}`}
+                      style={{ width: `${deal.qoe_completion}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-xs">{deal.qoe_completion}%</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                  deal.legal_review === 'completed' ? 'bg-green-100 text-green-800' :
+                  deal.legal_review === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-gray-100 text-gray-800'
+                }`}>
+                  Legal: {deal.legal_review?.replace('_', ' ')}
+                </span>
+                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                  deal.vdr_access === 'granted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  VDR: {deal.vdr_docs_uploaded}%
+                </span>
+                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                  deal.financial_review === 'completed' ? 'bg-green-100 text-green-800' :
+                  deal.financial_review === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-gray-100 text-gray-800'
+                }`}>
+                  Financial: {deal.financial_review}
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-end pt-2">
+              <button className="text-blue-600 hover:text-blue-900 text-sm">
+                <PlayIcon className="h-4 w-4 inline mr-1" /> Auto DD
+              </button>
+            </div>
+          </div>
+        );
+      case 'closing':
+        return (
+          <div className="space-y-2">
+            <h4 className="text-lg font-semibold text-gray-900">{deal.company_name}</h4>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              <div><span className="font-medium">Target Close:</span> {deal.target_close_date}</div>
+              <div><span className="font-medium">Purchase Price:</span> ${deal.purchase_price?.toLocaleString()}</div>
+              <div><span className="font-medium">Conditions:</span> {deal.conditions_cleared}/{deal.closing_conditions} cleared</div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                deal.sba_approval === 'approved' ? 'bg-green-100 text-green-800' :
+                deal.sba_approval === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                SBA: {deal.sba_approval}
+              </span>
+              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                deal.apa_status === 'executed' ? 'bg-green-100 text-green-800' :
+                deal.apa_status === 'in_review' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-gray-100 text-gray-800'
+              }`}>
+                APA: {deal.apa_status}
+              </span>
+            </div>
+            {deal.marketplace_listed && (
+              <div className="flex items-center">
+                <span className="font-medium text-sm mr-2">Marketplace Funding:</span>
+                <div className="flex items-center flex-1">
+                  <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                    <div 
+                      className={`h-2 rounded-full ${getProgressColor((deal.funding_raised / deal.funding_target) * 100)}`}
+                      style={{ width: `${(deal.funding_raised / deal.funding_target) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-xs">
+                    ${(deal.funding_raised/1000).toFixed(0)}k/${(deal.funding_target/1000).toFixed(0)}k
+                  </span>
+                </div>
+              </div>
+            )}
+            <div className="flex items-center">
+              <span className="font-medium text-sm mr-2">Closing Progress:</span>
+              <div className="flex items-center flex-1">
+                <div className="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                  <div 
+                    className={`h-2 rounded-full ${getProgressColor(deal.closing_progress)}`}
+                    style={{ width: `${deal.closing_progress}%` }}
+                  ></div>
+                </div>
+                <span className="text-xs">{deal.closing_progress}%</span>
+              </div>
+            </div>
+            <div className="flex justify-end pt-2">
+              <button className="text-blue-600 hover:text-blue-900 text-sm">
+                <PlayIcon className="h-4 w-4 inline mr-1" /> Auto Close
+              </button>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <SeedStackLayout user={user} onLogout={onLogout}>
       <div className="h-full flex flex-col bg-gray-50 overflow-hidden">
