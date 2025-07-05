@@ -1,8 +1,14 @@
 import api from './axios';
 
 export const getListings = async (params = {}) => {
-  const response = await api.get('/api/listings', { params });
-  return response.data;
+  try {
+    // Use the /all endpoint for now since the root endpoint has issues
+    const response = await api.get('/listings/all', { params });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching listings:', error);
+    throw error;
+  }
 };
 
 export const getFeaturedListings = async () => {
