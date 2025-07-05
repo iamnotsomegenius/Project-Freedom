@@ -229,91 +229,50 @@ async def get_listings(
     """
     Get business listings with optional filtering
     """
-    try:
-        # Build filter query
-        filter_query = {}
-        
-        # Filter by status (if not provided, only show active listings)
-        filter_query["status"] = status.value if status else BusinessStatus.ACTIVE.value
-        
-        # Add industry filter if provided
-        if industry:
-            filter_query["industry"] = industry
-        
-        # Add revenue range filter if provided
-        if min_revenue is not None or max_revenue is not None:
-            if min_revenue is not None:
-                filter_query["annual_revenue"] = {"$gte": min_revenue}
-            if max_revenue is not None:
-                filter_query["annual_revenue"] = {"$lte": max_revenue}
-        
-        # Add profit range filter if provided
-        if min_profit is not None or max_profit is not None:
-            if min_profit is not None:
-                filter_query["annual_profit"] = {"$gte": min_profit}
-            if max_profit is not None:
-                filter_query["annual_profit"] = {"$lte": max_profit}
-        
-        # Add location filter if provided
-        if location:
-            filter_query["location"] = location
-        
-        # Add text search if provided
-        if search:
-            filter_query["title"] = search
-        
-        # Sort by most recently created
-        sort_by = {"created_at": -1}
-        
-        # Get listings
-        listings = await list_documents(
-            "business_listings", 
-            filter_query=filter_query, 
-            skip=skip, 
-            limit=limit,
-            sort_by=sort_by
-        )
-        
-        # Convert to BusinessListing objects
-        return [BusinessListing(**listing) for listing in listings]
-    except Exception as e:
-        # Fallback to mock data for demo purposes
-        print(f"Error getting listings from Supabase: {e}")
-        
-        # Apply simple filters to mock data
-        filtered_listings = MOCK_LISTINGS
-        
-        if status:
-            filtered_listings = [l for l in filtered_listings if l["status"] == status.value]
-        else:
-            filtered_listings = [l for l in filtered_listings if l["status"] == "active"]
-        
-        if industry:
-            filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
-        
-        if min_revenue is not None:
-            filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= min_revenue]
-        
-        if max_revenue is not None:
-            filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= max_revenue]
-        
-        if min_profit is not None:
-            filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= min_profit]
-        
-        if max_profit is not None:
-            filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= max_profit]
-        
-        if location:
-            filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
-        
-        if search:
-            filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
-        
-        # Paginate results
-        paginated_listings = filtered_listings[skip:skip+limit]
-        
-        # Convert to BusinessListing objects
-        return [BusinessListing(**listing) for listing in paginated_listings]
+    # For demo purposes, use mock data directly
+    print("Getting listings with filters:", {
+        "status": status,
+        "industry": industry,
+        "min_revenue": min_revenue,
+        "max_revenue": max_revenue,
+        "location": location,
+        "search": search
+    })
+    
+    # Apply simple filters to mock data
+    filtered_listings = MOCK_LISTINGS
+    
+    if status:
+        filtered_listings = [l for l in filtered_listings if l["status"] == status.value]
+    else:
+        filtered_listings = [l for l in filtered_listings if l["status"] == "active"]
+    
+    if industry:
+        filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
+    
+    if min_revenue is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= min_revenue]
+    
+    if max_revenue is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= max_revenue]
+    
+    if min_profit is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= min_profit]
+    
+    if max_profit is not None:
+        filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= max_profit]
+    
+    if location:
+        filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
+    
+    if search:
+        filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
+    
+    # Paginate results
+    paginated_listings = filtered_listings[skip:skip+limit]
+    
+    # Convert to BusinessListing objects
+    return [BusinessListing(**listing) for listing in paginated_listings]
 
 
 @router.get("/featured", response_model=List[BusinessListing])
