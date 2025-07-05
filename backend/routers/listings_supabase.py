@@ -273,10 +273,10 @@ async def debug_listings():
 @router.get("/all", response_model=List[BusinessListing])
 async def get_all_listings(
     industry: Optional[str] = None,
-    minRevenue: Optional[float] = None,
-    maxRevenue: Optional[float] = None,
-    minProfit: Optional[float] = None,
-    maxProfit: Optional[float] = None,
+    minRevenue: Optional[str] = None,  # Change to str to handle empty strings
+    maxRevenue: Optional[str] = None,
+    minProfit: Optional[str] = None,
+    maxProfit: Optional[str] = None,
     location: Optional[str] = None,
     search: Optional[str] = None
 ):
@@ -286,26 +286,42 @@ async def get_all_listings(
     # Start with all active listings
     filtered_listings = [l for l in MOCK_LISTINGS if l["status"] == "active"]
     
-    # Apply filters if provided
-    if industry:
+    # Apply filters if provided (and not empty)
+    if industry and industry.strip():
         filtered_listings = [l for l in filtered_listings if l["industry"].lower() == industry.lower()]
     
-    if minRevenue is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= minRevenue]
+    if minRevenue and minRevenue.strip():
+        try:
+            min_rev = float(minRevenue)
+            filtered_listings = [l for l in filtered_listings if l["annual_revenue"] >= min_rev]
+        except ValueError:
+            pass  # Ignore invalid values
     
-    if maxRevenue is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= maxRevenue]
+    if maxRevenue and maxRevenue.strip():
+        try:
+            max_rev = float(maxRevenue)
+            filtered_listings = [l for l in filtered_listings if l["annual_revenue"] <= max_rev]
+        except ValueError:
+            pass
     
-    if minProfit is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= minProfit]
+    if minProfit and minProfit.strip():
+        try:
+            min_prof = float(minProfit)
+            filtered_listings = [l for l in filtered_listings if l["annual_profit"] >= min_prof]
+        except ValueError:
+            pass
     
-    if maxProfit is not None:
-        filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= maxProfit]
+    if maxProfit and maxProfit.strip():
+        try:
+            max_prof = float(maxProfit)
+            filtered_listings = [l for l in filtered_listings if l["annual_profit"] <= max_prof]
+        except ValueError:
+            pass
     
-    if location:
+    if location and location.strip():
         filtered_listings = [l for l in filtered_listings if location.lower() in l["location"].lower()]
     
-    if search:
+    if search and search.strip():
         filtered_listings = [l for l in filtered_listings if search.lower() in l["title"].lower()]
     
     # Convert to BusinessListing objects
