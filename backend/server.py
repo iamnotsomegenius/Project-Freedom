@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Depends, Request
+from fastapi import FastAPI, APIRouter
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -9,10 +9,6 @@ import logging
 from pathlib import Path
 import sys
 
-# Import our custom modules
-from .logging_config import logger, setup_logging
-from .error_handling import ErrorHandlingMiddleware
-
 # Add the current directory to the path so we can import local modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,17 +16,12 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# Print environment variables for debugging
-print(f"SUPABASE_URL: {os.environ.get('SUPABASE_URL')}")
-print(f"SUPABASE_KEY length: {len(os.environ.get('SUPABASE_KEY', ''))}")
-
 # Import routers - use Supabase versions of routers
 from routers import auth_supabase, listings_supabase
 from routers import investments, offers, deals, profiles, payments, files, seedstack, integration
 
 # Import database functions
 from database_supabase import connect_to_supabase, close_supabase_connection
-from auth_supabase import get_current_user
 
 # Create rate limiter
 limiter = Limiter(key_func=get_remote_address)
