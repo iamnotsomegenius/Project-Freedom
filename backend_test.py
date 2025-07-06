@@ -231,7 +231,7 @@ class SeedSMBAPITester:
         return self.run_test(
             "Create Investment",
             "POST",
-            "/api/investments",
+            "/api/investments/",
             201,
             data={
                 "business_id": self.listing_id,
@@ -248,7 +248,7 @@ class SeedSMBAPITester:
         return self.run_test(
             "Create Offer",
             "POST",
-            "/api/offers",
+            "/api/offers/",
             201,
             data={
                 "business_id": self.listing_id,
