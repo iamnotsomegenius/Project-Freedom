@@ -30,7 +30,7 @@ from models import (
     AIConversation,
     AIMessage
 )
-from routers.auth_supabase import get_current_user
+from auth_supabase import get_current_user
 from database_supabase import (
     get_supabase,
     create_document,
