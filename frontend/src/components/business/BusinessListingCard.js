@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPinIcon, TagIcon } from '@heroicons/react/24/outline';
+import { MapPinIcon, TagIcon, LinkIcon } from '@heroicons/react/24/outline';
 import { formatCurrency, calculateMultiple } from '../../utils/format';
 import { useAuth } from '../../context/AuthContext';
 import { useAuthModal } from '../../context/AuthModalContext';
