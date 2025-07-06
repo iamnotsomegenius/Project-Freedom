@@ -606,6 +606,18 @@ const DealPipeline = ({ user, onLogout }) => {
                     {getDealsByStage(activeStage).map((deal) => (
                       <tr key={deal.id} className="hover:bg-gray-50">
                         {renderTableRow(deal)}
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <Button
+                          onClick={() => {
+                            setSelectedDeal(deal);
+                            setShowIntegration(true);
+                          }}
+                          className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-2 py-1"
+                        >
+                          <ArrowTopRightOnSquareIcon className="h-3 w-3 mr-1" />
+                          SeedSMB
+                        </Button>
+                      </td>
                       </tr>
                     ))}
                   </tbody>
