@@ -227,7 +227,7 @@ async def get_listings(
     limit: int = Query(20, ge=1, le=100)
 ):
     """
-    Get business listings with optional filtering - Using robust mock data
+    Get business listings with optional filtering
     """
     # Start with all active listings from our improved mock data
     filtered_listings = [l for l in MOCK_LISTINGS if l["status"] == "active"]
