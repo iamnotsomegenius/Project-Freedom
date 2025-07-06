@@ -183,7 +183,7 @@ class SeedSMBAPITester:
         success, response = self.run_test(
             "Create Business Listing",
             "POST",
-            "/api/listings",
+            "/api/listings/",
             201,
             data={
                 "title": f"Test Business {uuid.uuid4()}",
