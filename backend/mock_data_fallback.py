@@ -7,49 +7,8 @@ from datetime import datetime, timedelta
 import uuid
 from models import UserType, BusinessStatus, DealStatus, FinancingType
 
-# Mock users (already defined in auth_supabase.py)
-MOCK_USERS = {
-    "admin@seedsmb.com": {
-        "id": "1",
-        "email": "admin@seedsmb.com",
-        "user_type": "ADMIN",
-        "display_name": "Admin User",
-        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
-        "completed_onboarding": True,
-        "created_at": "2023-01-01T00:00:00Z",
-        "updated_at": "2023-01-01T00:00:00Z"
-    },
-    "seller@example.com": {
-        "id": "2",
-        "email": "seller@example.com",
-        "user_type": "SELLER",
-        "display_name": "Test Seller",
-        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
-        "completed_onboarding": True,
-        "created_at": "2023-01-01T00:00:00Z",
-        "updated_at": "2023-01-01T00:00:00Z"
-    },
-    "investor@example.com": {
-        "id": "3",
-        "email": "investor@example.com",
-        "user_type": "INVESTOR",
-        "display_name": "Test Investor",
-        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
-        "completed_onboarding": True,
-        "created_at": "2023-01-01T00:00:00Z",
-        "updated_at": "2023-01-01T00:00:00Z"
-    },
-    "buyer@example.com": {
-        "id": "4",
-        "email": "buyer@example.com",
-        "user_type": "BUYER",
-        "display_name": "Test Buyer",
-        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
-        "completed_onboarding": True,
-        "created_at": "2023-01-01T00:00:00Z",
-        "updated_at": "2023-01-01T00:00:00Z"
-    }
-}
+# Import MOCK_USERS from auth_supabase to avoid duplication
+from auth_supabase import MOCK_USERS
 
 # Mock business listings
 MOCK_LISTINGS = [
