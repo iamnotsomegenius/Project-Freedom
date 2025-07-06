@@ -45,6 +45,12 @@ const BusinessListingCard = ({ listing }) => {
             Under LOI
           </div>
         )}
+        {listing.seedstack_origin && (
+          <div className="absolute top-2 left-2 bg-purple-600/90 text-white text-xs font-medium px-2 py-1 rounded-full flex items-center">
+            <LinkIcon className="h-3 w-3 mr-1" />
+            SeedStack
+          </div>
+        )}
       </div>
       
       <div className="p-4 flex-grow">
