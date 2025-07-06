@@ -57,6 +57,40 @@ const DealPipeline = ({ user, onLogout }) => {
     return dealDataService.getDealsByStage(stage).length;
   };
 
+  // Integration handlers
+  const handleAnalyzeDeal = async (deal) => {
+    try {
+      const analysis = await integrationAPI.analyzeDeal(deal.id);
+      console.log('AI Analysis completed:', analysis);
+      return analysis;
+    } catch (error) {
+      console.error('Error analyzing deal:', error);
+    }
+  };
+
+  const handlePushToMarketplace = async (dealData) => {
+    try {
+      const result = await integrationAPI.pushToMarketplace(dealData);
+      console.log('Deal pushed to marketplace:', result);
+      return result;
+    } catch (error) {
+      console.error('Error pushing to marketplace:', error);
+    }
+  };
+
+  const handleReturnToSeedStack = async (dealId, fundingSecured, fundingDetails = null) => {
+    try {
+      const result = await integrationAPI.returnToSeedStack(dealId, fundingSecured, fundingDetails);
+      console.log('Deal returned to SeedStack:', result);
+      // Refresh deals data
+      dealDataService.loadMockData();
+      setShowIntegration(false);
+      return result;
+    } catch (error) {
+      console.error('Error returning to SeedStack:', error);
+    }
+  };
+
   const getProgressColor = (progress) => {
     if (progress >= 75) return 'bg-green-500';
     if (progress >= 50) return 'bg-yellow-500';
