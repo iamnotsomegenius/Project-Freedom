@@ -417,74 +417,125 @@ def test_seedstack_endpoints(tester):
     
     return success
 
-def main():
+def test_auth_issues():
+    """
+    Specifically test the authentication issues with investments, offers, and seedstack endpoints
+    """
+    print("\n===== TESTING AUTHENTICATION ISSUES =====\n")
+    
     # Setup
     tester = SeedSMBAPITester()
     
-    # Run tests
-    print("\n===== TESTING SEEDSMB API (SUPABASE MIGRATION) =====\n")
-    
     # Test API health
     health_check_success, health_data = tester.test_health_check()
-    
     if not health_check_success:
         print("❌ API health check failed, stopping tests")
         return 1
     
-    # Test public endpoints
-    print("\n===== TESTING PUBLIC ENDPOINTS =====\n")
+    # Register a new user
+    print("\n===== REGISTERING NEW USER =====\n")
+    test_email = f"test_user_{uuid.uuid4()}@example.com"
+    test_password = "TestPass123!"
     
-    listings_success, listings_data = tester.test_get_listings()
-    featured_success, featured_data = tester.test_get_featured_listings()
+    register_success, register_data = tester.run_test(
+        "User Registration",
+        "POST",
+        "/api/auth/register",
+        201,
+        data={
+            "email": test_email,
+            "password": test_password,
+            "user_type": "INVESTOR"
+        }
+    )
     
-    # Try to get a specific listing if available
-    if listings_success and 'listings' in listings_data and len(listings_data['listings']) > 0:
-        listing_id = listings_data['listings'][0]['id']
-        tester.test_get_listing_detail(listing_id)
-    
-    # Test authentication
-    print("\n===== TESTING AUTHENTICATION =====\n")
-    
-    # Try to login with admin credentials
-    login_success = tester.test_login("admin@seedsmb.com", "password123")
-    
-    # Test authenticated endpoints
-    if login_success:
-        print("\n===== TESTING AUTHENTICATED ENDPOINTS =====\n")
-        
-        # Test current user endpoint
-        tester.test_get_current_user()
-        
-        # Test profile
-        if tester.user_id:
-            tester.test_get_profile()
-        
-        # Test other endpoints
-        tester.test_get_deals()
-        tester.test_get_investments()
-        tester.test_get_offers()
-        
-        # Test creating a listing
-        create_success, create_data = tester.test_create_listing()
-        
-        if create_success:
-            # Test getting the created listing
-            tester.test_get_listing_detail()
-            
-            # Test investments and offers
-            tester.test_create_investment()
-            tester.test_create_offer()
+    if not register_success:
+        print("⚠️ User registration failed, trying with existing user")
+        # Try to login with admin credentials
+        login_success = tester.test_login("admin@seedsmb.com", "password123")
     else:
-        print("⚠️ Skipping authenticated tests due to login failure")
+        # Login with the new user
+        login_success = tester.test_login(test_email, test_password)
     
-    # Test SeedStack endpoints
-    test_seedstack_endpoints(tester)
+    if not login_success:
+        print("❌ Login failed, cannot proceed with authentication tests")
+        return 1
+    
+    # Test the /api/auth/me endpoint (should work)
+    print("\n===== TESTING WORKING AUTH ENDPOINT =====\n")
+    me_success, me_data = tester.test_get_current_user()
+    
+    if not me_success:
+        print("❌ /api/auth/me endpoint failed, which should be working. Authentication system may be completely broken.")
+        return 1
+    
+    # Print token details for debugging
+    print(f"\nToken details:")
+    print(f"Token length: {len(tester.token)}")
+    print(f"Token preview: {tester.token[:30]}...")
+    
+    # Try to decode the token
+    import jwt
+    try:
+        # Decode token without verification
+        decoded = jwt.decode(tester.token, options={"verify_signature": False})
+        print(f"Decoded token: {decoded}")
+    except Exception as e:
+        print(f"Could not decode token: {e}")
+    
+    # Test the investments endpoints
+    print("\n===== TESTING INVESTMENTS ENDPOINTS =====\n")
+    investments_success, investments_data = tester.test_get_investments()
+    
+    # Test the offers endpoints
+    print("\n===== TESTING OFFERS ENDPOINTS =====\n")
+    offers_success, offers_data = tester.test_get_offers()
+    
+    # Test the seedstack endpoints
+    print("\n===== TESTING SEEDSTACK ENDPOINTS =====\n")
+    seedstack_success, seedstack_data = tester.run_test(
+        "SeedStack Deals",
+        "GET",
+        "/api/seedstack/deals",
+        200
+    )
+    
+    # Test creating a listing (should work)
+    print("\n===== TESTING LISTING CREATION (SHOULD WORK) =====\n")
+    create_success, create_data = tester.test_create_listing()
+    
+    if create_success:
+        # If we can create a listing, try to create an investment
+        print("\n===== TESTING INVESTMENT CREATION =====\n")
+        tester.test_create_investment()
+        
+        # Try to create an offer
+        print("\n===== TESTING OFFER CREATION =====\n")
+        tester.test_create_offer()
     
     # Print results
     print(f"\n===== TEST RESULTS =====")
     print(f"📊 Tests passed: {tester.tests_passed}/{tester.tests_run} ({tester.tests_passed/tester.tests_run*100:.1f}%)")
     
+    # Analyze the results
+    print("\n===== ANALYSIS =====")
+    if not investments_success:
+        print("❌ Investments endpoints are failing with 401 Unauthorized")
+        print("   Possible cause: The investments.py router is importing from auth_supabase directly instead of from routers.auth_supabase")
+    
+    if not offers_success:
+        print("❌ Offers endpoints are failing with 401 Unauthorized")
+        print("   Possible cause: The offers.py router is importing from auth_supabase directly instead of from routers.auth_supabase")
+    
+    if not seedstack_success:
+        print("❌ SeedStack endpoints are failing with 401 Unauthorized")
+        print("   Possible cause: The seedstack.py router is importing from auth_supabase directly instead of from routers.auth_supabase")
+    
     return 0 if tester.tests_passed > 0 else 1
+
+def main():
+    # Run the authentication issues test
+    return test_auth_issues()
 
 if __name__ == "__main__":
     sys.exit(main())
