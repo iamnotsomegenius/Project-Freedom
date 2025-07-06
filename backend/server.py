@@ -59,6 +59,7 @@ api_router.include_router(deals.router)
 api_router.include_router(payments.router)
 api_router.include_router(files.router)
 api_router.include_router(seedstack.router)
+api_router.include_router(integration.router)
 
 # Add a root endpoint for API health check
 @api_router.get("/")
