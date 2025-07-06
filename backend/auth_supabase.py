@@ -16,7 +16,7 @@ from database_supabase import get_supabase
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Setup OAuth2 with Bearer token
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
 # JWT settings (using the same settings as before for compatibility)
 SECRET_KEY = os.environ.get("SECRET_KEY", "temporary_secret_key_change_in_production")
