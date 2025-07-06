@@ -25,6 +25,8 @@ const DealPipeline = ({ user, onLogout }) => {
   const [deals, setDeals] = useState([]);
   const [activeStage, setActiveStage] = useState('interested');
   const [showAddDeal, setShowAddDeal] = useState(false);
+  const [selectedDeal, setSelectedDeal] = useState(null);
+  const [showIntegration, setShowIntegration] = useState(false);
 
   // Get stages from shared service
   const stages = dealDataService.getStages();
