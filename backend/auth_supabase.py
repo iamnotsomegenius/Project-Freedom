@@ -10,6 +10,41 @@ from pydantic import BaseModel
 import json
 
 from models import UserProfile, Token, TokenData, UserType
+
+# Mock data for when Supabase is not available
+MOCK_USERS = {
+    "admin@seedsmb.com": {
+        "id": "1",
+        "email": "admin@seedsmb.com",
+        "user_type": "ADMIN",
+        "display_name": "Admin User",
+        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
+        "completed_onboarding": True,
+        "created_at": "2023-01-01T00:00:00Z",
+        "updated_at": "2023-01-01T00:00:00Z"
+    },
+    "seller@example.com": {
+        "id": "2",
+        "email": "seller@example.com",
+        "user_type": "SELLER",
+        "display_name": "Test Seller",
+        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
+        "completed_onboarding": True,
+        "created_at": "2023-01-01T00:00:00Z",
+        "updated_at": "2023-01-01T00:00:00Z"
+    },
+    "investor@example.com": {
+        "id": "3",
+        "email": "investor@example.com",
+        "user_type": "INVESTOR",
+        "display_name": "Test Investor",
+        "hashed_password": "$2b$12$Kzv0Qnbhhee8wFN07U.BZ.6VH5gUn96MoYvKQrh2CGQBRFKNQl0uC",  # "password123"
+        "completed_onboarding": True,
+        "created_at": "2023-01-01T00:00:00Z",
+        "updated_at": "2023-01-01T00:00:00Z"
+    }
+}
+
 from database_supabase import get_supabase
 
 # Setup password hashing context
@@ -59,9 +94,6 @@ async def get_supabase_user(user_id: str) -> Optional[Dict[str, Any]]:
         print(f"Error getting user from Supabase: {e}")
         
         # Fallback to mock data for demo purposes
-        # Import here to avoid circular imports
-        from routers.auth_supabase import MOCK_USERS
-        
         # Find user in mock data by ID
         for email, user in MOCK_USERS.items():
             if user["id"] == user_id:
@@ -84,9 +116,6 @@ async def get_supabase_user_by_email(email: str) -> Optional[Dict[str, Any]]:
         print(f"Error getting user by email from Supabase: {e}")
         
         # Fallback to mock data for demo purposes
-        # Import here to avoid circular imports
-        from routers.auth_supabase import MOCK_USERS
-        
         # Find user in mock data by email
         if email in MOCK_USERS:
             return MOCK_USERS[email]
@@ -141,9 +170,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         print(f"Error fetching user from Supabase: {e}")
         
         # If we can't get the user from Supabase, use a mock user for testing
-        # Import here to avoid circular imports
-        from routers.auth_supabase import MOCK_USERS
-        
         # Try to find the user in mock data by ID or email
         mock_user = None
         for email, user in MOCK_USERS.items():
