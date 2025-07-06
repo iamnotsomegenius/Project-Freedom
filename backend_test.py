@@ -483,6 +483,10 @@ def test_auth_issues():
     except Exception as e:
         print(f"Could not decode token: {e}")
     
+    # Test the listings endpoints (GET should work)
+    print("\n===== TESTING LISTINGS ENDPOINTS (GET) =====\n")
+    listings_success, listings_data = tester.test_get_listings()
+    
     # Test the investments endpoints
     print("\n===== TESTING INVESTMENTS ENDPOINTS =====\n")
     investments_success, investments_data = tester.test_get_investments()
@@ -513,6 +517,25 @@ def test_auth_issues():
         print("\n===== TESTING OFFER CREATION =====\n")
         tester.test_create_offer()
     
+    # Test with admin user to see if that makes a difference
+    print("\n===== TESTING WITH ADMIN USER =====\n")
+    admin_login_success = tester.test_login("admin@seedsmb.com", "password123")
+    
+    if admin_login_success:
+        print("\n===== TESTING INVESTMENTS WITH ADMIN USER =====\n")
+        admin_investments_success, _ = tester.test_get_investments()
+        
+        print("\n===== TESTING OFFERS WITH ADMIN USER =====\n")
+        admin_offers_success, _ = tester.test_get_offers()
+        
+        print("\n===== TESTING SEEDSTACK WITH ADMIN USER =====\n")
+        admin_seedstack_success, _ = tester.run_test(
+            "SeedStack Deals",
+            "GET",
+            "/api/seedstack/deals",
+            200
+        )
+    
     # Print results
     print(f"\n===== TEST RESULTS =====")
     print(f"📊 Tests passed: {tester.tests_passed}/{tester.tests_run} ({tester.tests_passed/tester.tests_run*100:.1f}%)")
@@ -521,14 +544,20 @@ def test_auth_issues():
     print("\n===== ANALYSIS =====")
     if not investments_success:
         print("❌ Investments endpoints are failing with 401 Unauthorized")
+        if admin_login_success and admin_investments_success:
+            print("   Note: Works with admin user but not with regular user")
         print("   Possible cause: The investments.py router is importing from auth_supabase directly instead of from routers.auth_supabase")
     
     if not offers_success:
         print("❌ Offers endpoints are failing with 401 Unauthorized")
+        if admin_login_success and admin_offers_success:
+            print("   Note: Works with admin user but not with regular user")
         print("   Possible cause: The offers.py router is importing from auth_supabase directly instead of from routers.auth_supabase")
     
     if not seedstack_success:
         print("❌ SeedStack endpoints are failing with 401 Unauthorized")
+        if admin_login_success and admin_seedstack_success:
+            print("   Note: Works with admin user but not with regular user")
         print("   Possible cause: The seedstack.py router is importing from auth_supabase directly instead of from routers.auth_supabase")
     
     return 0 if tester.tests_passed > 0 else 1
