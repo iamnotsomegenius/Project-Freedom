@@ -8,12 +8,9 @@ from dotenv import load_dotenv
 # Load .env file
 load_dotenv()
 
-# Initialize Supabase connection variables
+# Configuration
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
-
-print(f"Supabase URL: {supabase_url}")  # For debugging
-print(f"Supabase Key Length: {len(supabase_key) if supabase_key else 0}")  # For debugging
 
 supabase: Optional[Client] = None
 
