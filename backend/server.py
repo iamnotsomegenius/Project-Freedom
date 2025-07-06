@@ -25,8 +25,7 @@ print(f"SUPABASE_URL: {os.environ.get('SUPABASE_URL')}")
 print(f"SUPABASE_KEY length: {len(os.environ.get('SUPABASE_KEY', ''))}")
 
 # Import routers - use Supabase versions of routers
-from routers import auth_supabase as auth
-from routers import listings_supabase as listings
+from routers import auth_supabase, listings_supabase
 from routers import investments, offers, deals, profiles, payments, files, seedstack, integration
 
 # Import database functions
@@ -50,9 +49,9 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 api_router = APIRouter(prefix="/api")
 
 # Include routers
-api_router.include_router(auth.router)
+api_router.include_router(auth_supabase.router)
 api_router.include_router(profiles.router)
-api_router.include_router(listings.router)
+api_router.include_router(listings_supabase.router)
 api_router.include_router(investments.router)
 api_router.include_router(offers.router)
 api_router.include_router(deals.router)
