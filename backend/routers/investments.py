@@ -10,7 +10,7 @@ from models import (
     BusinessListing,
     BusinessStatus
 )
-from routers.auth_supabase import get_current_user
+from auth_supabase import get_current_user
 from database_supabase import get_supabase, create_document, list_documents, get_document, update_document
 
 router = APIRouter(prefix="/investments", tags=["investments"])
