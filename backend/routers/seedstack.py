@@ -731,8 +731,7 @@ async def add_company_to_crm(
         deal_id = await create_document("crm_deals", deal_dict)
         deal.id = deal_id
         
-        # TODO: Trigger automated outreach sequence here
-        # This would send NDA emails, schedule follow-ups, etc.
+        # Note: Automated outreach sequence would be implemented here
         
         return {
             "message": "Company added to CRM successfully",
