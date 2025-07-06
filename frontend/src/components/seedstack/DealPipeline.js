@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SeedStackLayout from './SeedStackLayout';
 import dealDataService from '../../services/dealDataService';
+import WorkflowIntegration from '../integration/WorkflowIntegration';
+import integrationAPI from '../../api/integration';
 import {
   PlusIcon,
   EllipsisVerticalIcon,
@@ -14,6 +16,8 @@ import {
   ChevronRightIcon,
   LinkIcon,
   PlayIcon,
+  ArrowTopRightOnSquareIcon,
+  CursorArrowRaysIcon,
 } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
 
