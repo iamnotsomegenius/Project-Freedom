@@ -12,7 +12,7 @@ from models import (
     BusinessStatus,
     UserType
 )
-from routers.auth_supabase import get_current_user
+from auth_supabase import get_current_user
 from database_supabase import (
     get_supabase,
     create_document,
