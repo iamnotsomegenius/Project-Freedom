@@ -27,7 +27,7 @@ print(f"SUPABASE_KEY length: {len(os.environ.get('SUPABASE_KEY', ''))}")
 # Import routers - use Supabase versions of routers
 from routers import auth_supabase as auth
 from routers import listings_supabase as listings
-from routers import investments, offers, deals, profiles, payments, files, seedstack
+from routers import investments, offers, deals, profiles, payments, files, seedstack, integration
 
 # Import database functions
 from database_supabase import connect_to_supabase, close_supabase_connection
