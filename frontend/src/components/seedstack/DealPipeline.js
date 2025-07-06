@@ -18,6 +18,7 @@ import {
   PlayIcon,
   ArrowTopRightOnSquareIcon,
   CursorArrowRaysIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
 
