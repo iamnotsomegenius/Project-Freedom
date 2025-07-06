@@ -455,9 +455,21 @@ const DealPipeline = ({ user, onLogout }) => {
               </div>
             </div>
             <div className="flex justify-end pt-2">
-              <button className="text-blue-600 hover:text-blue-900 text-sm">
-                <PlayIcon className="h-4 w-4 inline mr-1" /> Auto DD
-              </button>
+              <div className="space-x-2">
+                <button className="text-blue-600 hover:text-blue-900 text-sm">
+                  <PlayIcon className="h-4 w-4 inline mr-1" /> Auto DD
+                </button>
+                <Button
+                  onClick={() => {
+                    setSelectedDeal(deal);
+                    setShowIntegration(true);
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-2 py-1"
+                >
+                  <CursorArrowRaysIcon className="h-3 w-3 mr-1" />
+                  SeedSMB
+                </Button>
+              </div>
             </div>
           </div>
         );
