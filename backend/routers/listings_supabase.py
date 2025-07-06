@@ -281,17 +281,6 @@ async def get_listings(
     return result
 
 
-# Temporarily disable the problematic route
-# @router.get("/browse", response_model=List[BusinessListing])
-# async def browse_listings():
-#     """
-#     Browse all business listings 
-#     """
-#     result = []
-#     for listing in MOCK_LISTINGS:
-#         if listing["status"] == "active":
-#             result.append(BusinessListing(**listing))
-#     return result
 
 
 @router.get("/featured", response_model=List[BusinessListing])
