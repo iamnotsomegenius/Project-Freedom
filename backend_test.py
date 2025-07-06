@@ -275,7 +275,7 @@ class SeedSMBAPITester:
         return self.run_test(
             "Get Investments",
             "GET",
-            "/api/investments",
+            "/api/investments/",
             200
         )
         
